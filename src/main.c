@@ -26,8 +26,8 @@ char	*create_prompt(char *host, char *name, char *dir)
 
 int main(void)
 {
+    char	*host;
     char	*name;
-    char	*user;
     char	*dir;
 	char	*prompt;
 	char	*input;
