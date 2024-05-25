@@ -6,11 +6,14 @@ FILES = $(SRC)main.c\
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
+LIBFT = ./libft/
+LIBFT_A = $(LIBFT)libft.a
 
 all: $(NAME)
 
 $(NAME): 
-		$(CC) $(CFLAGS) $(FILES) -o $(NAME) -lreadline
+		$(MAKE) -C $(LIBFT)
+		$(CC) $(CFLAGS) $(FILES) $(LIBFT_A) -o $(NAME) -lreadline
 
 clean:
 		$(RM) $(NAME)

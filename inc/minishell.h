@@ -17,8 +17,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../libft/libft.h"
 
 /* utils.c */
-int	ft_strlen(char *str);
 
 #endif
