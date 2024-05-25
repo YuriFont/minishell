@@ -37,7 +37,7 @@ int main(void)
 		host = getenv("LOGNAME");
 		name = getenv("NAME");
 		dir = getenv("PWD");
-		dir += (6 + ft_strlen(name));
+		dir += (6 + ft_strlen(host));
 		prompt = create_prompt(host, name, dir);
 		input = readline(prompt);
 		add_history(input);
