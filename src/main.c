@@ -16,10 +16,15 @@ char	*create_prompt(char *host, char *name, char *dir)
 {
 	char	*prompt;
 
-	prompt = ft_strjoin(host, "@");
+	prompt = ft_strjoin("\e[0;32m", host);
+	prompt = ft_strjoinf(prompt, "@");
 	prompt = ft_strjoinf(prompt, name);
-	prompt = ft_strjoinf(prompt, ":~");
+	prompt = ft_strjoinf(prompt, "\e[0m");
+	prompt = ft_strjoinf(prompt, ":");
+	prompt = ft_strjoinf(prompt, "\e[0;34m");
+	prompt = ft_strjoinf(prompt, "~");
 	prompt = ft_strjoinf(prompt, dir);
+	prompt = ft_strjoinf(prompt, "\e[0m");
 	prompt = ft_strjoinf(prompt, "$ ");
 	return (prompt);
 }
