@@ -10,3 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/minishell.h"
+
+int main(int ac, char **av, char **envp)
+{
+    (void)ac;
+    (void)av;
+	(void)envp;
+    char	*name;
+    char	*user;
+    char	*dir;
+
+    name = getenv("NAME");
+    user = getenv("LOGNAME");
+    dir = getenv("PWD");
+	dir += (6 + ft_strlen(name));
+	printf("%s@%s:~%s$ ", name, user, dir);
+    /*while (1)
+    {
+        
+    }*/
+    return (0);
+}

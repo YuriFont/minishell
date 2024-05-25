@@ -1,6 +1,7 @@
 NAME = minishell
 SRC = ./src/
-FILES = $(SRE)main.c\
+FILES = $(SRC)main.c\
+		$(SRC)utils.c
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
@@ -9,7 +10,7 @@ RM = rm -rf
 all: $(NAME)
 
 $(NAME): 
-		$(CC) $(CFLAGS) $(FILES) -o $(NAME)
+		$(CC) $(CFLAGS) $(FILES) -o $(NAME) -lreadline
 
 clean:
 		$(RM) $(NAME)
