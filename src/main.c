@@ -12,12 +12,12 @@
 
 #include "../inc/minishell.h"
 
-char	*create_prompt(char *name, char *user, char *dir)
+char	*create_prompt(char *host, char *name, char *dir)
 {
-	char *prompt;
+	char	*prompt;
 
-	prompt = ft_strjoin(name, "@");
-	prompt = ft_strjoinf(prompt, user);
+	prompt = ft_strjoin(host, "@");
+	prompt = ft_strjoinf(prompt, name);
 	prompt = ft_strjoinf(prompt, ":~");
 	prompt = ft_strjoinf(prompt, dir);
 	prompt = ft_strjoinf(prompt, "$ ");
@@ -34,15 +34,15 @@ int main(void)
 
     while (1)
     {
+		host = getenv("LOGNAME");
 		name = getenv("NAME");
-    	user = getenv("LOGNAME");
-    	dir = getenv("PWD");
+		dir = getenv("PWD");
 		dir += (6 + ft_strlen(name));
-		prompt = create_prompt(name, user, dir);
-        input = readline(prompt);
+		prompt = create_prompt(host, name, dir);
+		input = readline(prompt);
 		add_history(input);
 		free(input);
 		free(prompt);
     }
-    return (0);
+	return (0);
 }
