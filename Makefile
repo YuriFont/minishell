@@ -16,9 +16,11 @@ $(NAME):
 		$(CC) $(CFLAGS) $(FILES) $(LIBFT_A) -o $(NAME) -lreadline
 
 clean:
+		$(MAKE) clean -C $(LIBFT)
 		$(RM) $(NAME)
 
 fclean: clean
+		$(MAKE) fclean -C $(LIBFT)
 
 re: fclean all
 
