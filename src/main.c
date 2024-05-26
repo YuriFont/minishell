@@ -21,7 +21,7 @@ static char	*create_prompt(void)
 
 	host = getenv("LOGNAME");
 	name = getenv("NAME");
-	dir = getenv("PWD") + (6 + ft_strlen(name));
+	dir = getenv("PWD") + (6 + ft_strlen(host));
 	prompt = ft_strjoin("\e[0;32m", host);
 	prompt = ft_strjoinf(prompt, "@");
 	prompt = ft_strjoinf(prompt, name);
