@@ -1,7 +1,9 @@
 NAME = minishell
 SRC = ./src/
 FILES = $(SRC)main.c\
-		$(SRC)utils.c
+		$(SRC)utils.c\
+		$(SRC)utils_list.c\
+		$(SRC)fill_struct.c
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra

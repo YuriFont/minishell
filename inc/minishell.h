@@ -26,6 +26,13 @@ typedef struct s_token
     struct s_token	*next;
     struct s_token	*prev;
 }   t_token;
+
 /* utils.c */
+
+/* utils_list.c */
+t_token *find_last_node(t_token *head);
+
+/* fill_struct.c */
+void	fill_struct(char *input, t_token **data);
 
 #endif
