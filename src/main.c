@@ -31,21 +31,17 @@ char	*create_prompt(char *host, char *name, char *dir)
 
 int main(void)
 {
-    char	*host;
-    char	*name;
-    char	*dir;
+	char	*dir;
 	char	*prompt;
 	char	*input;
 
-    while (1)
-    {
-		host = getenv("LOGNAME");
-		name = getenv("NAME");
-		dir = getenv("PWD");
-		dir += (6 + ft_strlen(name));
-		prompt = create_prompt(host, name, dir);
+	while	(1)
+	{
+		dir = getenv("PWD") + (6 + ft_strlen(getenv("NAME")));
+		prompt = create_prompt(getenv("LOGNAME"), getenv("NAME"), dir);
 		input = readline(prompt);
 		add_history(input);
+
 		free(input);
 		free(prompt);
     }
