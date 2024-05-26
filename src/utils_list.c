@@ -12,11 +12,11 @@
 
 #include "../inc/minishell.h"
 
-t_token *find_last_node(t_token *head)
+t_token	*find_last_node(t_token *head)
 {
-    if (head == NULL)
-        return (NULL);
-    while (head->next)
-        head = head->next;
-    return (head);
+	if (head == NULL)
+		return (NULL);
+	while (head->next)
+		head = head->next;
+	return (head);
 }
