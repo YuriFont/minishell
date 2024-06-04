@@ -19,6 +19,15 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
+typedef enum e_command
+{
+    PIPE,
+    BUILTIN,
+    ARGM,
+    ENV_VA,
+    WORD
+} t_command;
+
 typedef struct s_token
 {
     int				token;
@@ -34,5 +43,8 @@ t_token *find_last_node(t_token *head);
 
 /* fill_struct.c */
 void	fill_struct(char *input, t_token **data);
+
+void    free_list(t_token *list);
+void    check_builtins(t_token *token);
 
 #endif

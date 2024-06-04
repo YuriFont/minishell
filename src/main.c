@@ -19,12 +19,12 @@ static char	*create_prompt(void)
 	char	*name;
 	char	*dir;
 
-	host = getenv("LOGNAME");
-	name = getenv("NAME");
-	dir = getenv("PWD") + (6 + ft_strlen(host));
-	prompt = ft_strjoin("\e[0;32m", host);
+	host = getenv("HOSTNAME");
+	name = getenv("USER");
+	dir = getenv("PWD") + (ft_strlen(name));
+	prompt = ft_strjoin("\e[0;32m", name);
 	prompt = ft_strjoinf(prompt, "@");
-	prompt = ft_strjoinf(prompt, name);
+	prompt = ft_strjoinf(prompt, host);
 	prompt = ft_strjoinf(prompt, "\e[0m");
 	prompt = ft_strjoinf(prompt, ":");
 	prompt = ft_strjoinf(prompt, "\e[0;34m");
@@ -33,6 +33,18 @@ static char	*create_prompt(void)
 	prompt = ft_strjoinf(prompt, "\e[0m");
 	prompt = ft_strjoinf(prompt, "$ ");
 	return (prompt);
+}
+
+char **get_envp()
+{
+	extern char **environ;
+	char **env = environ;
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+	return (env);
 }
 
 int main(void)
@@ -46,15 +58,16 @@ int main(void)
 	{
 		prompt = create_prompt();
 		input = readline(prompt);
-		add_history(input);
-		fill_struct(input, &data);
-		while (data != NULL)
+		if (input[0])
 		{
-			printf("%s\n", data->text);
-			data = data->next;
+			add_history(input);
+			fill_struct(input, &data);
+			check_builtins(data);
+			free_list(data);
+			data = NULL;
 		}
-		free(input);
-		free(prompt);
+			free(input);
+			free(prompt);
     }
 	return (0);
 }

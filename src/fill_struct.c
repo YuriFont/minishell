@@ -50,4 +50,5 @@ void	fill_struct(char *input, t_token **data)
 		append_node(split[i], data);
 		i++;
 	}
+	free(split);
 }

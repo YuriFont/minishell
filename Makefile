@@ -3,7 +3,8 @@ SRC = ./src/
 FILES = $(SRC)main.c\
 		$(SRC)utils.c\
 		$(SRC)utils_list.c\
-		$(SRC)fill_struct.c
+		$(SRC)fill_struct.c\
+		$(SRC)input_options.c\
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
@@ -19,11 +20,11 @@ $(NAME):
 
 clean:
 		$(MAKE) clean -C $(LIBFT)
-		$(RM) $(NAME)
 
 fclean: clean
 		$(MAKE) fclean -C $(LIBFT)
-
+		rm -rf $(NAME)
+		
 re: fclean all
 
 .PHONY: all clean fclean re
