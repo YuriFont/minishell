@@ -35,25 +35,16 @@ static char	*create_prompt(void)
 	return (prompt);
 }
 
-char **get_envp()
-{
-	extern char **environ;
-	char **env = environ;
-	while (*env)
-	{
-		printf("%s\n", *env);
-		env++;
-	}
-	return (env);
-}
-
 int main(void)
 {
 	char	*prompt;
 	char	*input;
 	t_token	*data;
+	t_env_list *env;
 
+	env = NULL;
 	data = NULL;
+	env = get_envp();
 	while (1)
 	{
 		prompt = create_prompt();
@@ -66,8 +57,9 @@ int main(void)
 			free_list(data);
 			data = NULL;
 		}
-			free(input);
-			free(prompt);
+		free(input);
+		free(prompt);
     }
+	free_env(env);
 	return (0);
 }

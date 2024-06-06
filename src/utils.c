@@ -24,3 +24,15 @@ void    free_list(t_token *list)
         free(aux);
     }
 }
+
+void    free_env(t_env_list *list)
+{
+    t_env_list *aux;
+
+    while (list != NULL)
+    {
+        aux = list;
+        list = list->next;
+        free(aux);
+    }
+}
