@@ -28,3 +28,29 @@ t_env_list	*get_envp()
 	}
 	return (head);
 }
+
+char	*get_in_env(char *search, t_env_list *list)
+{
+	t_env_list	*aux;
+
+	aux = list;
+	while (aux)
+	{
+		if (!ft_strncmp(search, aux->variable, ft_strlen(search)))
+			return (aux->variable);
+		aux = aux->next;
+	}
+	return (NULL);
+}
+
+void	print_env_list(t_env_list *list)
+{
+	t_env_list *aux;
+
+	aux = list;
+	while (aux)
+	{
+		printf("%s\n", aux->variable);
+		aux = aux->next;
+	}
+}
