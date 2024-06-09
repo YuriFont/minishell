@@ -43,9 +43,23 @@ char	*get_in_env(char *search, t_env_list *list)
 	return (NULL);
 }
 
+char	*get_value_in_variable(char *variable, t_env_list *list)
+{
+	char	*value;
+	char	*result;
+
+	result = get_in_env(variable, list);
+	if (!result)
+		return (NULL);
+	value = ft_strchr(result, '=');
+	if (!value)
+		return (NULL);
+	return (value + 1);
+}
+
 void	print_env_list(t_env_list *list)
 {
-	t_env_list *aux;
+	t_env_list	*aux;
 
 	aux = list;
 	while (aux)
@@ -53,4 +67,17 @@ void	print_env_list(t_env_list *list)
 		printf("%s\n", aux->variable);
 		aux = aux->next;
 	}
+}
+
+char	*change_value_of_variable(char *new_value, char *variable)
+{
+	char	*name;
+	char	*new_variable;
+	char	*result;
+
+	name = ft_strrchr(variable, '=');
+	result = ft_substr(variable, 0, ft_strlen(variable) - ft_strlen(name));
+	new_variable = ft_strjoinf(result, "=");
+	new_variable = ft_strjoinf(new_variable, new_value);
+	return (new_variable);
 }

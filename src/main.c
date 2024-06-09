@@ -19,8 +19,8 @@ static char	*create_prompt(void)
 	char	*name;
 	char	*dir;
 
-	host = getenv("HOSTNAME");
-	name = getenv("USER");
+	host = getenv("LOGNAME");
+	name = getenv("NAME");
 	dir = getenv("PWD") + (ft_strlen(name));
 	prompt = ft_strjoin("\e[0;32m", name);
 	prompt = ft_strjoinf(prompt, "@");
@@ -35,7 +35,7 @@ static char	*create_prompt(void)
 	return (prompt);
 }
 
-int main(void)
+int	main(void)
 {
 	char	*prompt;
 	char	*input;
@@ -45,9 +45,10 @@ int main(void)
 	env = NULL;
 	data = NULL;
 	env = get_envp();
-//	print_env_list(env);
-	char *resultado = get_in_env("USER",env);
-	printf("%s", resultado);
+	char *resultado = get_in_env("HOME", env);
+	printf("%s\n", resultado);
+	char *resposta = change_value_of_variable("arroz", resultado);
+	printf("%s\n", resposta);
 	while (1)
 	{
 		prompt = create_prompt();

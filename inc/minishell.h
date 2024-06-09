@@ -56,5 +56,7 @@ void    check_builtins(t_token *token);
 t_env_list      *get_envp();
 char	*get_in_env(char *search, t_env_list *list);
 void    print_env_list(t_env_list *list);
+char	*get_value_in_variable(char *variable, t_env_list *list);
+char	*change_value_of_variable(char *new_value, char *variable);
 
 #endif
