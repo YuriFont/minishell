@@ -20,3 +20,12 @@ t_token	*find_last_node(t_token *head)
 		head = head->next;
 	return (head);
 }
+
+t_env_list	*find_last_node_in_env(t_env_list *head)
+{
+	if (head == NULL)
+		return (NULL);
+	while (head->next)
+		head = head->next;
+	return (head);
+}

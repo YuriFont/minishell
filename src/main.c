@@ -37,18 +37,19 @@ static char	*create_prompt(void)
 
 int	main(void)
 {
-	char	*prompt;
-	char	*input;
-	t_token	*data;
-	t_env_list *env;
+	char		*prompt;
+	char		*input;
+	t_minishell	mini;
+	// t_token	*data;
+	// t_env_list *env;
 
-	env = NULL;
-	data = NULL;
-	env = get_envp();
-	char *resultado = get_in_env("HOME", env);
-	printf("%s\n", resultado);
-	char *resposta = change_value_of_variable("arroz", resultado);
-	printf("%s\n", resposta);
+	// env = NULL;
+	mini.token = NULL;
+	mini.env = get_envp();
+	// char *resultado = get_in_env("HOME", env);
+	// printf("%s\n", resultado);
+	// char *resposta = change_value_of_variable("arroz", resultado);
+	// printf("%s\n", resposta);
 	while (1)
 	{
 		prompt = create_prompt();
@@ -56,14 +57,14 @@ int	main(void)
 		if (input[0])
 		{
 			add_history(input);
-			fill_struct(input, &data);
-			check_builtins(data);
-			free_list(data);
-			data = NULL;
+			fill_struct(input, &mini.token);
+			check_builtins(mini.token, mini.env);
+			free_list(mini.token);
+			mini.token = NULL;
 		}
 		free(input);
 		free(prompt);
-    }
-	free_env(env);
+	}
+	free_env(mini.env);
 	return (0);
 }
