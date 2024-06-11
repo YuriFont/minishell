@@ -60,6 +60,7 @@ t_token	*find_last_node(t_token *head);
 /* fill_struct.c */
 void	fill_struct(char *input, t_token **data);
 
+/* env */
 void	free_list(t_token *list);
 void	free_env(t_env_list *list);
 void	check_builtins(t_token *token, t_env_list *env);
@@ -70,5 +71,13 @@ t_env_list		*get_envp(void);
 t_env_list		*get_in_env(char *search, t_env_list *list);
 t_env_list		*find_last_node_in_env(t_env_list *head);
 void	add_new_variable(t_env_list *env, char *variable, char *value);
+
+/* cd */
+
+void	change_directory(t_token *directory, t_env_list *env);
+
+/* echo */
+
+void    print_echo(t_token *token);
 
 #endif
