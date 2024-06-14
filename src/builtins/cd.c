@@ -16,14 +16,9 @@ int	move_to_old_directory(t_env_list *aux)
 	return (1);
 }
 
-int	move_to_directory(t_token *directory, t_env_list *env)
+int	verify_direction(t_token *directory,
+	t_env_list *env, t_env_list *aux, char *old_dir)
 {
-	char		*old_dir;
-	char		*new_old_dir;
-	t_env_list	*aux;
-
-	old_dir = getcwd(NULL, 0);
-	aux = get_in_env("OLDPWD", env);
 	if (strncmp(directory->text, "-", ft_strlen(directory->text)) == 0)
 	{
 		if (!move_to_old_directory(aux))
@@ -43,6 +38,19 @@ int	move_to_directory(t_token *directory, t_env_list *env)
 		free(old_dir);
 		return (0);
 	}
+	return (1);
+}
+
+int	move_to_directory(t_token *directory, t_env_list *env)
+{
+	char		*old_dir;
+	char		*new_old_dir;
+	t_env_list	*aux;
+
+	old_dir = getcwd(NULL, 0);
+	aux = get_in_env("OLDPWD", env);
+	if (!verify_direction(directory, env, aux, old_dir))
+		return (0);
 	new_old_dir = change_value_of_variable(old_dir, aux->variable);
 	free(old_dir);
 	free(aux->variable);

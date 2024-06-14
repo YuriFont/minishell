@@ -15,7 +15,6 @@
 
 #include "../inc/minishell.h"
 
-
 void	free_list(t_token *list)
 {
 	t_token	*aux;

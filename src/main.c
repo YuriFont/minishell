@@ -12,16 +12,10 @@
 
 #include "../inc/minishell.h"
 
-static char	*create_prompt(void)
+static char	*organize_prompt(char *host, char *name, char *dir)
 {
 	char	*prompt;
-	char	*host;
-	char	*name;
-	char	*dir;
 
-	host = getenv("LOGNAME");
-	name = getenv("NAME");
-	dir = getenv("PWD") + (ft_strlen(name));
 	prompt = ft_strjoin("\e[0;32m", name);
 	prompt = ft_strjoinf(prompt, "@");
 	prompt = ft_strjoinf(prompt, host);
@@ -35,24 +29,38 @@ static char	*create_prompt(void)
 	return (prompt);
 }
 
+static char	*create_prompt(t_env_list *env)
+{
+	char	*prompt;
+	char	*host;
+	char	*name;
+	char	*dir;
+	char	*name_dir;
+
+	host = get_value_in_variable("LOGNAME", env);
+	name = get_value_in_variable("NAME", env);
+	name_dir = getcwd(NULL, 0);
+	dir = ft_strnstr(name_dir, host, ft_strlen(name_dir));
+	if (dir)
+		dir = dir + ft_strlen(host);
+	else
+		dir = name_dir;
+	prompt = organize_prompt(host, name, dir);
+	free(name_dir);
+	return (prompt);
+}
+
 int	main(void)
 {
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-	// t_token	*data;
-	// t_env_list *env;
 
-	// env = NULL;
 	mini.token = NULL;
 	mini.env = get_envp();
-	// char *resultado = get_in_env("HOME", env);
-	// printf("%s\n", resultado);
-	// char *resposta = change_value_of_variable("arroz", resultado);
-	// printf("%s\n", resposta);
 	while (1)
 	{
-		prompt = create_prompt();
+		prompt = create_prompt(mini.env);
 		input = readline(prompt);
 		if (input[0])
 		{

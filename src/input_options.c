@@ -21,4 +21,8 @@ void	check_builtins(t_token *token, t_env_list *env)
 	{
 		print_echo(token->next);
 	}
+	if (ft_strncmp(token->text, "export", 6) == 0)
+	{
+		insert_in_env(env, token->next);
+	}
 }
