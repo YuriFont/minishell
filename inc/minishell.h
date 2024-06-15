@@ -90,4 +90,6 @@ void					print_echo(t_token *token);
 
 void					insert_in_env(t_env_list *env, t_token *token);
 
+void					remove_variable_env(t_token *node, t_env_list *env);
+
 #endif

@@ -25,4 +25,6 @@ void	check_builtins(t_token *token, t_env_list *env)
 	{
 		insert_in_env(env, token->next);
 	}
+	if (ft_strncmp(token->text, "unset", 5) == 0)
+		remove_variable_env(token->next, env);
 }

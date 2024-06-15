@@ -36,7 +36,7 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
 $(NAME): $(LIBFT_A)
-		$(CC) $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) -o $(NAME) -lreadline
+		$(CC) -g $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) -o $(NAME) -lreadline
 
 clean:
 		$(MAKE) clean -C $(LIBFT)
