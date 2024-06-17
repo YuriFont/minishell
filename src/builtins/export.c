@@ -25,6 +25,10 @@ int	verify_nome_of_variable_is_valid(char *name)
 	return (1);
 }
 
+/*
+	Valida apenas o nome da "variavel de ambiente"
+*/
+
 char	*valid_new_variable(char *new_variable)
 {
 	char	*find_equal;
@@ -42,6 +46,13 @@ char	*valid_new_variable(char *new_variable)
 	}
 	return (name_variable);
 }
+
+/*
+	Inserir uma nova "variavel de ambiente" ao 
+	digitar export + <nome da variavel=conteudo da variavel>,
+	necessario verificar se a variavel ja existe
+	 e alterar apenas o valor ao invez de mallocar.
+*/
 
 void	insert_in_env(t_env_list *env, t_token *token)
 {

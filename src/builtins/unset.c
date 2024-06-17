@@ -1,5 +1,10 @@
 #include "../../inc/minishell.h"
 
+/*
+	Procura a variavel de ambiente na env_list
+	 e a remove, tem mais de 25 linhas :(
+*/
+
 void	remove_variable_env(t_token *node, t_env_list *env)
 {
 	t_env_list	*temp;

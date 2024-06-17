@@ -16,6 +16,17 @@ int	move_to_old_directory(t_env_list *aux)
 	return (1);
 }
 
+/*
+	Aqui esta entre mover para o diretorio anterio, que
+	e  o cd com o " - ", se o antigo diretorio não existir
+	ele apresenta o erro e não alterar o oldpwd, ate porque
+	não existe, e retorna para função anterior(acho que tem um
+	vazamento), no segundo if ele move para o novo diretorio,
+	se oldpwd não existe (que esta armazenado na variavel
+	aux) ele adiciona a nova variavel de ambiente
+*/
+
+
 int	verify_direction(t_token *directory,
 	t_env_list *env, t_env_list *aux, char *old_dir)
 {
@@ -40,6 +51,11 @@ int	verify_direction(t_token *directory,
 	}
 	return (1);
 }
+/*
+	Move para o diretorio. Antes pega o diretorio atual,
+	que logo sera o novo diretorio anterior.
+	E tambem tenta pegar o antigo diretorio anterior.
+*/
 
 int	move_to_directory(t_token *directory, t_env_list *env)
 {
@@ -57,6 +73,15 @@ int	move_to_directory(t_token *directory, t_env_list *env)
 	aux->variable = new_old_dir;
 	return (1);
 }
+
+/*
+	Recebe o nó seguinte apos o cd (o diretorio no caso),
+	se nenhum parametro e encontrado ele vai pra home do usuario,
+	se o proximo for nulo quer dizer que foi passado corretamente
+	o cd + diretorio, se passar mais de um argumento no cd aparece um
+	erro. A env_list e passada para alterar a variavel de
+	diretorio anterior(OLDPWD).
+*/
 
 void	change_directory(t_token *directory, t_env_list *env)
 {
