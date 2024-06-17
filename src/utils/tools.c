@@ -90,6 +90,8 @@ void	free_matriz(char **matriz)
 {
 	int	i;
 
+	if(!matriz)
+		return ;
 	i = 0;
 	while (matriz[i])
 	{

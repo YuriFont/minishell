@@ -28,13 +28,14 @@ void	execute_command(char *path_command, char **argv, char **env)
 
 void	read_command(t_token *token, t_env_list *list)
 {
-	char **env;
-	char **path;
-	int i;
-	char *path_command;
-	char **argv;
+	char	**env;
+	char	**path;
+	int		i;
+	char	*path_command;
+	char	**argv;
 
 	i = 0;
+	argv = NULL;
 	env = env_to_matriz(list);
 	path = ft_split(get_value_in_variable("PATH", list), ':');
 	path_command = ft_strjoin(path[i], "/");
@@ -57,7 +58,15 @@ void	read_command(t_token *token, t_env_list *list)
 		}
 	}
 	free(path_command);
-    free_matriz(path);
+	if (!argv)
+	{
+		path_command = ft_strjoinf(getcwd(NULL, 0), "/");
+		path_command = ft_strjoinf(path_command, token->text);
+		argv = create_args(path_command);
+		execute_command(path_command, argv, env);
+		free(path_command);
+	}
+	free_matriz(path);
 	free_matriz(env);
-    free_matriz(argv);
+	free_matriz(argv);
 }
