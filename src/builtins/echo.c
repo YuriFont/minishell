@@ -14,10 +14,10 @@ void	print_with_echo(t_token *token)
 		return ;
 	while (aux)
 	{
-		write(1, aux->text, ft_strlen(aux->text));
+		write(0, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)
-			write(1, " ", 1);
+			write(0, " ", 1);
 	}
 }
 

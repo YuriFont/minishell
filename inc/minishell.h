@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
 
