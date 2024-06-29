@@ -55,7 +55,6 @@ int	main(void)
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-	// char		**matriz;
 
 	mini.token = NULL;
 	mini.env = get_envp();
@@ -67,12 +66,9 @@ int	main(void)
 		{
 			add_history(input);
 			fill_struct(input, &mini.token);
-			check_commands(mini.token, mini.env);
+			check_commands(mini.token, &mini.env);
 			free_list(mini.token);
 			mini.token = NULL;
-			// matriz = env_to_matriz(mini.env);
-			// print_matriz(matriz);
-			// free_matriz(matriz);
 		}
 		free(input);
 		free(prompt);

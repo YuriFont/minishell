@@ -5,33 +5,53 @@
 	 e a remove, tem mais de 25 linhas :(
 */
 
-void	remove_variable_env(t_token *node, t_env_list *env)
+int	is_end_of_variable(char *variable, t_env_list *node)
+{
+	char	*end;
+
+	if (ft_strlen(variable) > ft_strlen(node->variable))
+		return (0);
+	end = node->variable + ft_strlen(variable);
+	if (end[0] == '=')
+		return (1);
+	return (0);
+}
+
+int	is_this_node(t_env_list *temp, char *variable)
+{
+	if (ft_strncmp(temp->variable, variable,
+			ft_strlen(variable)) == 0)
+	{
+		if (is_end_of_variable(variable, temp))
+			return (1);
+	}
+	return (0);
+}
+
+void	remove_variable_env(t_token *node, t_env_list **env)
 {
 	t_env_list	*temp;
 	t_env_list	*prev;
-	t_env_list	*remove;
 	char		*variable;
 
 	if (!node)
 		return ;
 	variable = node->text;
-	temp = env;
-	while (env && ft_strncmp(env->variable, variable,
-			ft_strlen(variable)) != 0)
+	temp = *env;
+	prev = NULL;
+	while (temp)
 	{
-		prev = env;
-		env = env->next;
+		if (is_this_node(temp, variable))
+			break ;
+		prev = temp;
+		temp = temp->next;
 	}
-	remove = env;
-	if (temp == remove)
-	{
-		env = env->next;
-		free(remove);
-	}
+	if (!temp)
+		return ;
+	if (!prev)
+		*env = (*env)->next;
 	else
-	{
-		prev->next = env->next;
-		free(remove);
-		env = temp;
-	}
+		prev->next = temp->next;
+	free(temp->variable);
+	free(temp);
 }

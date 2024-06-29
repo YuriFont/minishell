@@ -70,8 +70,8 @@ void					free_list(t_token *list);
 void					free_env(t_env_list *list);
 
 
-int						check_builtins(t_token *token, t_env_list *env);
-void					check_commands(t_token *token, t_env_list *env);
+int						check_builtins(t_token *token, t_env_list **env);
+void					check_commands(t_token *token, t_env_list **env);
 void					read_command(t_token *token, t_env_list *env);
 
 
@@ -100,7 +100,7 @@ void					print_echo(t_token *token);
 
 void					insert_in_env(t_env_list *env, t_token *token);
 
-void					remove_variable_env(t_token *node, t_env_list *env);
+void					remove_variable_env(t_token *node, t_env_list **env);
 
 
 char					**env_to_matriz(t_env_list *list);
