@@ -15,7 +15,6 @@
 
 #include "../inc/minishell.h"
 
-
 static void	append_node(char *input, t_token **data)
 {
 	t_token *node;
@@ -57,14 +56,12 @@ static void	append_node(char *input, t_token **data)
 // 	free(split);
 // }
 
-int	double_cotles(char *input, int start, t_token **data)
+int	double_quotes(char *input, int start, t_token **data)
 {
 	int		i;
 	char	*str;
 
 	i = start + 1;
-	if (!input[i])
-		return (start);
 	while (input[i])
 	{
 		if (input[i] == 34)
@@ -73,35 +70,22 @@ int	double_cotles(char *input, int start, t_token **data)
 	}
 	if (!input[i])
 		return (i);
-	// if (input[i] == '\0')
-	// {
-	// 	printf("Sintax error\n");
-	// 	return (start);
-	// }
 	str = ft_substr(input, start, i - start + 1);
 	append_node(str, data);
-	return (i + 1);
+	return (i);
 }
 
-int	sigle_cotles(char *input, int start, t_token **data)
+int	sigle_quotes(char *input, int start, t_token **data)
 {
 	int		i;
 	char	*str;
 
 	i = start + 1;
-	if (!input[i])
-		return (start);
 	while (input[i] && input[i] != 39)
 	{
 		i++;
 	}
-	// if (input[i] == '\0')
-	// {
-	// 	printf("Sintax error\n");
-	// 	return (start);
-	// }
 	str = ft_substr(input, start, i - start + 1);
-	// printf("%s %d\n", str, i);
 	append_node(str, data);
 	return (i);
 }
@@ -116,13 +100,14 @@ int	add_word(char *input, int start, t_token **data)
 		return (start);
 	while (input[i] && input[i] != ' ')
 	{
+		if (input[i] == 34 || input[i] == 39)
+			break ;
 		i++;
 	}
-	// if (!input[i])
-	// 	return (i);
 	str = ft_substr(input, start, i - start);
-	// printf("palavra : %s\n", str);
 	append_node(str, data);
+	if (input[i] == 34 || input[i] == 39)
+		i--;
 	return (i);
 }
 
@@ -136,9 +121,9 @@ void	fill_struct(char *input, t_token **data)
 	{
 		start = i;
 		if (input[i] == 34)
-			i = double_cotles(input, start, data);
+			i = double_quotes(input, start, data);
 		else if (input[i] == 39)
-			i = sigle_cotles(input, start, data);
+			i = sigle_quotes(input, start, data);
 		else if (input[i] && input[i] != ' ')
 			i = add_word(input, start, data);
 		if (!input[i])
