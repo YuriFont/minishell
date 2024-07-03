@@ -16,17 +16,36 @@ static char	*organize_prompt(char *host, char *name, char *dir)
 {
 	char	*prompt;
 
-	prompt = ft_strjoin("\e[0;32m", name);
+	prompt = ft_strjoin("\001\e[0;32m\002", name);
 	prompt = ft_strjoinf(prompt, "@");
 	prompt = ft_strjoinf(prompt, host);
-	prompt = ft_strjoinf(prompt, "\e[0m");
+	prompt = ft_strjoinf(prompt, "\001\e[0m\002");
 	prompt = ft_strjoinf(prompt, ":");
-	prompt = ft_strjoinf(prompt, "\e[0;34m");
+	prompt = ft_strjoinf(prompt, "\001\e[0;34m\002");
 	prompt = ft_strjoinf(prompt, "~");
 	prompt = ft_strjoinf(prompt, dir);
-	prompt = ft_strjoinf(prompt, "\e[0m");
+	prompt = ft_strjoinf(prompt, "\001\e[0m\002");
 	prompt = ft_strjoinf(prompt, "$ ");
 	return (prompt);
+}
+
+char	*get_local_of_session(char *host)
+{
+	char *temp;
+	int	i;
+
+	i = 0;
+	temp = ft_strchr(host, '/') + 1;
+	while (temp[i])
+	{
+		if (temp[i] == '.')
+		{
+			temp[i] = '\0';
+			break ;
+		}
+		i++;
+	}
+	return (temp);
 }
 
 static char	*create_prompt(t_env_list *env)
@@ -37,12 +56,18 @@ static char	*create_prompt(t_env_list *env)
 	char	*dir;
 	char	*name_dir;
 
-	host = get_value_in_variable("LOGNAME", env);
+	host = get_value_in_variable("SESSION_MANAGER", env);
+	if (host)
+		host = get_local_of_session(host);
+	else
+		host = get_value_in_variable("LOGNAME", env);
 	name = get_value_in_variable("NAME", env);
+	if (!name)
+		name = get_value_in_variable("USER", env);
 	name_dir = getcwd(NULL, 0);
-	dir = ft_strnstr(name_dir, host, ft_strlen(name_dir));
+	dir = ft_strnstr(name_dir, name, ft_strlen(name_dir));
 	if (dir)
-		dir = dir + ft_strlen(host);
+		dir = dir + ft_strlen(host) + 1;
 	else
 		dir = name_dir;
 	prompt = organize_prompt(host, name, dir);

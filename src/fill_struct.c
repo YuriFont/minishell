@@ -64,12 +64,17 @@ int	double_quotes(char *input, int start, t_token **data)
 	i = start + 1;
 	while (input[i])
 	{
-		if (input[i] == 34)
+		if (input[i] == 34 && (input[i + 1] != ' ' || input[i + 1] != '\0'))
+		{
+			i++;
+			continue ;
+		}
+		else if (input[i] == 34 && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 		i++;
 	}
-	if (!input[i])
-		return (i);
+	// if (!input[i])
+	// 	return (i);
 	str = ft_substr(input, start, i - start + 1);
 	append_node(str, data);
 	return (i);
@@ -81,8 +86,15 @@ int	sigle_quotes(char *input, int start, t_token **data)
 	char	*str;
 
 	i = start + 1;
-	while (input[i] && input[i] != 39)
+	while (input[i])
 	{
+		if (input[i] == 39 && (input[i + 1] != ' ' || input[i + 1] != '\0'))
+		{
+			i++;
+			continue ;
+		}
+		else if (input[i] == 39 && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+			break ;
 		i++;
 	}
 	str = ft_substr(input, start, i - start + 1);
@@ -96,8 +108,6 @@ int	add_word(char *input, int start, t_token **data)
 	char	*str;
 
 	i = start + 1;
-	if (!input[i])
-		return (start);
 	while (input[i] && input[i] != ' ')
 	{
 		if (input[i] == 34 || input[i] == 39)
