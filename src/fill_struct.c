@@ -59,17 +59,22 @@ static void	append_node(char *input, t_token **data)
 int	double_quotes(char *input, int start, t_token **data)
 {
 	int		i;
+	int		is_letter;
 	char	*str;
 
 	i = start + 1;
+	is_letter = 0;
 	while (input[i])
 	{
-		if (input[i] == 34 && (input[i + 1] != ' ' && input[i + 1] != '\0'))
+		if (input[i] == 34 && (input[i + 1] != ' ' && input[i + 1] != '\0' && input[i + 1] != '|'))
 		{
 			i++;
+			is_letter = 1;
 			continue ;
 		}
-		else if (input[i] == 34 && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		else if ((input[i] == 34
+			&& (input[i + 1] == ' ' || input[i + 1] == '\0'))
+				|| (is_letter && input[i + 1] == ' ') || input[i + 1] == '|')
 			break ;
 		i++;
 	}
@@ -81,17 +86,22 @@ int	double_quotes(char *input, int start, t_token **data)
 int	sigle_quotes(char *input, int start, t_token **data)
 {
 	int		i;
+	int		is_letter;
 	char	*str;
 
 	i = start + 1;
+	is_letter = 0;
 	while (input[i])
 	{
-		if (input[i] == 39 && (input[i + 1] != ' ' && input[i + 1] != '\0'))
+		if (input[i] == 39 && (input[i + 1] != ' ' && input[i + 1] != '\0' && input[i + 1] != '|'))
 		{
 			i++;
+			is_letter = 0;
 			continue ;
 		}
-		else if (input[i] == 39 && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		else if ((input[i] == 39
+			&& (input[i + 1] == ' ' || input[i + 1] == '\0'))
+				|| (is_letter && input[i + 1] == ' ') || input[i + 1] == '|')
 			break ;
 		i++;
 	}
@@ -108,14 +118,45 @@ int	add_word(char *input, int start, t_token **data)
 	i = start + 1;
 	while (input[i] && input[i] != ' ')
 	{
-		// if (input[i] == 34 || input[i] == 39)
-		// 	break ;
+		if (input[i] == '|'
+			|| input[i] == '>' || input[i] == '<')
+			break ;
 		i++;
 	}
 	str = ft_substr(input, start, i - start);
 	append_node(str, data);
-	if (input[i] == 34 || input[i] == 39)
+	// printf("%s\n", input+i);
+	if ((input[i] == 34 || input[i] == 39
+		|| input[i] == '|' || input[i] == '>'
+			|| input[i] == '<') && (ft_strncmp(input + i, ">>", 2) || ft_strncmp(input + i, "<<", 2)))
 		i--;
+	return (i);
+}
+
+int	add_pipe(char *input, int start, t_token **data)
+{
+	int		i;
+	char	*str;
+	
+	i = start + 1;
+	str = ft_substr(input, start, i - start);
+	append_node(str, data);
+	return (start);
+}
+
+int	add_redirect(char *input, int start, t_token **data)
+{
+	int		i;
+	char	*str;
+	char	c;
+	
+	i = start;
+	c = input[i];
+	while (input[i] == c)
+		i++;
+	str = ft_substr(input, start, i - start);
+	append_node(str, data);
+	i--;
 	return (i);
 }
 
@@ -132,6 +173,12 @@ void	fill_struct(char *input, t_token **data)
 			i = double_quotes(input, start, data);
 		else if (input[i] == 39)
 			i = sigle_quotes(input, start, data);
+		else if (input[i] == '|')
+			i = add_pipe(input, start, data);
+		else if (input[i] == '>')
+			i = add_redirect(input, start, data);
+		else if (input[i] == '<')
+			i = add_redirect(input, start, data);
 		else if (input[i] && input[i] != ' ')
 			i = add_word(input, start, data);
 		if (!input[i])

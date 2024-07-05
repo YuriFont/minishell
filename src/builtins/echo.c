@@ -10,14 +10,17 @@ void	print_with_echo(t_token *token)
 	t_token	*aux;
 
 	aux = token;
+	int i = 0;
 	if (!aux)
 		return ;
 	while (aux)
 	{
+		printf("\nno %d:%s\n", i, aux->text);
 		write(0, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)
 			write(0, " ", 1);
+		i++;
 	}
 }
 
