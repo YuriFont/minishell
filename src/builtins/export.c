@@ -47,6 +47,31 @@ char	*valid_new_variable(char *new_variable)
 	return (name_variable);
 }
 
+void	change_value_of_env(t_env_list *env, char *variable_change)
+{
+	char	*temp;
+
+	temp = env->variable;
+	env->variable = variable_change;
+	free(temp);
+}
+
+int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
+{
+	t_env_list	*result;
+	char		*value;
+	char		*value_change;
+
+	result = get_in_env(name, env);
+	if (!result)
+		return (0);
+	value = ft_strchr(token->text, '=') + 1;
+	value_change = change_value_of_variable(value, name);
+	change_value_of_env(result, value_change);
+	free(name);
+	return (1);
+}
+
 /*
 	Inserir uma nova "variavel de ambiente" ao 
 	digitar export + <nome da variavel=conteudo da variavel>,
@@ -63,6 +88,8 @@ void	insert_in_env(t_env_list *env, t_token *token)
 		return ;
 	name = valid_new_variable(token->text);
 	if (!name)
+		return ;
+	if (verify_exist_in_env(name, env, token))
 		return ;
 	value = ft_strchr(token->text, '=') + 1;
 	add_new_variable(env, name, value);
