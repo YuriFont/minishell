@@ -33,7 +33,7 @@ void	print_with_echo(t_token *token)
 
 void	print_echo(t_token *token)
 {
-	if (token && ft_strncmp(token->text, "-n", 2) == 0)
+	if (token && ft_strncmp(token->text, "-n", 3) == 0)
 		print_with_echo(token->next);
 	else
 	{

@@ -67,7 +67,7 @@ static char	*create_prompt(t_env_list *env)
 	name_dir = getcwd(NULL, 0);
 	dir = ft_strnstr(name_dir, name, ft_strlen(name_dir));
 	if (dir)
-		dir = dir + ft_strlen(host) + 1;
+		dir = dir + ft_strlen(name);
 	else
 		dir = name_dir;
 	prompt = organize_prompt(host, name, dir);
