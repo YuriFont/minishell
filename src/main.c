@@ -16,15 +16,15 @@ static char	*organize_prompt(char *host, char *name, char *dir)
 {
 	char	*prompt;
 
-	prompt = ft_strjoin("\001\e[0;32m\002", name);
+	prompt = ft_strjoin(GREEN, name);
 	prompt = ft_strjoinf(prompt, "@");
 	prompt = ft_strjoinf(prompt, host);
-	prompt = ft_strjoinf(prompt, "\001\e[0m\002");
+	prompt = ft_strjoinf(prompt, RESET_COLOR);
 	prompt = ft_strjoinf(prompt, ":");
-	prompt = ft_strjoinf(prompt, "\001\e[0;34m\002");
+	prompt = ft_strjoinf(prompt, BLUE);
 	prompt = ft_strjoinf(prompt, "~");
 	prompt = ft_strjoinf(prompt, dir);
-	prompt = ft_strjoinf(prompt, "\001\e[0m\002");
+	prompt = ft_strjoinf(prompt, RESET_COLOR);
 	prompt = ft_strjoinf(prompt, "$ ");
 	return (prompt);
 }
@@ -90,7 +90,14 @@ int	main(void)
 		if (input[0])
 		{
 			add_history(input);
+			if (!check_input(input))
+			{
+				free(input);
+				free(prompt);
+				continue ;
+			}
 			fill_struct(input, &mini.token);
+			mark_tokens(mini.token);
 			check_commands(mini.token, &mini.env);
 			free_list(mini.token);
 			mini.token = NULL;

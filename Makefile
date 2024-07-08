@@ -11,7 +11,8 @@ BUILTINS = cd.c\
 
 EXECUTOR = command_executor.c
 
-PARSER	= analyzer.c
+PARSER	= analyzer.c\
+			check_input.c
 
 UTILS	= tools.c
 

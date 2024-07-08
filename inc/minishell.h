@@ -27,19 +27,24 @@
 # include <fcntl.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
+# define GREEN "\001\e[0;32m\002"
+# define BLUE "\001\e[0;34m\002"
+# define RESET_COLOR "\001\e[0m\002"
 
 typedef enum e_command
 {
+	COMAND,
 	PIPE,
 	BUILTIN,
 	ARGM,
+	REDIRECT,
 	ENV_VA,
 	WORD
 }						t_command;
 
 typedef struct s_token
 {
-	int					token;
+	t_command			token;
 	char				*text;
 	struct s_token		*next;
 	struct s_token		*prev;
@@ -61,6 +66,10 @@ typedef struct s_minishell
 
 /* utils_list.c */
 t_token					*find_last_node(t_token *head);
+
+/*check_input.c*/
+int	check_input(char *input);
+void	mark_tokens(t_token *token);
 
 /* fill_struct.c */
 void					fill_struct(char *input, t_token **data);

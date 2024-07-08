@@ -15,7 +15,6 @@ void	print_with_echo(t_token *token)
 		return ;
 	while (aux)
 	{
-		printf("\nno %d:%s\n", i, aux->text);
 		write(0, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)

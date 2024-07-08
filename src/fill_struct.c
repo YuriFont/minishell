@@ -149,7 +149,7 @@ int	add_redirect(char *input, int start, t_token **data)
 	int		i;
 	char	*str;
 	char	c;
-	
+
 	i = start;
 	c = input[i];
 	while (input[i] == c)
