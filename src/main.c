@@ -88,6 +88,13 @@ int	main(void)
 	{
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
+		if (!input)
+		{
+			ft_putstr_fd("Loggout...\n", 1);
+			exit(0);
+			free(input);
+			free(prompt);
+		}
 		if (input[0])
 		{
 			add_history(input);

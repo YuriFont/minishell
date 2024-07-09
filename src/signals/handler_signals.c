@@ -17,22 +17,22 @@ void    signal_handler(int signal)
     if (signal == SIGINT)
     {
         write(0, "\n", 1);
-        rl_replace_line("", 0);
+        rl_replace_line("", 1);
         rl_on_new_line();
         rl_redisplay();
     }
+    return ;
 }
 
 void    handler_signals(void)
 {
-    struct  sigaction sa;
+    struct sigaction    sig;
 
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = signal_handler;
-	sa.sa_flags = 0;
-    if (sigaction(SIGINT, &sa, NULL) == -1)
-    {
-       	perror("sigaction");
-       	exit(EXIT_FAILURE);
-    }
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+	sig.sa_handler = signal_handler;
+	sigemptyset(&sig.sa_mask);
+    sigaddset(&sig.sa_mask, SIGINT);
+    sig.sa_flags = 0;
+    sigaction(SIGINT, &sig, NULL);
 }
