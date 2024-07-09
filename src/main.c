@@ -80,9 +80,10 @@ int	main(void)
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-
+	
 	mini.token = NULL;
 	mini.env = get_envp();
+	handler_signals();
 	while (1)
 	{
 		prompt = create_prompt(mini.env);

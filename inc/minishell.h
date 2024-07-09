@@ -116,4 +116,8 @@ char					**env_to_matriz(t_env_list *list);
 void					print_matriz(char **matriz);
 void					free_matriz(char **matriz);
 
+/* handler signals */
+void	signal_handler(int signal);
+void    handler_signals(void);
+
 #endif
