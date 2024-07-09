@@ -17,14 +17,14 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
-# include <signal.h>
 # include <sys/wait.h>
-# include <fcntl.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
 # define GREEN "\001\e[0;32m\002"
@@ -68,8 +68,8 @@ typedef struct s_minishell
 t_token					*find_last_node(t_token *head);
 
 /*check_input.c*/
-int	check_input(char *input);
-void	mark_tokens(t_token *token);
+int						check_input(char *input);
+void					mark_tokens(t_token *token);
 
 /* fill_struct.c */
 void					fill_struct(char *input, t_token **data);
@@ -78,11 +78,9 @@ void					fill_struct(char *input, t_token **data);
 void					free_list(t_token *list);
 void					free_env(t_env_list *list);
 
-
 int						check_builtins(t_token *token, t_env_list **env);
 void					check_commands(t_token *token, t_env_list **env);
 void					read_command(t_token *token, t_env_list *env);
-
 
 void					print_env_list(t_env_list *list);
 char					*get_value_in_variable(char *variable,
@@ -101,7 +99,7 @@ void					change_directory(t_token *directory, t_env_list *env);
 
 /* echo */
 
-/* echo imprime tudo que esta entre aspas 
+/* echo imprime tudo que esta entre aspas
 da forma que foi dado como entrada. A split está atrapalhando */
 
 void					print_echo(t_token *token);
@@ -111,9 +109,10 @@ void					insert_in_env(t_env_list *env, t_token *token);
 
 void					remove_variable_env(t_token *node, t_env_list **env);
 
-
 char					**env_to_matriz(t_env_list *list);
 void					print_matriz(char **matriz);
 void					free_matriz(char **matriz);
+int						find_next_char(int i, char c, char *input);
+int						add_word(char *input, int start, t_token **data);
 
 #endif

@@ -63,6 +63,8 @@ int	check_redirect(char *input)
 	i = 0;
 	while (input[i])
 	{
+		if (input[i] == '\'' || input[i] == '\"')
+			i = find_next_char(i, input[i], input);
 		if (input[i] == '>' || input[i] == '<')
 		{
 			if (check_amount_redirect(input + i, input[i]) > 2)
