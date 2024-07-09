@@ -13,6 +13,8 @@ void	print_with_echo(t_token *token)
 	int i = 0;
 	if (!aux)
 		return ;
+	while (ft_strncmp(aux->text, "-n", 3) == 0)
+		aux = aux->next;
 	while (aux)
 	{
 		write(0, aux->text, ft_strlen(aux->text));
