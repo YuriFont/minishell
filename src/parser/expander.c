@@ -71,7 +71,7 @@ char	*expander_node(char *text, t_env_list *env)
 		if (text[i] == '\0')
 			break ;
 		expansor = get_variable(text, i, env);
-		result = ft_strjoin(result, expansor);
+		result = ft_strjoinf(result, expansor);
 		free(expansor);
 		free(prev);
 		while (break_point_quotes(text[i + 1]) && text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$')
