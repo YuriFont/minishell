@@ -115,4 +115,10 @@ void					free_matriz(char **matriz);
 int						find_next_char(int i, char c, char *input);
 int						add_word(char *input, int start, t_token **data);
 
+
+/* expander */
+
+void					expander_va(t_minishell *mini);
+int						break_point_quotes(char c);
+
 #endif
