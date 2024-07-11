@@ -1,8 +1,23 @@
 #include "../inc/minishell.h"
 
+int	check_is_redirect(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		if (temp->token == REDIRECT && temp->next != NULL)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
 
 void	check_commands(t_token *token, t_env_list **env)
 {
+	// if (check_is_redirect(token))
+ 	// 	redirect(token, env);
 	if (!check_builtins(token, env))
 		read_command(token, *env);
 }

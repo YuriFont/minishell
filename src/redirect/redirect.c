@@ -10,4 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// int check_redirect(t_token *token)
+// {
+// }
 
+// void    redirect(t_token *token, t_env_list **env)
+// {
+//     check_redirect(token);
+// }

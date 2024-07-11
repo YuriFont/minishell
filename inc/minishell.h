@@ -121,4 +121,6 @@ void					free_matriz(char **matriz);
 void	signal_handler(int signal);
 void    handler_signals(void);
 
+int check_syntax(t_token *token);
+
 #endif

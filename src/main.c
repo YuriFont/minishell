@@ -106,6 +106,14 @@ int	main(void)
 			}
 			fill_struct(input, &mini.token);
 			mark_tokens(mini.token);
+			if (!check_syntax(mini.token))
+			{
+				free(input);
+				free(prompt);
+				free_list(mini.token);
+				mini.token = NULL;
+				continue ;
+			}
 			check_commands(mini.token, &mini.env);
 			free_list(mini.token);
 			mini.token = NULL;
