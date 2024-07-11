@@ -52,28 +52,36 @@ char	*get_variable(char *text, int i, t_env_list *env)
 	return (ft_strdup(content_variable));
 }
 
+char	*get_prev_content(char *result, char *text, int *i)
+{
+	char	*prev;
+	int		prev_i;
+//	char	*temp;
+
+	prev_i = *i;
+	*i = find_dollar(text, *i);
+	prev = ft_substr(text, prev_i, *i - prev_i);
+	result = ft_strjoinf(result, prev);
+	free(prev);
+	return (result);
+}
+
 char	*expander_node(char *text, t_env_list *env)
 {
 	char	*result;
-	char	*prev;
 	char	*expansor;
 	int		i;
-	int		prev_i;
 
 	i = 0;
 	result = ft_strdup("");
 	while (text[i])
 	{
-		prev_i = i;
-		i = find_dollar(text, i);
-		prev = ft_substr(text, prev_i, i - prev_i);
-		result = ft_strjoinf(result, prev);
+		result = get_prev_content(result, text, &i);
 		if (text[i] == '\0')
 			break ;
 		expansor = get_variable(text, i, env);
 		result = ft_strjoinf(result, expansor);
 		free(expansor);
-		free(prev);
 		while (break_point_quotes(text[i + 1]) && text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$')
 			i++;
 		i++;

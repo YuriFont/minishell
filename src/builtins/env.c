@@ -24,7 +24,10 @@ t_env_list	*get_in_env(char *search, t_env_list *list)
 	while (aux)
 	{
 		if (!ft_strncmp(search, aux->variable, ft_strlen(search)))
-			return (aux);
+		{
+			if (aux->variable[ft_strlen(search)] == '=')
+				return (aux);
+		}
 		aux = aux->next;
 	}
 	return (NULL);
