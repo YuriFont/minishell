@@ -83,9 +83,13 @@ int	main(void)
 
 	mini.token = NULL;
 	mini.env = get_envp();
+	input = NULL;
 	while (1)
 	{
+
 		prompt = create_prompt(mini.env);
+		if (input)
+			printf("%s\n", input);
 		input = readline(prompt);
 		if (input[0])
 		{
@@ -94,6 +98,7 @@ int	main(void)
 			{
 				free(input);
 				free(prompt);
+				input = NULL;
 				continue ;
 			}
 			fill_struct(input, &mini.token);
@@ -104,6 +109,7 @@ int	main(void)
 			mini.token = NULL;
 		}
 		free(input);
+		input = NULL;
 		free(prompt);
 	}
 	free_env(mini.env);
