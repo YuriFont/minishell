@@ -67,7 +67,7 @@ static char	*create_prompt(t_env_list *env)
 	name_dir = getcwd(NULL, 0);
 	dir = ft_strnstr(name_dir, name, ft_strlen(name_dir));
 	if (dir)
-		dir = dir + ft_strlen(host) + 1;
+		dir = dir + ft_strlen(name);
 	else
 		dir = name_dir;
 	prompt = organize_prompt(host, name, dir);
@@ -80,13 +80,21 @@ int	main(void)
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-
+	
 	mini.token = NULL;
 	mini.env = get_envp();
+	handler_signals();
 	while (1)
 	{
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
+		if (!input)
+		{
+			ft_putstr_fd("Loggout...\n", 1);
+			exit(0);
+			free(input);
+			free(prompt);
+		}
 		if (input[0])
 		{
 			add_history(input);

@@ -15,6 +15,8 @@ PARSER	= analyzer.c\
 			check_input.c\
 			expander.c
 
+SIGNALS = handler_signals.c
+
 UTILS	= tools.c
 
 FILES = main.c\
@@ -25,7 +27,8 @@ FILES = main.c\
 		$(addprefix builtins/, $(BUILTINS))\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
-		$(addprefix utils/, $(UTILS))
+		$(addprefix utils/, $(UTILS))\
+		$(addprefix signals/, $(SIGNALS))
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf

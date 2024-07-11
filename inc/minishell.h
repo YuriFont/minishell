@@ -121,4 +121,8 @@ int						add_word(char *input, int start, t_token **data);
 void					expander_va(t_minishell *mini);
 int						break_point_quotes(char c);
 
+/* handler signals */
+void	signal_handler(int signal);
+void    handler_signals(void);
+
 #endif
