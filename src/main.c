@@ -90,10 +90,10 @@ int	main(void)
 		input = readline(prompt);
 		if (!input)
 		{
-			ft_putstr_fd("Loggout...\n", 1);
-			exit(0);
+			printf("exit\n");
 			free(input);
 			free(prompt);
+			exit(0);
 		}
 		if (input[0])
 		{

@@ -16,10 +16,12 @@ void    signal_handler(int signal)
 {
     if (signal == SIGINT)
     {
-        write(0, "\n", 1);
+        if (RL_ISSTATE(RL_STATE_READCMD))
+            ioctl(0, TIOCSTI, "\n");
+        else
+            printf("\n");
         rl_replace_line("", 1);
         rl_on_new_line();
-        rl_redisplay();
     }
     return ;
 }
