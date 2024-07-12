@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <sys/ioctl.h>
 # include <sys/wait.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
@@ -124,5 +125,7 @@ int						break_point_quotes(char c);
 /* handler signals */
 void	signal_handler(int signal);
 void    handler_signals(void);
+
+int check_syntax(t_token *token);
 
 #endif

@@ -13,6 +13,7 @@ EXECUTOR = command_executor.c
 
 PARSER	= analyzer.c\
 			check_input.c\
+			check_syntax.c\
 			expander.c
 
 SIGNALS = handler_signals.c

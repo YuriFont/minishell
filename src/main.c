@@ -92,10 +92,10 @@ int	main(void)
 		input = readline(prompt);
 		if (!input)
 		{
-			ft_putstr_fd("Loggout...\n", 1);
-			exit(0);
+			printf("exit\n");
 			free(input);
 			free(prompt);
+			exit(0);
 		}
 		if (input[0])
 		{
@@ -109,6 +109,14 @@ int	main(void)
 			}
 			fill_struct(input, &mini.token);
 			mark_tokens(mini.token);
+			if (!check_syntax(mini.token))
+			{
+				free(input);
+				free(prompt);
+				free_list(mini.token);
+				mini.token = NULL;
+				continue ;
+			}
 			expander_va(&mini);
 			check_commands(mini.token, &mini.env);
 			free_list(mini.token);

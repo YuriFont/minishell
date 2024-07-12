@@ -18,14 +18,16 @@
 
 void	signal_handler(int signal)
 {
-	if (signal == SIGINT)
-	{
-		write(0, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	return ;
+    if (signal == SIGINT)
+    {
+        if (RL_ISSTATE(RL_STATE_READCMD))
+            ioctl(0, TIOCSTI, "\n");
+        else
+            printf("\n");
+        rl_replace_line("", 1);
+        rl_on_new_line();
+    }
+    return ;
 }
 
 void	handler_signals(void)
