@@ -36,9 +36,7 @@ int	main(void)
 		check_commands(mini.token, &mini.env);
 		free_list(mini.token);
 		mini.token = NULL;
-		free(input);
 		input = NULL;
-		free(prompt);
 	}
 	free_env(mini.env);
 	return (0);

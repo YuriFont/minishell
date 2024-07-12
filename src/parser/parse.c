@@ -15,26 +15,31 @@
 int	checker_parse(t_token *token)
 {
 	mark_tokens(token);
-	//expander_va(token, env);
-	if (check_syntax(token))
+	// expander_va(token, env);
+	if (!check_syntax(token))
 		return (1);
 	return (0);
 }
 
-int parse(char *input, char *prompt, t_minishell *mini)
+int	parse(char *input, char *prompt, t_minishell *mini)
 {
-    if (input[0] != '\n')
-        add_history(input);
-    if (!check_quotes(input))
+	if (input[0] == '\0')
     {
-        printf("Quotes does not close!\n");
-        free(input);
         free(prompt);
-        input = NULL;
+        free_list(mini->token);
         return (1);
     }
-    fill_struct(input, &mini->token);
-    free(input);
-    free(prompt);
-    return (checker_parse(mini->token));
+    add_history(input);
+	if (!check_quotes(input))
+	{
+		printf("Quotes does not close!\n");
+		free(input);
+		free(prompt);
+		input = NULL;
+		return (1);
+	}
+	fill_struct(input, &mini->token);
+	free(input);
+	free(prompt);
+	return (checker_parse(mini->token));
 }
