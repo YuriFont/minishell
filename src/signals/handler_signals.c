@@ -23,14 +23,12 @@ void    signal_handler(int signal)
         rl_replace_line("", 1);
         rl_on_new_line();
     }
-    return ;
 }
 
 void    handler_signals(void)
 {
     struct sigaction    sig;
 
-    signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
 	sig.sa_handler = signal_handler;
 	sigemptyset(&sig.sa_mask);
