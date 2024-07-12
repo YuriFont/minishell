@@ -3,7 +3,7 @@
 
 int	count_of_args(t_token *list)
 {
-	int	i;
+	int		i;
 	t_token	*aux;
 
 	i = 0;
@@ -22,7 +22,7 @@ char	**create_args_options(char *path_command, t_token *token)
 	char	*is_ls;
 	int		count_args;
 	int		i;
-	t_token *aux;
+	t_token	*aux;
 
 	i = 1;
 	aux = token;

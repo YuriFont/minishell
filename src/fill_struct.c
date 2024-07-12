@@ -66,6 +66,7 @@ int	find_last_caracter(char *input, int i)
 		i++;
 	return (i);
 }
+
 int	double_quotes(char *input, int start, t_token **data)
 {
 	int		i;

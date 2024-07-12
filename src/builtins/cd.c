@@ -26,7 +26,6 @@ int	move_to_old_directory(t_env_list *aux)
 	aux) ele adiciona a nova variavel de ambiente
 */
 
-
 int	verify_direction(t_token *directory,
 	t_env_list *env, t_env_list *aux, char *old_dir)
 {

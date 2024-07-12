@@ -10,7 +10,6 @@ void	print_with_echo(t_token *token)
 	t_token	*aux;
 
 	aux = token;
-	int i = 0;
 	if (!aux)
 		return ;
 	while (ft_strncmp(aux->text, "-n", 3) == 0)
@@ -21,7 +20,6 @@ void	print_with_echo(t_token *token)
 		aux = aux->next;
 		if (aux)
 			write(0, " ", 1);
-		i++;
 	}
 }
 

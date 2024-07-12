@@ -36,17 +36,11 @@ int	check_builtins(t_token *token, t_env_list **env)
 		exit(0);
 	}
 	else if (ft_strncmp(token->text, "env", 4) == 0)
-	{
 		print_env_list(*env);
-	}
 	else if (ft_strncmp(token->text, "echo", 5) == 0)
-	{
 		print_echo(token->next);
-	}
 	else if (ft_strncmp(token->text, "export", 7) == 0)
-	{
 		insert_in_env(*env, token->next);
-	}
 	else if (ft_strncmp(token->text, "unset", 6) == 0)
 		remove_variable_env(token->next, env);
 	else

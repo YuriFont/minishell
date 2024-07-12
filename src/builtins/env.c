@@ -98,4 +98,3 @@ void	add_new_variable(t_env_list *env, char *variable, char *value)
 	new_node->next = NULL;
 	aux->next = new_node;
 }
-

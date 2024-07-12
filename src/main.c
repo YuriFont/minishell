@@ -31,8 +31,8 @@ static char	*organize_prompt(char *host, char *name, char *dir)
 
 char	*get_local_of_session(char *host)
 {
-	char *temp;
-	int	i;
+	char	*temp;
+	int		i;
 
 	i = 0;
 	temp = ft_strchr(host, '/') + 1;
@@ -80,7 +80,7 @@ int	main(void)
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-	
+
 	mini.token = NULL;
 	mini.env = get_envp();
 	input = NULL;
@@ -108,6 +108,7 @@ int	main(void)
 				continue ;
 			}
 			fill_struct(input, &mini.token);
+			expander_va(&mini);
 			mark_tokens(mini.token);
 			if (!check_syntax(mini.token))
 			{
@@ -117,7 +118,6 @@ int	main(void)
 				mini.token = NULL;
 				continue ;
 			}
-			expander_va(&mini);
 			check_commands(mini.token, &mini.env);
 			free_list(mini.token);
 			mini.token = NULL;
