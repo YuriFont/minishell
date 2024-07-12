@@ -1,18 +1,18 @@
 #include "../inc/minishell.h"
 
-int	check_is_redirect(t_token *token)
-{
-	t_token	*temp;
+// int	check_is_redirect(t_token *token)
+// {
+// 	t_token	*temp;
 
-	temp = token;
-	while (temp)
-	{
-		if (temp->token == REDIRECT && temp->next != NULL)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
+// 	temp = token;
+// 	while (temp)
+// 	{
+// 		if (temp->token == REDIRECT && temp->next != NULL)
+// 			return (1);
+// 		temp = temp->next;
+// 	}
+// 	return (0);
+// }
 
 void	check_commands(t_token *token, t_env_list **env)
 {
@@ -30,10 +30,7 @@ int	check_builtins(t_token *token, t_env_list **env)
 		printf("%s\n", getcwd(NULL, 0));
 	else if (ft_strncmp(token->text, "exit", 5) == 0)
 	{
-		free_list(token);
-		free_env(*env);
-		rl_clear_history();
-		exit(0);
+		exe_exit(token, *env);
 	}
 	else if (ft_strncmp(token->text, "env", 4) == 0)
 	{

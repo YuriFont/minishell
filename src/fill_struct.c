@@ -38,21 +38,6 @@ static void	append_node(char *input, t_token **data)
 	}
 }
 
-// void	fill_struct(char *input, t_token **data)
-// {
-// 	char **split;
-// 	int i;
-
-// 	split = ft_split(input, ' ');
-// 	i = 0;
-// 	while (split[i])
-// 	{
-// 		append_node(split[i], data);
-// 		i++;
-// 	}
-// 	free(split);
-// }
-
 int	double_quotes(char *input, int start, t_token **data)
 {
 	int		i;

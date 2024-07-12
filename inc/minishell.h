@@ -38,7 +38,10 @@ typedef enum e_command
 	PIPE,
 	BUILTIN,
 	ARGM,
-	REDIRECT,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND,
+	HEREDOC,
 	ENV_VA,
 	WORD
 }						t_command;
@@ -46,6 +49,8 @@ typedef enum e_command
 typedef struct s_token
 {
 	t_command			token;
+	int					fd_in;
+	int					fd_out;
 	char				*text;
 	struct s_token		*next;
 	struct s_token		*prev;
@@ -122,5 +127,10 @@ void	signal_handler(int signal);
 void    handler_signals(void);
 
 int check_syntax(t_token *token);
+
+char	*create_prompt(t_env_list *env);
+void    exe_exit(t_token *token, t_env_list *env);
+int parse(char *input, char *prompt, t_minishell *mini);
+int	check_quotes(char *input);
 
 #endif

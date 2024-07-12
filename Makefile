@@ -11,9 +11,12 @@ BUILTINS = cd.c\
 
 EXECUTOR = command_executor.c
 
+PROMPT = create_prompt.c
+
 PARSER	= analyzer.c\
 			check_input.c\
-			check_syntax.c
+			check_syntax.c\
+			parse.c
 
 SIGNALS = handler_signals.c
 
@@ -28,7 +31,8 @@ FILES = main.c\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
 		$(addprefix utils/, $(UTILS))\
-		$(addprefix signals/, $(SIGNALS))
+		$(addprefix signals/, $(SIGNALS))\
+		$(addprefix prompt/, $(PROMPT))
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
