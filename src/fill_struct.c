@@ -107,7 +107,6 @@ int	add_word(char *input, int start, t_token **data)
 	}
 	str = ft_substr(input, start, i - start);
 	append_node(str, data);
-	// printf("%s\n", input+i);
 	if ((input[i] == 34 || input[i] == 39
 		|| input[i] == '|' || input[i] == '>'
 			|| input[i] == '<') && (ft_strncmp(input + i, ">>", 2) || ft_strncmp(input + i, "<<", 2)))
