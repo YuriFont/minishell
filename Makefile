@@ -13,7 +13,8 @@ EXECUTOR = command_executor.c
 
 PARSER	= analyzer.c\
 			check_input.c\
-			expander.c
+			expander.c\
+			remove_quotes.c
 
 UTILS	= tools.c
 

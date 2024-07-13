@@ -104,6 +104,7 @@ int	main(void)
 			fill_struct(input, &mini.token);
 			mark_tokens(mini.token);
 			expander_va(&mini);
+			remove_quotes(mini.token);
 			check_commands(mini.token, &mini.env);
 			free_list(mini.token);
 			mini.token = NULL;

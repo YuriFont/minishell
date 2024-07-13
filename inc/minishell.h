@@ -120,5 +120,6 @@ int						add_word(char *input, int start, t_token **data);
 
 void					expander_va(t_minishell *mini);
 int						break_point_quotes(char c);
+void					remove_quotes(t_token *token);
 
 #endif

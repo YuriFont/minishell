@@ -3,13 +3,17 @@
 int	verify_node_expander(char *text)
 {
 	int	single_quotes;
+	int	double_quotes;
 	int	i;
 
 	i = 0;
 	single_quotes = 0;
+	double_quotes = 0;
 	while (text[i])
 	{
-		if (text[i] == '\'')
+		if (text[i] == '\"')
+			double_quotes = !double_quotes;
+		if (text[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
 		if (!single_quotes && text[i] == '$')
 			return (1);
@@ -21,11 +25,15 @@ int	verify_node_expander(char *text)
 int	find_dollar(char *text, int i)
 {
 	int	single_quotes;
+	int	double_quotes;
 
 	single_quotes = 0;
+	double_quotes = 0;
 	while (text[i])
 	{
-		if (text[i] == '\'')
+		if (text[i] == '\"')
+			double_quotes = !double_quotes;
+		if (text[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
 		if (!single_quotes && text[i] == '$')
 			return (i);
@@ -42,7 +50,8 @@ char	*get_variable(char *text, int i, t_env_list *env)
 
 	start = i + 1;
 	i++;
-	while (break_point_quotes(text[i]) && (text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$'))
+	while (break_point_quotes(text[i])
+		&& (text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$'))
 		i++;
 	variable = ft_substr(text, start, i - start + 1);
 	content_variable = get_value_in_variable(variable, env);
@@ -56,7 +65,6 @@ char	*get_prev_content(char *result, char *text, int *i)
 {
 	char	*prev;
 	int		prev_i;
-//	char	*temp;
 
 	prev_i = *i;
 	*i = find_dollar(text, *i);
@@ -82,7 +90,8 @@ char	*expander_node(char *text, t_env_list *env)
 		expansor = get_variable(text, i, env);
 		result = ft_strjoinf(result, expansor);
 		free(expansor);
-		while (break_point_quotes(text[i + 1]) && text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$')
+		while (break_point_quotes(text[i + 1])
+			&& text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$')
 			i++;
 		i++;
 	}
