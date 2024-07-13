@@ -19,7 +19,7 @@ int	check_builtins(t_token *token, t_env_list **env)
 	if (ft_strncmp(token->text, "cd", 3) == 0)
 		change_directory(token->next, *env);
 	else if (ft_strncmp(token->text, "pwd", 4) == 0)
-		printf("%s\n", getcwd(NULL, 0));
+		exe_pwd(token);
 	else if (ft_strncmp(token->text, "exit", 5) == 0)
 		exe_exit(token, *env);
 	else if (ft_strncmp(token->text, "env", 4) == 0)

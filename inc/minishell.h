@@ -134,5 +134,6 @@ int parse(char *input, char *prompt, t_minishell *mini);
 int	check_quotes(char *input);
 int	redirection(t_token *token);
 int	get_fd(t_token *token);
+void	exe_pwd(t_token *token);
 
 #endif
