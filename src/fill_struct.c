@@ -12,10 +12,12 @@
 
 #include "../inc/minishell.h"
 
+#include "../inc/minishell.h"
+
 static void	append_node(char *input, t_token **data)
 {
-	t_token *node;
-	t_token *last_node;
+	t_token	*node;
+	t_token	*last_node;
 
 	if (!data)
 		return ;
@@ -40,25 +42,53 @@ static void	append_node(char *input, t_token **data)
 	}
 }
 
+int	find_next_char(int i, char c, char *input)
+{
+	i++;
+	while (input[i] && input[i] != c)
+		i++;
+	return (i);
+}
+
+int	break_point_quotes(char c)
+{
+	if (c != ' ' && c != '\0' && c != '|' && c != '>' && c != '<')
+		return (1);
+	return (0);
+}
+/* 
+	Sem uso 
+*/
+
+int	find_last_caracter(char *input, int i)
+{
+	char	c;
+
+	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+		c = input[i];
+	while (input[i] && input[i] == c)
+		i++;
+	return (i);
+}
 int	double_quotes(char *input, int start, t_token **data)
 {
 	int		i;
-	int		is_letter;
 	char	*str;
 
-	i = start + 1;
-	is_letter = 0;
+	i = start;
 	while (input[i])
 	{
-		if (input[i] == 34 && (input[i + 1] != ' ' && input[i + 1] != '\0' && input[i + 1] != '|'))
+		i = find_next_char(i, 34, input);
+		if (input[i] == 34 && (break_point_quotes(input[i + 1])))
 		{
-			i++;
-			is_letter = 1;
-			continue ;
+			while (input[i] && break_point_quotes(input[i + 1]))
+			{
+				i++;
+				if (input[i] == 34)
+					i = find_next_char(i, 34, input);
+			}
 		}
-		else if ((input[i] == 34
-			&& (input[i + 1] == ' ' || input[i + 1] == '\0'))
-				|| (is_letter && input[i + 1] == ' ') || input[i + 1] == '|')
+		if (!break_point_quotes(input[i + 1]))
 			break ;
 		i++;
 	}
@@ -70,22 +100,22 @@ int	double_quotes(char *input, int start, t_token **data)
 int	sigle_quotes(char *input, int start, t_token **data)
 {
 	int		i;
-	int		is_letter;
 	char	*str;
 
-	i = start + 1;
-	is_letter = 0;
+	i = start;
 	while (input[i])
 	{
-		if (input[i] == 39 && (input[i + 1] != ' ' && input[i + 1] != '\0' && input[i + 1] != '|'))
+		i = find_next_char(i, 39, input);
+		if (input[i] == 39 && (break_point_quotes(input[i + 1])))
 		{
-			i++;
-			is_letter = 0;
-			continue ;
+			while (input[i] && break_point_quotes(input[i + 1]))
+			{
+				i++;
+				if (input[i] == 39)
+					i = find_next_char(i, 39, input);
+			}
 		}
-		else if ((input[i] == 39
-			&& (input[i + 1] == ' ' || input[i + 1] == '\0'))
-				|| (is_letter && input[i + 1] == ' ') || input[i + 1] == '|')
+		if (!break_point_quotes(input[i + 1]))
 			break ;
 		i++;
 	}
@@ -102,6 +132,10 @@ int	add_word(char *input, int start, t_token **data)
 	i = start + 1;
 	while (input[i] && input[i] != ' ')
 	{
+		if (input[i] == 34)
+			i = find_next_char(i, 34, input);
+		else if (input[i] == 39)
+			i = find_next_char(i, 39, input);
 		if (input[i] == '|'
 			|| input[i] == '>' || input[i] == '<')
 			break ;
@@ -110,8 +144,9 @@ int	add_word(char *input, int start, t_token **data)
 	str = ft_substr(input, start, i - start);
 	append_node(str, data);
 	if ((input[i] == 34 || input[i] == 39
-		|| input[i] == '|' || input[i] == '>'
-			|| input[i] == '<') && (ft_strncmp(input + i, ">>", 2) || ft_strncmp(input + i, "<<", 2)))
+			|| input[i] == '|' || input[i] == '>'
+			|| input[i] == '<')
+		&& (ft_strncmp(input + i, ">>", 2) || ft_strncmp(input + i, "<<", 2)))
 		i--;
 	return (i);
 }
@@ -120,7 +155,7 @@ int	add_pipe(char *input, int start, t_token **data)
 {
 	int		i;
 	char	*str;
-	
+
 	i = start + 1;
 	str = ft_substr(input, start, i - start);
 	append_node(str, data);

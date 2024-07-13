@@ -62,7 +62,10 @@ void	exe_commands(t_token *token, t_env_list **env)
 		if (redirection(temp))
 			return ;
 		if (!check_builtins(token, env))
+		{
+			
 			read_command(token, *env);
+		}
 		close_fds(temp);
 		temp = next_command(temp);
     }

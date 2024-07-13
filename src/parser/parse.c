@@ -6,19 +6,20 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:26:59 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/13 18:15:08 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:33:18 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	checker_parse(t_token *token)
+int	checker_parse(t_minishell *mini)
 {
-	mark_tokens(token);
-	// expander_va(token, env);
-	if (!check_syntax(token))
+	mark_tokens(mini->token);
+	expander_va(mini);
+	remove_quotes(mini->token);
+	if (!check_syntax(mini->token))
 	{
-		free_list(token);
+		free_list(mini->token);
 		return (1);
 	}
 	return (0);
@@ -43,5 +44,5 @@ int	parse(char *input, char *prompt, t_minishell *mini)
 	fill_struct(input, &mini->token);
 	free(input);
 	free(prompt);
-	return (checker_parse(mini->token));
+	return (checker_parse(mini));
 }

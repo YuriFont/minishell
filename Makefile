@@ -20,7 +20,9 @@ PROMPT = create_prompt.c
 PARSER	= analyzer.c\
 			check_input.c\
 			check_syntax.c\
-			parse.c
+			parse.c\
+			expander.c\
+			remove_quotes.c
 
 SIGNALS = handler_signals.c
 
