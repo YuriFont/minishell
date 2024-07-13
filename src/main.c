@@ -17,13 +17,14 @@ int	main(void)
 	char		*prompt;
 	char		*input;
 	t_minishell	mini;
-	
-	mini.token = NULL;
+
 	mini.env = get_envp();
-	input = NULL;
 	handler_signals();
 	while (1)
 	{
+		input = NULL;
+		prompt = NULL;
+		mini.token = NULL;
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
 		if (!input)
@@ -33,10 +34,8 @@ int	main(void)
 		}
 		if (parse(input, prompt, &mini))
 			continue ;
-		check_commands(mini.token, &mini.env);
+		exe_commands(mini.token, &mini.env);
 		free_list(mini.token);
-		mini.token = NULL;
-		input = NULL;
 	}
 	free_env(mini.env);
 	return (0);

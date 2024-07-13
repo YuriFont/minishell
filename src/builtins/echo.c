@@ -17,10 +17,10 @@ void	print_with_echo(t_token *token)
 		aux = aux->next;
 	while (aux)
 	{
-		write(0, aux->text, ft_strlen(aux->text));
+		write(aux->fd_out, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)
-			write(0, " ", 1);
+			write(aux->fd_out, " ", 1);
 		i++;
 	}
 }
@@ -40,6 +40,6 @@ void	print_echo(t_token *token)
 	else
 	{
 		print_with_echo(token);
-		write(1, "\n", 1);
+		write(token->fd_out, "\n", 1);
 	}
 }

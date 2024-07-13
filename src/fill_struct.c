@@ -24,6 +24,8 @@ static void	append_node(char *input, t_token **data)
 		return ;
 	node->next = NULL;
 	node->token = 0;
+	node->fd_in = 0;
+	node->fd_out = 1;
 	node->text = input;
 	if (*data == NULL)
 	{

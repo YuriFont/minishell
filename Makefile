@@ -9,7 +9,11 @@ BUILTINS = cd.c\
 			pwd.c\
 			unset.c
 
-EXECUTOR = command_executor.c
+EXECUTOR = command_executor.c\
+			execution.c\
+			input_options.c
+
+REDIRECT = redirect.c
 
 PROMPT = create_prompt.c
 
@@ -26,13 +30,13 @@ FILES = main.c\
 		utils.c\
 		utils_list.c\
 		fill_struct.c\
-		input_options.c\
 		$(addprefix builtins/, $(BUILTINS))\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
 		$(addprefix utils/, $(UTILS))\
 		$(addprefix signals/, $(SIGNALS))\
-		$(addprefix prompt/, $(PROMPT))
+		$(addprefix prompt/, $(PROMPT))\
+		$(addprefix redirect/, $(REDIRECT))
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf

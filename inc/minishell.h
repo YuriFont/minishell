@@ -86,7 +86,7 @@ void					free_env(t_env_list *list);
 
 
 int						check_builtins(t_token *token, t_env_list **env);
-void					check_commands(t_token *token, t_env_list **env);
+void					exe_commands(t_token *token, t_env_list **env);
 void					read_command(t_token *token, t_env_list *env);
 
 
@@ -132,5 +132,6 @@ char	*create_prompt(t_env_list *env);
 void    exe_exit(t_token *token, t_env_list *env);
 int parse(char *input, char *prompt, t_minishell *mini);
 int	check_quotes(char *input);
+int	redirection(t_token *token);
 
 #endif
