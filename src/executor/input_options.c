@@ -1,5 +1,19 @@
 #include "../../inc/minishell.h"
 
+int	get_fd(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		if (temp->fd_out != STDOUT_FILENO)
+			return (temp->fd_out);
+		temp = temp->next;
+	}
+	return (1);
+}
+
 int	check_builtins(t_token *token, t_env_list **env)
 {
 	if (ft_strncmp(token->text, "cd", 3) == 0)

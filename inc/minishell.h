@@ -133,5 +133,6 @@ void    exe_exit(t_token *token, t_env_list *env);
 int parse(char *input, char *prompt, t_minishell *mini);
 int	check_quotes(char *input);
 int	redirection(t_token *token);
+int	get_fd(t_token *token);
 
 #endif
