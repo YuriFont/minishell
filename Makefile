@@ -13,7 +13,8 @@ EXECUTOR = command_executor.c\
 			execution.c\
 			input_options.c
 
-REDIRECT = redirect.c
+REDIRECT = redirect.c\
+			ft_redirections.c
 
 PROMPT = create_prompt.c
 

@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/13 17:46:54 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:58:15 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	redirect_out(t_token *token)
 			if (token->fd_out != STDOUT_FILENO)
 				close(temp->fd_out);
 			if (token->token == REDIRECT_OUT)
-				temp->fd_out = open(token->next->text,
-								O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				redirection_out(temp, token);
 			else
-				temp->fd_out = open(token->next->text,
-								O_WRONLY | O_CREAT | O_APPEND, 0644);
+				redirection_append(temp, token);
 			if (temp->fd_out == -1)
 				return (1);
 		}

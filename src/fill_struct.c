@@ -12,8 +12,6 @@
 
 #include "../inc/minishell.h"
 
-#include "../inc/minishell.h"
-
 static void	append_node(char *input, t_token **data)
 {
 	t_token	*node;
@@ -26,6 +24,7 @@ static void	append_node(char *input, t_token **data)
 		return ;
 	node->next = NULL;
 	node->token = 0;
+	node->fd_bk = 0;
 	node->fd_in = 0;
 	node->fd_out = 1;
 	node->text = input;

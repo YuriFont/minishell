@@ -49,6 +49,7 @@ typedef enum e_command
 typedef struct s_token
 {
 	t_command			token;
+	int					fd_bk;
 	int					fd_in;
 	int					fd_out;
 	char				*text;
@@ -139,5 +140,7 @@ void	expander_va(t_minishell *mini);
 int	break_point_quotes(char c);
 int	find_next_char(int i, char c, char *input);
 void	remove_quotes(t_token *token);
+void    redirection_out(t_token *temp, t_token *token);
+void    redirection_append(t_token *temp, t_token *token);
 
 #endif
