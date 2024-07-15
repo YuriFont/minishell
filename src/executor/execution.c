@@ -17,7 +17,11 @@ void	close_fds(t_token *token)
 	while (token)
 	{
 		if (token->fd_in != STDIN_FILENO)
+		{
+			dup2(token->fd_bk, STDIN_FILENO);
 			close(token->fd_in);
+			close(token->fd_bk);
+		}
 		if (token->fd_out != STDOUT_FILENO)
 		{
 			dup2(token->fd_bk, STDOUT_FILENO);
