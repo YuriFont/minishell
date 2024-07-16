@@ -10,7 +10,6 @@ void	print_with_echo(t_token *token, int fd_out)
 	t_token	*aux;
 
 	aux = token;
-	int i = 0;
 
 	if (!aux)
 		return ;
@@ -24,7 +23,6 @@ void	print_with_echo(t_token *token, int fd_out)
 		aux = aux->next;
 		if (aux)
 			write(fd_out, " ", 1);
-		i++;
 	}
 }
 

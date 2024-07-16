@@ -84,6 +84,7 @@ char	**create_args(char *path_command, t_token *token)
 void	execute_command(char *command, char *path_command, char **argv, char **env)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -91,12 +92,14 @@ void	execute_command(char *command, char *path_command, char **argv, char **env)
 		if (execve(path_command, argv, env) == -1)
 		{
 			printf("%s: command not found\n", command);
+			exit(127);
 		}
-		exit(42);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		wait(NULL);
+		waitpid(pid, &status, 0);
+		exit_status_repository(WEXITSTATUS(status));
 	}
 }
 
