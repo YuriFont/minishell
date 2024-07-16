@@ -25,23 +25,34 @@ int	verify_nome_of_variable_is_valid(char *name)
 	return (1);
 }
 
+char	*get_name_of_variable(char *variable)
+{
+	char	*find_equal;
+	char	*name_variable;
+
+	find_equal = ft_strchr(variable, '=');
+	if (!find_equal)
+		return (NULL);
+	name_variable = ft_substr(variable, 0,
+			ft_strlen(variable) - ft_strlen(find_equal));
+	return (name_variable);
+}
+
 /*
 	Valida apenas o nome da "variavel de ambiente"
 */
 
 char	*valid_new_variable(char *new_variable)
 {
-	char	*find_equal;
 	char	*name_variable;
 
-	find_equal = ft_strchr(new_variable, '=');
-	if (!find_equal)
+	name_variable = get_name_of_variable(new_variable);
+	if (!name_variable)
 		return (NULL);
-	name_variable = ft_substr(new_variable, 0,
-			ft_strlen(new_variable) - ft_strlen(find_equal));
 	if (!verify_nome_of_variable_is_valid(name_variable))
 	{
 		free(name_variable);
+		exit_status_repository(1);
 		return (NULL);
 	}
 	return (name_variable);
@@ -72,6 +83,30 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	return (1);
 }
 
+void	print_export(t_env_list *env)
+{
+	t_env_list	*temp;
+	char		*print_variable;
+	char		*name;
+
+	temp = env;
+	while (temp)
+	{
+		name = get_name_of_variable(temp->variable);
+		print_variable = ft_strdup("declare -x ");
+		print_variable = ft_strjoinf(print_variable, name);
+		print_variable = ft_strjoinf(print_variable, "=\"");
+		print_variable = ft_strjoinf(print_variable,
+				get_value_in_variable(name, env));
+		print_variable = ft_strjoinf(print_variable, "\"");
+		printf("%s\n", print_variable);
+		free(print_variable);
+		free(name);
+		temp = temp->next;
+	}
+	exit_status_repository(0);
+}
+
 /*
 	Inserir uma nova "variavel de ambiente" ao 
 	digitar export + <nome da variavel=conteudo da variavel>,
@@ -85,7 +120,10 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	char	*value;
 
 	if (!token)
+	{
+		print_export(env);
 		return ;
+	}
 	name = valid_new_variable(token->text);
 	if (!name)
 		return ;
@@ -94,4 +132,5 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	value = ft_strchr(token->text, '=') + 1;
 	add_new_variable(env, name, value);
 	free(name);
+	exit_status_repository(0);
 }

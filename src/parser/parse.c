@@ -39,6 +39,7 @@ int	parse(char *input, char *prompt, t_minishell *mini)
 		printf("Quotes does not close!\n");
 		free(input);
 		free(prompt);
+		exit_status_repository(2);
 		return (1);
 	}
 	fill_struct(input, &mini->token);

@@ -140,4 +140,8 @@ int	break_point_quotes(char c);
 int	find_next_char(int i, char c, char *input);
 void	remove_quotes(t_token *token);
 
+/* status */
+int		exit_status_repository(int exit_status);
+char	*get_value_of_exit();
+
 #endif

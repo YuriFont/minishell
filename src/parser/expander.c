@@ -62,10 +62,16 @@ char	*get_variable(char *text, int i, t_env_list *env)
 
 	start = i + 1;
 	i++;
-	while (break_point_quotes(text[i])
+	while (break_point_quotes(text[i + 1])
 		&& (text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$'))
 		i++;
 	variable = ft_substr(text, start, i - start + 1);
+	if (ft_strncmp(variable, "?", 2) == 0)
+	{
+		free(variable);
+		content_variable = get_value_of_exit();
+		return (content_variable);
+	}
 	content_variable = get_value_in_variable(variable, env);
 	free(variable);
 	if (!content_variable)
