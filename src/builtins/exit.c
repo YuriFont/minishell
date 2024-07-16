@@ -14,8 +14,23 @@
 
 void    exe_exit(t_token *token, t_env_list *env)
 {
-    free_list(token);
+	int		exit_code;
+
+	printf("exit\n");
 	free_env(env);
 	rl_clear_history();
-	exit(0);
+	exit_code = 0;
+	if (!token)
+	{
+		free_list(token);
+		exit(exit_code);
+	}
+	if (token->next != NULL)
+	{
+		exit_code = ft_atoi(token->next->text);
+		free_list(token);
+		exit(exit_code);
+	}
+	free_list(token);
+	exit(exit_code);
 }

@@ -1,5 +1,20 @@
 #include "../../inc/minishell.h"
 
+int	check_if_is_quotes(char c, int *single, int *doubleq)
+{
+	if (c == 39)
+	{
+		*doubleq = !(*doubleq);
+		return (1);
+	}
+	else if (c == 34)
+	{
+		*single = !(*single);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_quotes(char *input)
 {
 	int		double_quotes;
@@ -12,21 +27,13 @@ int	check_quotes(char *input)
 	single_quotes = 0;
 	while (input[i])
 	{
-		if (input[i] == 39)
-		{
-			c = input[i];
-			double_quotes = !double_quotes;
-		}
-		if (input[i] == 34)
-		{
-			c = input[i];
-			single_quotes = !single_quotes;
-		}
+		c = input[i];
+		check_if_is_quotes(c, &single_quotes, &double_quotes);
+		if (input[i] == '\0')
+			break ;
 		if (single_quotes || double_quotes)
 		{
-			i++;
-			while (input[i] && input[i] != c)
-				i++;
+			i = find_next_char(i, c, input);
 			if (single_quotes && input[i] == c)
 				single_quotes = !single_quotes;
 			else if (double_quotes && input[i] == c)

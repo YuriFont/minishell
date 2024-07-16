@@ -10,6 +10,7 @@ void	print_env_list(t_env_list *list)
 		printf("%s\n", aux->variable);
 		aux = aux->next;
 	}
+	exit_status_repository(0);
 }
 
 /*
@@ -24,7 +25,10 @@ t_env_list	*get_in_env(char *search, t_env_list *list)
 	while (aux)
 	{
 		if (!ft_strncmp(search, aux->variable, ft_strlen(search)))
-			return (aux);
+		{
+			if (aux->variable[ft_strlen(search)] == '=')
+				return (aux);
+		}
 		aux = aux->next;
 	}
 	return (NULL);
@@ -95,4 +99,3 @@ void	add_new_variable(t_env_list *env, char *variable, char *value)
 	new_node->next = NULL;
 	aux->next = new_node;
 }
-

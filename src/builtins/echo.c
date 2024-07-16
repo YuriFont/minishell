@@ -10,7 +10,6 @@ void	print_with_echo(t_token *token)
 	t_token	*aux;
 
 	aux = token;
-	int i = 0;
 
 	if (!aux)
 		return ;

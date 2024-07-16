@@ -28,10 +28,7 @@ int	main(void)
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
 		if (!input)
-		{
-			printf("exit\n");
 			exe_exit(mini.token, mini.env);
-		}
 		if (parse(input, prompt, &mini))
 			continue ;
 		exe_commands(mini.token, &mini.env);

@@ -26,6 +26,7 @@ void	signal_handler(int signal)
 			printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
+		exit_status_repository(130);
 	}
 }
 
