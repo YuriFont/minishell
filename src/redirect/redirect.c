@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/15 16:21:28 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:13:05 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,20 @@ int	redirect_out(t_token *token)
 	t_token	*temp;
 
 	temp = token;
-	while (temp && temp->token != WORD)
-		temp = temp->next;
-	while (temp && token && token->token != PIPE)
+	while (temp && temp->token != PIPE)
 	{
-		if (token->token == REDIRECT_OUT || token->token == APPEND)
+		if (temp->token == REDIRECT_OUT || temp->token == APPEND)
 		{
-			if (token->fd_out != STDOUT_FILENO)
-				close(temp->fd_out);
-			if (token->token == REDIRECT_OUT)
-				redirection_out(temp, token);
+			if (temp->prev->fd_out != STDOUT_FILENO)
+				close_fds(token);
+			if (temp->token == REDIRECT_OUT)
+				redirection_out(temp);
 			else
-				redirection_append(temp, token);
-			if (temp->fd_out == -1)
+				redirection_append(temp);
+			if (temp->next->fd_out == -1)
 				return (1);
 		}
-		token = token->next;
+		temp = temp->next;
 	}
 	return (0);
 }

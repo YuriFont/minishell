@@ -5,7 +5,7 @@
 	uma quebra de linha
 */
 
-void	print_with_echo(t_token *token, int fd_out)
+void	print_with_echo(t_token *token)
 {
 	t_token	*aux;
 
@@ -20,10 +20,10 @@ void	print_with_echo(t_token *token, int fd_out)
 	{
 		if (aux->token == PIPE || (aux->token > 3 && aux->token < 8))
 			return ;
-		write(fd_out, aux->text, ft_strlen(aux->text));
+		write(1, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)
-			write(fd_out, " ", 1);
+			write(1, " ", 1);
 		i++;
 	}
 }
@@ -38,14 +38,11 @@ void	print_with_echo(t_token *token, int fd_out)
 
 void	print_echo(t_token *token)
 {
-	int	fd_out;
-
-	fd_out = get_fd(token);
 	if (token && ft_strncmp(token->text, "-n", 3) == 0)
-		print_with_echo(token->next, fd_out);
+		print_with_echo(token->next);
 	else
 	{
-		print_with_echo(token, fd_out);
-		write(fd_out, "\n", 1);
+		print_with_echo(token);
+		write(1, "\n", 1);
 	}
 }
