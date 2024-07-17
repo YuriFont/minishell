@@ -81,6 +81,23 @@ char	**create_args(char *path_command, t_token *token)
 	return (args);
 }
 
+void	handle_if_signal(int status)
+{
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+		{
+			printf("Quit\n");
+			exit_status_repository(131);
+		}
+		else if (WTERMSIG(status) == 2)
+		{
+			printf("\n");
+			exit_status_repository(130);
+		}
+	}
+}
+
 void	execute_command(char *command, char *path_command, char **argv, char **env)
 {
 	pid_t	pid;
@@ -101,9 +118,7 @@ void	execute_command(char *command, char *path_command, char **argv, char **env)
 	{
 		waitpid(pid, &status, 0);
 		exit_status_repository(WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
-			if (WTERMSIG(status) == 3)
-				printf("Quit\n");
+		handle_if_signal(status);
 	}
 }
 
