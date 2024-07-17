@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/07/13 20:12:14 by yufonten          #+#    #+#             */
 /*   Updated: 2024/07/13 20:12:14 by yufonten         ###   ########.fr       */
 /*                                                                            */
@@ -62,11 +65,11 @@ char	*get_variable(char *text, int i, t_env_list *env)
 
 	start = i + 1;
 	i++;
-	while (break_point_quotes(text[i + 1])
-		&& (text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$'))
+	while (break_point_quotes(text[i + 1]) && (text[i + 1] != '\''
+			&& text[i + 1] != '\"' && text[i + 1] != '$'))
 		i++;
 	variable = ft_substr(text, start, i - start + 1);
-	if (ft_strncmp(variable, "?", 2) == 0)
+	if (ft_strncmp(variable, "?", 1) == 0)
 	{
 		free(variable);
 		content_variable = get_value_of_exit();
@@ -92,6 +95,22 @@ char	*get_prev_content(char *result, char *text, int *i)
 	return (result);
 }
 
+int	get_next_content_after_expander(char *text, int *i)
+{
+	if (text[*i + 1] != '\0' && text[*i] == '$' && text[*i + 1] == '?')
+	{
+		*i += 2;
+		return (0);
+	}
+	else
+	{
+		while (break_point_quotes(text[*i + 1]) && text[*i + 1] != '\''
+			&& text[*i + 1] != '\"' && text[*i + 1] != '$')
+			*i += 1;
+	}
+	return (1);
+}
+
 char	*expander_node(char *text, t_env_list *env)
 {
 	char	*result;
@@ -108,9 +127,8 @@ char	*expander_node(char *text, t_env_list *env)
 		expansor = get_variable(text, i, env);
 		result = ft_strjoinf(result, expansor);
 		free(expansor);
-		while (break_point_quotes(text[i + 1])
-			&& text[i + 1] != '\'' && text[i + 1] != '\"' && text[i + 1] != '$')
-			i++;
+		if (!get_next_content_after_expander(text, &i))
+			continue ;
 		i++;
 	}
 	free(text);

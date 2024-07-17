@@ -89,6 +89,7 @@ void	execute_command(char *command, char *path_command, char **argv, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(path_command, argv, env) == -1)
 		{
 			printf("%s: command not found\n", command);
@@ -100,6 +101,9 @@ void	execute_command(char *command, char *path_command, char **argv, char **env)
 	{
 		waitpid(pid, &status, 0);
 		exit_status_repository(WEXITSTATUS(status));
+		if (WIFSIGNALED(status))
+			if (WTERMSIG(status) == 3)
+				printf("Quit\n");
 	}
 }
 
