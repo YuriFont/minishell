@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/16 20:52:47 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:22:47 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,27 @@
 
 void    redirection_in(t_token *temp)
 {
-    temp->next->fd_in = open(temp->next->text, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    temp->next->fd_in = open(temp->next->text,
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
     temp->next->fd_bk = dup(STDIN_FILENO);
     dup2(temp->next->fd_out, STDIN_FILENO);
+}
+
+void    heredoc(t_token *temp)
+{
+    char    *input;
+
+    while (1)
+    {
+		input = NULL;
+        input = readline("> ");
+        if (!input || !ft_strncmp(temp->next->text, input, ft_strlen(input) + 1))
+            break ;
+		else
+			free(input);
+    }
+	if (input)
+		free(input);
 }
 
 void    redirection_out(t_token *temp)
