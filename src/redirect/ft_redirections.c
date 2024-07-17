@@ -6,17 +6,17 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/16 15:18:09 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:52:47 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    redirection_in(t_token *temp, t_token *token)
+void    redirection_in(t_token *temp)
 {
-    temp->fd_in = open(token->next->text, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    temp->fd_bk = dup(STDIN_FILENO);
-    dup2(temp->fd_out, STDIN_FILENO);
+    temp->next->fd_in = open(temp->next->text, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    temp->next->fd_bk = dup(STDIN_FILENO);
+    dup2(temp->next->fd_out, STDIN_FILENO);
 }
 
 void    redirection_out(t_token *temp)

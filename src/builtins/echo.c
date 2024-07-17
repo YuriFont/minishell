@@ -23,7 +23,6 @@ void	print_with_echo(t_token *token)
 		aux = aux->next;
 		if (aux)
 			write(1, " ", 1);
-		i++;
 	}
 }
 

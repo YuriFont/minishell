@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/16 15:13:05 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/16 21:03:13 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,29 @@ int	redirect_in(t_token *token)
 	t_token	*temp;
 
 	temp = token;
-	while (temp && temp->token != WORD)
-		temp = temp->next;
-	while (token && temp && token->token != PIPE)
+	while (temp && temp->token != PIPE)
 	{
-		if (token->token == REDIRECT_IN)
+		if (temp->token == REDIRECT_IN)
 		{
-			if (!access(token->next->text, F_OK | R_OK))
-				redirection_in(temp, token);
+			if (!access(temp->next->text, F_OK | R_OK))
+				redirection_in(temp);
 			else
 			{
-				printf("bash: %s: No such file or directory\n",
-						token->next->text);
+				printf("bash: %s: No such file or", temp->next->text);
+				printf(" directory || Permission denied\n");
+				exit_status_repository(1);
 				return (1);
 			}
 		}
 		//else if (token->token == HEREDOC)
-		token = token->next;
+		temp = temp->next;
 	}
 	return (0);
 }
 
 int	redirection(t_token *token)
 {
-	if (redirect_out(token))
+	if (redirect_out(token) || redirect_in(token))
 		return (1);
 	return (0);
 }

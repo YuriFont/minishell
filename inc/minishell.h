@@ -139,7 +139,9 @@ int	find_next_char(int i, char c, char *input);
 void	remove_quotes(t_token *token);
 void    redirection_out(t_token *temp);
 void    redirection_append(t_token *temp);
-void    redirection_in(t_token *temp, t_token *token);
+void    redirection_in(t_token *temp);
 void	close_fds(t_token *token);
+int		exit_status_repository(int exit_status);
+char	*get_value_of_exit();
 
 #endif

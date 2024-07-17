@@ -8,7 +8,7 @@ int	count_of_args(t_token *list)
 
 	i = 0;
 	aux = list;
-	while (aux && aux->text[0] != '|')
+	while (aux && aux->token != PIPE && !(aux->token >= 4 && aux->token <= 7))
 	{
 		aux = aux->next;
 		i++;
