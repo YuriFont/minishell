@@ -126,23 +126,22 @@ void					handler_signals(void);
 
 int						check_syntax(t_token *token);
 
-char					*create_prompt(t_env_list *env);
-void					exe_exit(t_token *token, t_env_list *env);
-int						parse(char *input, char *prompt, t_minishell *mini);
-int						check_quotes(char *input);
-int						redirection(t_token *token);
-int						get_fd(t_token *token);
-void					exe_pwd(t_token *token);
-void					expander_va(t_minishell *mini);
-int						break_point_quotes(char c);
-int						find_next_char(int i, char c, char *input);
-void					remove_quotes(t_token *token);
-void					redirection_out(t_token *temp, t_token *token);
-void					redirection_append(t_token *temp, t_token *token);
-void					redirection_in(t_token *temp, t_token *token);
-
-/* status */
-int						exit_status_repository(int exit_status);
-char					*get_value_of_exit(void);
+char	*create_prompt(t_env_list *env);
+void    exe_exit(t_token *token, t_env_list *env);
+int parse(char *input, char *prompt, t_minishell *mini);
+int	check_quotes(char *input);
+int	redirection(t_token *token);
+int	get_fd(t_token *token);
+void	exe_pwd(t_token *token);
+void	expander_va(t_minishell *mini);
+int	break_point_quotes(char c);
+int	find_next_char(int i, char c, char *input);
+void	remove_quotes(t_token *token);
+void    redirection_out(t_token *temp);
+void    redirection_append(t_token *temp);
+void    redirection_in(t_token *temp);
+void	close_fds(t_token *token);
+int		exit_status_repository(int exit_status);
+char	*get_value_of_exit();
 
 #endif

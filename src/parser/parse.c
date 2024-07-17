@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:26:59 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/13 20:33:18 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/16 21:58:47 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int	parse(char *input, char *prompt, t_minishell *mini)
         return (1);
     }
     add_history(input);
-	if (!check_quotes(input))
+	if (!check_input(input))
 	{
-		printf("Quotes does not close!\n");
 		free(input);
 		free(prompt);
 		exit_status_repository(2);
