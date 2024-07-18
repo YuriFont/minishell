@@ -122,6 +122,23 @@ void	execute_command(char *command, char *path_command, char **argv, char **env)
 	}
 }
 
+int	is_absolute_path(t_token *token, t_env_list *list)
+{
+	char	**argv;
+	char	**env;
+	t_token *temp;
+
+	temp = token;
+	if (temp->text[0] != '/')
+		return (0);
+	argv = create_args_options(temp->text, temp->next);
+	env = env_to_matriz(list);
+	execute_command(temp->text, temp->text, argv, env);
+	free_matriz(env);
+	free_matriz(argv);
+	return (1);
+}
+
 void	read_command(t_token *token, t_env_list *list)
 {
 	char	**env;
@@ -130,6 +147,8 @@ void	read_command(t_token *token, t_env_list *list)
 	char	*path_command;
 	char	**argv;
 
+	if (is_absolute_path(token, list))
+		return ;
 	i = 0;
 	argv = NULL;
 	env = env_to_matriz(list);

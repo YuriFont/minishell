@@ -119,3 +119,28 @@ char	*get_value_of_exit()
 	exit_code = ft_itoa(exit_value);
 	return (exit_code);
 }
+
+int	mini_atoi(char *number)
+{
+	int		i;
+	int		signal;
+	int		nb;
+
+	i = 0;
+	signal = 0;
+	nb = 0;
+	if (number[i] == '-' || number[i] == '+')
+	{
+		if (number[i] == '-')
+			signal = 1;
+		i++;
+	}
+	while (number[i] && i < 3)
+	{
+		nb = nb * 10 + (number[i] - '0');
+		i++;
+	}
+	if (signal)
+		nb = nb * -1;
+	return (nb);
+}

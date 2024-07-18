@@ -10,7 +10,6 @@ void	print_with_echo(t_token *token)
 	t_token	*aux;
 
 	aux = token;
-
 	if (!aux)
 		return ;
 	while (ft_strncmp(aux->text, "-n", 3) == 0)
@@ -43,4 +42,5 @@ void	print_echo(t_token *token)
 		print_with_echo(token);
 		write(1, "\n", 1);
 	}
+	exit_status_repository(0);
 }

@@ -39,6 +39,8 @@ int	check_quotes(char *input)
 			else if (double_quotes && input[i] == c)
 				double_quotes = !double_quotes;
 		}
+			if (input[i] == '\0')
+			break ;
 		i++;
 	}
 	if (double_quotes || single_quotes)

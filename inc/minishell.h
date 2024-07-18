@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -127,7 +128,7 @@ void					handler_signals(void);
 int						check_syntax(t_token *token);
 
 char	*create_prompt(t_env_list *env);
-void    exe_exit(t_token *token, t_env_list *env);
+void    exe_exit(t_token *token, t_env_list *env, char *prompt, int is_command);
 int parse(char *input, char *prompt, t_minishell *mini);
 int	check_quotes(char *input);
 int	redirection(t_token *token);
@@ -143,5 +144,6 @@ void    redirection_in(t_token *temp);
 void	close_fds(t_token *token);
 int		exit_status_repository(int exit_status);
 char	*get_value_of_exit();
+int		mini_atoi(char *number);
 
 #endif
