@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-long	ft_atoll(const char *nptr)
+long long	ft_atoll(const char *nptr)
 {
 	long long	resp;
 	long		signal;

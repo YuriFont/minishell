@@ -47,20 +47,15 @@ void	exec_exit_is_many_arguments(t_token *token)
 
 int	is_overflow(long long exit_code, char *number)
 {
-	int	mini_nb;
+	int		mini_nb;
+	int		mini_exit;
+	char	*exit_convert;
 
+	exit_convert = ft_ltoa(exit_code);
 	mini_nb = mini_atoi(number);
-	if (mini_nb > 0)
-	{
-		if (exit_code > mini_nb)
-			return (0);
-	}
-	else if (mini_nb < 0)
-	{
-		if (mini_nb > exit_code)
-			return (0);
-	}
-	else if (exit_code == 0 && mini_nb == 0)
+	mini_exit = mini_atoi(exit_convert);
+	free(exit_convert);
+	if (mini_nb == mini_exit)
 		return (0);
 	return (1);
 }
@@ -76,11 +71,8 @@ void	exit_with_arguments(t_token *token)
 	else
 	{
 		exit_code = ft_atoll(token->next->text);
-		printf("%lld\n", exit_code);
 		if (is_overflow(exit_code, token->next->text))
-		{
 			exec_exit_is_not_numeric(token);
-		}
 		free_list(token);
 		exit(exit_code);
 	}

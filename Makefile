@@ -27,7 +27,8 @@ PARSER	= analyzer.c\
 
 SIGNALS = handler_signals.c
 
-UTILS	= tools.c
+UTILS	= tools.c\
+			ft_ltoa.c
 
 FILES = main.c\
 		utils.c\

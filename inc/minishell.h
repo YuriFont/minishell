@@ -145,5 +145,6 @@ void	close_fds(t_token *token);
 int		exit_status_repository(int exit_status);
 char	*get_value_of_exit();
 int		mini_atoi(char *number);
+char	*ft_ltoa(long long n);
 
 #endif
