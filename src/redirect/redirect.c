@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/17 14:00:52 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:44:16 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	redirect_in(t_token *token)
 			}
 		}
 		else if (temp->token == HEREDOC)
-			heredoc(temp);
+			temp->fd_in = heredoc(temp);
 		temp = temp->next;
 	}
 	return (0);
