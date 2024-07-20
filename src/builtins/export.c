@@ -122,6 +122,7 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	if (!token)
 	{
 		print_export(env);
+		exit_status_repository(0);
 		return ;
 	}
 	name = valid_new_variable(token->text);

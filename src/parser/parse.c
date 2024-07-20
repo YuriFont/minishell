@@ -28,12 +28,12 @@ int	checker_parse(t_minishell *mini)
 int	parse(char *input, char *prompt, t_minishell *mini)
 {
 	if (input[0] == '\0')
-    {
-        free(prompt);
-        free_list(mini->token);
-        return (1);
-    }
-    add_history(input);
+	{
+		free(prompt);
+		free_list(mini->token);
+		return (1);
+	}
+	add_history(input);
 	if (!check_input(input))
 	{
 		free(input);

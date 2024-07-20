@@ -7,6 +7,7 @@ int	move_to_old_directory(t_env_list *aux)
 	if (!aux)
 	{
 		printf("cd :  OLDPWD not set\n");
+		exit_status_repository(1);
 		return (0);
 	}
 	directory = ft_strchr(aux->variable, '=') + 1;
@@ -25,7 +26,6 @@ int	move_to_old_directory(t_env_list *aux)
 	se oldpwd não existe (que esta armazenado na variavel
 	aux) ele adiciona a nova variavel de ambiente
 */
-
 
 int	verify_direction(t_token *directory,
 	t_env_list *env, t_env_list *aux, char *old_dir)
@@ -89,14 +89,25 @@ void	change_directory(t_token *directory, t_env_list *env)
 
 	if (directory == NULL)
 	{
-		dir = getenv("HOME");
+		dir = get_value_in_variable("HOME", env);
+		if (!dir)
+		{
+			printf("minishell: cd: HOME not set\n");
+			exit_status_repository(1);
+			return ;
+		}
 		chdir(dir);
+		exit_status_repository(0);
 	}
 	else if (directory->next == NULL)
 	{
 		if (!move_to_directory(directory, env))
 			return ;
+		exit_status_repository(0);
 	}
 	else
+	{
 		printf("too many arguments\n");
+		exit_status_repository(1);
+	}
 }
