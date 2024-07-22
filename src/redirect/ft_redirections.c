@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/19 15:44:34 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:20:50 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	redirection_in(t_token *temp)
 	close(temp->next->fd_in);
 }
 
-int	heredoc(t_token *temp)
+void	heredoc(t_token *temp)
 {
 	char	*input;
-	int		fd[2];
+	int		fd_hd;
 
-	pipe(fd);
+	fd_hd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
 		input = NULL;
@@ -34,15 +34,18 @@ int	heredoc(t_token *temp)
 			break ;
 		else
 		{
-			write(fd[1], input, ft_strlen(input));
-			write(fd[1], "\n", 1);
+			write(fd_hd, input, ft_strlen(input));
+			write(fd_hd, "\n", 1);
 			free(input);
 		}
     }
 	if (input)
 		free(input);
-	close(fd[1]);
-	return (fd[0]);
+	close(fd_hd);
+	temp->fd_in = open(".heredoc", O_RDONLY);
+	temp->fd_bk = dup(STDIN_FILENO);
+	dup2(temp->fd_in, STDIN_FILENO);
+	close(temp->fd_in); 
 }
 
 void	redirection_out(t_token *temp)

@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/19 15:44:16 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:36:21 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	redirect_in(t_token *token)
 			}
 		}
 		else if (temp->token == HEREDOC)
-			temp->fd_in = heredoc(temp);
+			heredoc(temp);
 		temp = temp->next;
 	}
 	return (0);
@@ -63,7 +63,7 @@ int	redirect_in(t_token *token)
 
 int	redirection(t_token *token)
 {
-	if (redirect_out(token) || redirect_in(token))
+	if (redirect_in(token) || redirect_out(token))
 		return (1);
 	return (0);
 }

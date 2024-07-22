@@ -143,6 +143,6 @@ void    redirection_in(t_token *temp);
 void	close_fds(t_token *token);
 int		exit_status_repository(int exit_status);
 char	*get_value_of_exit(void);
-int    heredoc(t_token *temp);
+void	heredoc(t_token *temp);
 
 #endif
