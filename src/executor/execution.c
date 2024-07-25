@@ -50,6 +50,17 @@ int	has_pipe(t_token *token)
 	return (0);
 }
 
+void	executa_isso(t_token *temp, t_env_list **env)
+{
+	if (redirection(temp))
+		return ;
+	if (!check_builtins(temp, env))
+	{
+		read_command(temp, *env);
+	}
+	close_fds(temp);
+}
+
 t_token	*next_command(t_token *token)
 {
 	while (token)
@@ -61,13 +72,79 @@ t_token	*next_command(t_token *token)
 	return (token);
 }
 
+void execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
+{
+	int fd[2];
+	int pid;
+	int	status;
+
+	if (next_command(token) == NULL)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			if (prev_fdin != 0) 
+			{
+				dup2(prev_fdin, STDIN_FILENO);
+				close(prev_fdin);
+			}
+			executa_isso(token, env);
+			read_command(token, *env);
+			exit(1);
+		}
+		else
+		{
+			close(prev_fdin);
+			waitpid(pid, &status, 0);
+			// exit(status);
+			return ;
+		}
+	}
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		if (prev_fdin != 0)
+		{
+			dup2(prev_fdin, STDIN_FILENO);
+			close(prev_fdin);
+		}
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		executa_isso(token, env);
+		//read_command(token, *env);
+		exit(1);
+	}
+	else
+	{
+		close(fd[1]);
+		if (prev_fdin != 0)
+			close(prev_fdin);
+		execute_pipe(next_command(token), env, fd[0]);
+		waitpid(pid, &status, 0);
+		return ;
+	}
+}
+
 void	exe_commands(t_token *token, t_env_list **env)
 {
 	int		have_pipe;
 	t_token	*temp;
+	int pid;
+	int status;
 
 	temp = token;
 	have_pipe = has_pipe(token);
+	if (have_pipe)
+	{
+		pid = fork();
+		if (pid == 0)
+			execute_pipe(token, env, 0);
+		else
+			while (waitpid(-1, &status, WNOHANG) != -1) ;
+		return ;
+	}
 	(void)have_pipe;
 	while (temp)
 	{
@@ -75,9 +152,12 @@ void	exe_commands(t_token *token, t_env_list **env)
 			return ;
 		if (!check_builtins(token, env))
 		{
-			read_command(token, *env);
+			pid = fork();
+			if (pid == 0)
+				read_command(token, *env);
+			waitpid(pid, &status, 0);
 		}
 		close_fds(temp);
-		temp = next_command(temp);
+	//	temp = next_command(temp);
 	}
 }
