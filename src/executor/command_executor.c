@@ -100,26 +100,26 @@ void	handle_if_signal(int status)
 
 void	execute_command(char *command, char *path_command, char **argv, char **env)
 {
-	// pid_t	pid;
-	// int		status;
+	pid_t	pid;
+	int		status;
 
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	// 	signal(SIGQUIT, SIG_DFL);
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(path_command, argv, env) == -1)
 		{
 			printf("%s: command not found\n", command);
 			exit(127);
 		}
 		exit(EXIT_FAILURE);
-	// }
-	// else
-	// {
-	// 	waitpid(pid, &status, 0);
-	// 	exit_status_repository(WEXITSTATUS(status));
-	// 	handle_if_signal(status);
-	// }
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		exit_status_repository(WEXITSTATUS(status));
+		handle_if_signal(status);
+	}
 }
 
 int	is_absolute_path(t_token *token, t_env_list *list)
@@ -172,15 +172,15 @@ void	read_command(t_token *token, t_env_list *list)
 			path_command = ft_strjoinf(path_command, token->text);
 		}
 	}
-	// free(path_command);
-	// if (!argv)
-	// {
-	// 	path_command = ft_strjoinf(getcwd(NULL, 0), "/");
-	// 	path_command = ft_strjoinf(path_command, token->text);
-	// 	argv = create_args(path_command, token);
-	// 	execute_command(token->text, path_command, argv, env);
-	// 	free(path_command);
-	// }
+	free(path_command);
+	if (!argv)
+	{
+		path_command = ft_strjoinf(getcwd(NULL, 0), "/");
+		path_command = ft_strjoinf(path_command, token->text);
+		argv = create_args(path_command, token);
+		execute_command(token->text, path_command, argv, env);
+		free(path_command);
+	}
 	free_matriz(path);
 	free_matriz(env);
 	free_matriz(argv);

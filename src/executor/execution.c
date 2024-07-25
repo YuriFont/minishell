@@ -89,7 +89,7 @@ void execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				close(prev_fdin);
 			}
 			executa_isso(token, env);
-			read_command(token, *env);
+		//	read_command(token, *env);
 			exit(1);
 		}
 		else
@@ -127,37 +127,41 @@ void execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	}
 }
 
-void	exe_commands(t_token *token, t_env_list **env)
+void	exe_commands(t_minishell	*mini)
 {
 	int		have_pipe;
 	t_token	*temp;
 	int pid;
 	int status;
 
-	temp = token;
-	have_pipe = has_pipe(token);
+	temp = mini->token;
+	have_pipe = has_pipe(temp);
 	if (have_pipe)
 	{
 		pid = fork();
 		if (pid == 0)
-			execute_pipe(token, env, 0);
+			execute_pipe(temp, &mini->env, 0);
 		else
 			while (waitpid(-1, &status, WNOHANG) != -1) ;
+		if (get_my_pid() != mini->my_pid)
+			kill(get_my_pid(), SIGKILL);
 		return ;
 	}
 	(void)have_pipe;
-	while (temp)
-	{
-		if (redirection(temp))
-			return ;
-		if (!check_builtins(token, env))
-		{
-			pid = fork();
-			if (pid == 0)
-				read_command(token, *env);
-			waitpid(pid, &status, 0);
-		}
-		close_fds(temp);
+	// while (temp)
+	// {
+
+	 executa_isso(temp, &mini->env);
+		// if (redirection(temp))
+		// 	return ;
+		// if (!check_builtins(token, env))
+		// {
+		// 	pid = fork();
+		// 	if (pid == 0)
+		// 		read_command(token, *env);
+		// 	waitpid(pid, &status, 0);
+		// }
+		// close_fds(temp);
 	//	temp = next_command(temp);
-	}
+//	}
 }

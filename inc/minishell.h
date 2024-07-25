@@ -68,6 +68,7 @@ typedef struct s_minishell
 {
 	t_env_list			*env;
 	t_token				*token;
+	int 				my_pid;
 }						t_minishell;
 
 /* utils.c */
@@ -87,7 +88,7 @@ void					free_list(t_token *list);
 void					free_env(t_env_list *list);
 
 int						check_builtins(t_token *token, t_env_list **env);
-void					exe_commands(t_token *token, t_env_list **env);
+void					exe_commands(t_minishell *mini);
 void					read_command(t_token *token, t_env_list *env);
 
 void					print_env_list(t_env_list *list);
@@ -146,5 +147,6 @@ int		exit_status_repository(int exit_status);
 char	*get_value_of_exit();
 int		mini_atoi(char *number);
 char	*ft_ltoa(long long n);
+int		get_my_pid();
 
 #endif
