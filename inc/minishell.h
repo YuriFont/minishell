@@ -144,10 +144,15 @@ void    redirection_append(t_token *temp);
 void    redirection_in(t_token *temp);
 void	close_fds(t_token *token);
 int		exit_status_repository(int exit_status);
+<<<<<<< HEAD
 char	*get_value_of_exit();
 int		mini_atoi(char *number);
 char	*ft_ltoa(long long n);
 int		get_my_pid();
 int	everything_is_space(char *input);
+=======
+char	*get_value_of_exit(void);
+void	heredoc(t_token *temp);
+>>>>>>> yufontenV2
 
 #endif

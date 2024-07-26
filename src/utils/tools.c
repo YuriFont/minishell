@@ -110,7 +110,7 @@ int		exit_status_repository(int exit_status)
 	return (status);
 }
 
-char	*get_value_of_exit()
+char	*get_value_of_exit(void)
 {
 	int		exit_value;
 	char	*exit_code;

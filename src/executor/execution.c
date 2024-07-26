@@ -34,6 +34,7 @@ void	close_fds(t_token *token)
 		}
 		token = token->next;
 	}
+	unlink(".heredoc");
 }
 
 int	has_pipe(t_token *token)
