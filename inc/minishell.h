@@ -148,5 +148,6 @@ char	*get_value_of_exit();
 int		mini_atoi(char *number);
 char	*ft_ltoa(long long n);
 int		get_my_pid();
+int	everything_is_space(char *input);
 
 #endif

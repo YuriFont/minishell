@@ -57,3 +57,17 @@ int	get_my_pid()
 	resp = NULL;
 	return (pid);
 }
+
+int	everything_is_space(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ' && input[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
