@@ -51,10 +51,13 @@ int	has_pipe(t_token *token)
 	return (0);
 }
 
-void	executa_isso(t_token *temp, t_env_list **env)
+void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 {
-	if (redirection(temp))
-		return ;
+	if (is_pipe)
+	{
+		if (redirection(temp))
+			return ;
+	}
 	if (!check_builtins(temp, env))
 	{
 		read_command(temp, *env);
@@ -78,9 +81,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int fd[2];
 	int pid;
 	int	status;
-	int stdina;
 
-	stdina = dup(STDIN_FILENO);
+	redirection(token);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
@@ -92,7 +94,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				dup2(prev_fdin, STDIN_FILENO);
 			}
 			close(prev_fdin);
-			executa_isso(token, env);
+			executa_isso(token, env, 0);
 		//	read_command(token, *env);
 			exit(exit_status_repository(-1));
 		}
@@ -118,7 +120,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		}
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		executa_isso(token, env);
+		executa_isso(token, env, 0);
 		//read_command(token, *env);
 		exit(1);
 	}
@@ -128,8 +130,6 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		if (prev_fdin != 0)
 			close(prev_fdin);
 		execute_pipe(next_command(token), env, fd[0]);
-		dup2(stdina, STDIN_FILENO);
-		close(stdina);
 		while (waitpid(-1, &status, WNOHANG) != -1) ;
 		exit_status_repository(WEXITSTATUS(status));
 		return (WEXITSTATUS(status));
@@ -170,7 +170,7 @@ void	exe_commands(t_minishell	*mini)
 	// while (temp)
 	// {
 
-	 executa_isso(temp, &mini->env);
+	 executa_isso(temp, &mini->env, 1);
 		// if (redirection(temp))
 		// 	return ;
 		// if (!check_builtins(token, env))

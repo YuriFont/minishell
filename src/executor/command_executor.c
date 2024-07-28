@@ -100,15 +100,10 @@ char	**create_args_options(char *path_command, t_token *token)
         aux = aux->next;
         while ((i < (count_args)) && aux)
 		{
-			args[i] = ft_strdup(aux->text);
-             printf("%s\n", aux->text);
+			args[i++] = ft_strdup(aux->text);
             aux = aux->next;
-            i++;
 		}
-   //             printf("%s\n", args[0]);
-   //      printf("%s\n", args[1]);
-            args[i] = NULL;
-            printf("%s   %d\n", args[i], i);
+        args[i] = NULL;
 	}
 	return (args);
 }
