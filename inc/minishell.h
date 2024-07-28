@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,6 +68,7 @@ typedef struct s_minishell
 {
 	t_env_list			*env;
 	t_token				*token;
+	int 				my_pid;
 }						t_minishell;
 
 /* utils.c */
@@ -86,7 +88,7 @@ void					free_list(t_token *list);
 void					free_env(t_env_list *list);
 
 int						check_builtins(t_token *token, t_env_list **env);
-void					exe_commands(t_token *token, t_env_list **env);
+void					exe_commands(t_minishell *mini);
 void					read_command(t_token *token, t_env_list *env);
 
 void					print_env_list(t_env_list *list);
@@ -127,7 +129,7 @@ void					handler_signals(void);
 int						check_syntax(t_token *token);
 
 char	*create_prompt(t_env_list *env);
-void    exe_exit(t_token *token, t_env_list *env);
+void    exe_exit(t_token *token, t_env_list *env, char *prompt, int is_command);
 int parse(char *input, char *prompt, t_minishell *mini);
 int	check_quotes(char *input);
 int	redirection(t_token *token);
@@ -142,6 +144,11 @@ void    redirection_append(t_token *temp);
 void    redirection_in(t_token *temp);
 void	close_fds(t_token *token);
 int		exit_status_repository(int exit_status);
+char	*get_value_of_exit();
+int		mini_atoi(char *number);
+char	*ft_ltoa(long long n);
+int		get_my_pid();
+int	everything_is_space(char *input);
 char	*get_value_of_exit(void);
 void	heredoc(t_token *temp, int hd);
 

@@ -19,6 +19,7 @@ int	main(void)
 	t_minishell	mini;
 
 	mini.env = get_envp();
+	mini.my_pid = get_my_pid();
 	handler_signals();
 	while (1)
 	{
@@ -28,10 +29,10 @@ int	main(void)
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
 		if (!input)
-			exe_exit(mini.token, mini.env);
+			exe_exit(mini.token, mini.env, prompt, 0);
 		if (parse(input, prompt, &mini))
 			continue ;
-		exe_commands(mini.token, &mini.env);
+		exe_commands(&mini);
 		free_list(mini.token);
 	}
 	free_env(mini.env);

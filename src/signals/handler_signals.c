@@ -22,8 +22,6 @@ void	signal_handler(int signal)
 	{
 		if (RL_ISSTATE(RL_STATE_READCMD))
 			ioctl(0, TIOCSTI, "\n");
-		else
-			printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		exit_status_repository(130);

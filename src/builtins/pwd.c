@@ -17,4 +17,5 @@ void	exe_pwd(t_token *token)
 	(void)token;
 	ft_putstr_fd(getcwd(NULL, 0), 1);
 	ft_putstr_fd("\n", 1);
+	exit_status_repository(0);
 }

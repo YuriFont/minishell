@@ -31,8 +31,9 @@ static char	*organize_prompt(char *host, char *name, char *dir)
 
 char	*get_local_of_session(char *host)
 {
-	char *temp;
-	int	i;
+	char	*temp;
+	char	*resul_of_session;
+	int		i;
 
 	i = 0;
 	temp = ft_strchr(host, '/') + 1;
@@ -40,30 +41,77 @@ char	*get_local_of_session(char *host)
 	{
 		if (temp[i] == '.')
 		{
-			temp[i] = '\0';
+			resul_of_session = ft_substr(temp, 0, i);
 			break ;
 		}
 		i++;
 	}
-	return (temp);
+	return (resul_of_session);
 }
 
-char	*create_prompt(t_env_list *env)
+char	*get_host_name(t_env_list *env)
 {
-	char	*prompt;
 	char	*host;
-	char	*name;
-	char	*dir;
-	char	*name_dir;
 
 	host = get_value_in_variable("SESSION_MANAGER", env);
 	if (host)
 		host = get_local_of_session(host);
 	else
 		host = get_value_in_variable("LOGNAME", env);
+	if (!host)
+		host = ft_strdup("");
+	else
+		host = ft_strdup(host);
+	return (host);
+}
+
+char	*get_username(t_env_list *env)
+{
+	char	*name;
+
 	name = get_value_in_variable("NAME", env);
 	if (!name)
 		name = get_value_in_variable("USER", env);
+	if (!name)
+		name = ft_strdup("");
+	else
+		name = ft_strdup(name);
+	return (name);
+}
+
+char	*get_new_host(char *host)
+{
+	char	*new_host;
+
+	free(host);
+	new_host = ft_strdup("Minihell");
+	return (new_host);
+}
+
+char	*get_new_username(char *name)
+{
+	char	*new_username;
+
+	free(name);
+	new_username = ft_strdup("SegmentationFault");
+	return (new_username);
+}
+
+char	*create_prompt(t_env_list *env)
+{
+	char	*host;
+	char	*name;
+	char	*dir;
+	char	*name_dir;
+	char	*prompt;
+
+	host = get_host_name(env);
+	name = get_username(env);
+	if (ft_strlen(host) == 0 || ft_strlen(name) == 0)
+	{
+		host = get_new_host(host);
+		name = get_new_username(name);
+	}
 	name_dir = getcwd(NULL, 0);
 	dir = ft_strnstr(name_dir, name, ft_strlen(name_dir));
 	if (dir)
@@ -72,5 +120,7 @@ char	*create_prompt(t_env_list *env)
 		dir = name_dir;
 	prompt = organize_prompt(host, name, dir);
 	free(name_dir);
+	free(name);
+	free(host);
 	return (prompt);
 }

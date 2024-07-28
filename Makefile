@@ -27,7 +27,8 @@ PARSER	= analyzer.c\
 
 SIGNALS = handler_signals.c
 
-UTILS	= tools.c
+UTILS	= tools.c\
+			ft_ltoa.c
 
 FILES = main.c\
 		utils.c\
@@ -62,5 +63,8 @@ fclean: clean
 		rm -rf $(NAME)
 		
 re: fclean all
+
+valgrind_supression:
+		valgrind --leak-check=full -s --show-leak-kinds=all --suppressions=valgrind.supp ./minishell
 
 .PHONY: all clean fclean re

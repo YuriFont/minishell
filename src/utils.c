@@ -40,3 +40,34 @@ void	free_env(t_env_list *list)
 		free(aux);
 	}
 }
+
+int	get_my_pid()
+{
+	int		fd;
+	char	*resp;
+	int		pid;
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	resp = malloc(sizeof(char) * 50);
+	ft_memset(resp, 0, 50);
+	read(fd, resp, 50);
+	close(fd);
+	pid = ft_atoi(resp);
+	free(resp);
+	resp = NULL;
+	return (pid);
+}
+
+int	everything_is_space(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ' && input[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}

@@ -34,6 +34,7 @@ void	remove_variable_env(t_token *node, t_env_list **env)
 	t_env_list	*prev;
 	char		*variable;
 
+	exit_status_repository(0);
 	if (!node)
 		return ;
 	variable = node->text;
