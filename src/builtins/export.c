@@ -119,10 +119,10 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	char	*name;
 	char	*value;
 
+	exit_status_repository(0);
 	if (!token)
 	{
 		print_export(env);
-		exit_status_repository(0);
 		return ;
 	}
 	name = valid_new_variable(token->text);
@@ -133,5 +133,4 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	value = ft_strchr(token->text, '=') + 1;
 	add_new_variable(env, name, value);
 	free(name);
-	exit_status_repository(0);
 }

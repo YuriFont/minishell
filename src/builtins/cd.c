@@ -41,6 +41,7 @@ int	verify_direction(t_token *directory,
 	else if (chdir(directory->text) != 0)
 	{
 		perror("cd");
+		exit_status_repository(1);
 		return (0);
 	}
 	if (!aux)

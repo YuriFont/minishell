@@ -73,38 +73,43 @@ t_token	*next_command(t_token *token)
 	return (token);
 }
 
-void execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
+int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 {
 	int fd[2];
 	int pid;
 	int	status;
+	int stdina;
 
+	stdina = dup(STDIN_FILENO);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
+			// redirection(token);
 			if (prev_fdin != 0) 
 			{
 				dup2(prev_fdin, STDIN_FILENO);
-				close(prev_fdin);
 			}
+			close(prev_fdin);
 			executa_isso(token, env);
 		//	read_command(token, *env);
-			exit(1);
+			exit(exit_status_repository(-1));
 		}
 		else
 		{
 			close(prev_fdin);
-			waitpid(pid, &status, 0);
-			// exit(status);
-			return ;
+			// waitpid(pid, &status, 0);
+			// exit(WEXITSTATUS(status));
+			return (WEXITSTATUS(status));
 		}
 	}
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
+		// // redirection(token);
+		// close_fds(token);
 		close(fd[0]);
 		if (prev_fdin != 0)
 		{
@@ -123,8 +128,11 @@ void execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		if (prev_fdin != 0)
 			close(prev_fdin);
 		execute_pipe(next_command(token), env, fd[0]);
-		waitpid(pid, &status, 0);
-		return ;
+		dup2(stdina, STDIN_FILENO);
+		close(stdina);
+		while (waitpid(-1, &status, WNOHANG) != -1) ;
+		exit_status_repository(WEXITSTATUS(status));
+		return (WEXITSTATUS(status));
 	}
 }
 
@@ -132,20 +140,30 @@ void	exe_commands(t_minishell	*mini)
 {
 	int		have_pipe;
 	t_token	*temp;
-	int pid;
-	int status;
+	int		pid;
+	int		status;
+	int		stdina;
 
 	temp = mini->token;
 	have_pipe = has_pipe(temp);
 	if (have_pipe)
 	{
+		stdina = dup(STDIN_FILENO);
 		pid = fork();
 		if (pid == 0)
+		{
 			execute_pipe(temp, &mini->env, 0);
+			exit(1);
+		}
 		else
+		{
 			while (waitpid(-1, &status, WNOHANG) != -1) ;
+			exit_status_repository(WEXITSTATUS(status));
+		}
 		if (get_my_pid() != mini->my_pid)
-			kill(get_my_pid(), SIGKILL);
+			exit(WEXITSTATUS(status));
+		dup2(stdina, STDIN_FILENO);
+		close(stdina);
 		return ;
 	}
 	(void)have_pipe;
