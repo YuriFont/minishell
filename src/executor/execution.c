@@ -102,8 +102,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		{
 			close(prev_fdin);
 			// waitpid(pid, &status, 0);
-			// exit(WEXITSTATUS(status));
-			return (WEXITSTATUS(status));
+			exit(WEXITSTATUS(status));
+			// return (WEXITSTATUS(status));
 		}
 	}
 	pipe(fd);

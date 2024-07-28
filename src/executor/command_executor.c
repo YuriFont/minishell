@@ -57,7 +57,7 @@ int	count_of_args(t_token *list)
 	return (i);
 }
 
-char	**elaborating_args(t_token *token, char *path_command)
+char	**elaborating_args(t_token *token, char *command)
 {
 	t_token	*aux;
 	int		count_args;
@@ -68,7 +68,7 @@ char	**elaborating_args(t_token *token, char *path_command)
 	aux = token;
 	count_args = count_of_args(token);
 	args = (char **)malloc(sizeof(char *) * (count_args + 3));
-	args[0] = ft_strdup(path_command);
+	args[0] = ft_strdup(command);
 	args[1] = ft_strdup("--color=auto");
 	while (++i <= (count_args + 1))
 	{
@@ -79,10 +79,9 @@ char	**elaborating_args(t_token *token, char *path_command)
 	return (args);
 }
 
-char	**create_args_options(char *path_command, t_token *token)
+char	**create_args_options(char *command, t_token *token)
 {
 	char	**args;
-	char	*is_ls;
 	int		count_args;
 	int		i;
 	t_token	*aux;
@@ -90,36 +89,32 @@ char	**create_args_options(char *path_command, t_token *token)
 	i = 1;
 	aux = token;
 	count_args = count_of_args(token);
-	is_ls = path_command + (ft_strlen(path_command) - 2);
-	if (ft_strncmp(is_ls, "ls", ft_strlen(is_ls)) == 0)
-		args = elaborating_args(token, path_command);
+	if (ft_strncmp(command, "ls", 3) == 0)
+		args = elaborating_args(token, command);
 	else
 	{
 		args = (char **)malloc(sizeof(char *) * (count_args + 2));
-		args[0] = ft_strdup(aux->text);
-        aux = aux->next;
-        while ((i < (count_args)) && aux)
+		args[0] = ft_strdup(command);
+		while (aux && (i <= (count_args)))
 		{
-			args[i++] = ft_strdup(aux->text);
-            aux = aux->next;
+			args[i] = ft_strdup(aux->text);
+			aux = aux->next;
+			i++;
 		}
-        args[i] = NULL;
+		args[i] = NULL;
 	}
 	return (args);
 }
 
-char	**create_args(char *path_command, t_token *token)
+char	**create_args(char *command, t_token *token)
 {
 	char	**args;
-	char	*result;
 
-	if (!token->next)
+	if (!token)
 	{
 		args = (char **)malloc(sizeof(char *) * 3);
-		args[0] = ft_strdup(path_command);
-		result = path_command;
-		result = result + (ft_strlen(result) - 2);
-		if (ft_strncmp(result, "ls", ft_strlen(result)) == 0)
+		args[0] = ft_strdup(command);
+		if (ft_strncmp(command, "ls", 3) == 0)
 		{
 			args[1] = ft_strdup("--color=auto");
 			args[2] = NULL;
@@ -128,11 +123,7 @@ char	**create_args(char *path_command, t_token *token)
 			args[1] = NULL;
 	}
 	else
-	{
-       // printf("%s\n", token->text);
-		args = create_args_options(path_command, token);
-	}
-
+		args = create_args_options(command, token);
 	return (args);
 }
 
@@ -202,8 +193,7 @@ void	run_command(t_token *token, t_env_list *env, char *path)
 	char	**argv;
 	char	**env_mat;
 
- //   printf("%s\n", token->text);
-	argv = create_args(path, token);
+	argv = create_args(token->text, token->next);
 	env_mat = env_to_matriz(env);
 	execute_command(token->text, path, argv, env_mat);
 	free_matriz(argv);
