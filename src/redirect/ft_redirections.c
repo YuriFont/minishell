@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/22 10:20:50 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/28 20:44:44 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,21 @@ void	redirection_in(t_token *temp)
 	close(temp->next->fd_in);
 }
 
-void	heredoc(t_token *temp)
+void	write_in_heredoc(char *input, int fd_hd)
+{
+	write(fd_hd, input, ft_strlen(input));
+	write(fd_hd, "\n", 1);
+	free(input);
+}
+
+void	heredoc(t_token *temp, int hd)
 {
 	char	*input;
 	int		fd_hd;
 
 	fd_hd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (hd && temp->prev->prev->token == HEREDOC)
+		dup2(temp->prev->prev->fd_bk, STDIN_FILENO);
 	while (1)
 	{
 		input = NULL;
@@ -33,11 +42,7 @@ void	heredoc(t_token *temp)
 		if (!input || !ft_strncmp(temp->next->text, input, ft_strlen(input) + 1))
 			break ;
 		else
-		{
-			write(fd_hd, input, ft_strlen(input));
-			write(fd_hd, "\n", 1);
-			free(input);
-		}
+			write_in_heredoc(input, fd_hd);
     }
 	if (input)
 		free(input);
@@ -45,7 +50,7 @@ void	heredoc(t_token *temp)
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
-	close(temp->fd_in); 
+	close(temp->fd_in);
 }
 
 void	redirection_out(t_token *temp)
