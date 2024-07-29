@@ -150,6 +150,6 @@ char	*ft_ltoa(long long n);
 int		get_my_pid();
 int	everything_is_space(char *input);
 char	*get_value_of_exit(void);
-void	heredoc(t_token *temp);
+void	heredoc(t_token *temp, int hd);
 
 #endif

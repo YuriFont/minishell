@@ -54,7 +54,7 @@ void	mark_tokens(t_token *token)
 	while (temp)
 	{
 		set_builtin(temp);
-		printf("%s %d\n", temp->text, temp->token);
+		// printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }

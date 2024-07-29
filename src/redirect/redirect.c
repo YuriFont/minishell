@@ -38,8 +38,10 @@ int	redirect_out(t_token *token)
 int	redirect_in(t_token *token)
 {
 	t_token	*temp;
+	int		hd;
 
 	temp = token;
+	hd	= 0;
 	while (temp && temp->token != PIPE)
 	{
 		if (temp->token == REDIRECT_IN)
@@ -55,7 +57,10 @@ int	redirect_in(t_token *token)
 			}
 		}
 		else if (temp->token == HEREDOC)
-			heredoc(temp);
+		{
+			heredoc(temp, hd);
+			hd++;
+		}
 		temp = temp->next;
 	}
 	return (0);

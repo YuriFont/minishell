@@ -20,12 +20,14 @@ void	redirection_in(t_token *temp)
 	close(temp->next->fd_in);
 }
 
-void	heredoc(t_token *temp)
+void	heredoc(t_token *temp, int hd)
 {
 	char	*input;
 	int		fd_hd;
 
 	fd_hd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (hd && temp->prev->prev->token == HEREDOC)
+		dup2(temp->prev->prev->fd_bk, STDIN_FILENO);
 	while (1)
 	{
 		input = NULL;
