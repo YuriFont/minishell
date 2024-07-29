@@ -59,9 +59,7 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 			return ;
 	}
 	if (!check_builtins(temp, env))
-	{
 		read_command(temp, *env);
-	}
 	close_fds(temp);
 }
 
@@ -88,30 +86,26 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		pid = fork();
 		if (pid == 0)
 		{
-			// redirection(token);
 			if (prev_fdin != 0) 
 			{
 				dup2(prev_fdin, STDIN_FILENO);
 			}
 			close(prev_fdin);
 			executa_isso(token, env, 0);
-		//	read_command(token, *env);
 			exit(exit_status_repository(-1));
 		}
 		else
 		{
 			close(prev_fdin);
-			// waitpid(pid, &status, 0);
-			exit(WEXITSTATUS(status));
-			// return (WEXITSTATUS(status));
+			waitpid(pid, &status, 0);
+			// exit(WEXITSTATUS(status));
+			return (WEXITSTATUS(status));
 		}
 	}
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		// // redirection(token);
-		// close_fds(token);
 		close(fd[0]);
 		if (prev_fdin != 0)
 		{
@@ -121,7 +115,6 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		executa_isso(token, env, 0);
-		//read_command(token, *env);
 		exit(1);
 	}
 	else

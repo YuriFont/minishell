@@ -38,14 +38,14 @@ void	heredoc(t_token *temp)
 			write(fd_hd, "\n", 1);
 			free(input);
 		}
-    }
+	}
 	if (input)
 		free(input);
 	close(fd_hd);
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
-	close(temp->fd_in); 
+	close(temp->fd_in);
 }
 
 void	redirection_out(t_token *temp)

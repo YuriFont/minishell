@@ -28,8 +28,8 @@ int	main(void)
 		mini.token = NULL;
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);
-		if (!input)
-			exe_exit(mini.token, mini.env, prompt, 0);
+		// if (!input)
+		// 	exe_exit(mini.token, mini.env, prompt, 0);
 		if (parse(input, prompt, &mini))
 			continue ;
 		exe_commands(&mini);

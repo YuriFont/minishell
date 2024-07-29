@@ -27,6 +27,8 @@ int	checker_parse(t_minishell *mini)
 
 int	parse(char *input, char *prompt, t_minishell *mini)
 {
+	if (!input)
+		return (1);
 	if (!input[0] || (input[0] && everything_is_space(input)))
 	{
 		free(prompt);
