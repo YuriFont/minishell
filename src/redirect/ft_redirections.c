@@ -12,9 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-void	redirection_in(t_token *temp)
+void	redirection_in(t_token *temp, int in)
 {
 	temp->next->fd_in = open(temp->next->text, O_RDONLY);
+	if (in && temp->prev->prev->token == REDIRECT_IN)
+		dup2(temp->prev->fd_bk, STDIN_FILENO);
 	temp->next->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->next->fd_in, STDIN_FILENO);
 	close(temp->next->fd_in);

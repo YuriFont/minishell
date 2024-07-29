@@ -46,15 +46,20 @@ int	redirect_in(t_token *token)
 {
 	t_token	*temp;
 	int		hd;
+	int		in;
 
 	temp = token;
 	hd = 0;
+	in = 0;
 	while (temp && temp->token != PIPE)
 	{
 		if (temp->token == REDIRECT_IN)
 		{
 			if (!access(temp->next->text, F_OK | R_OK))
-				redirection_in(temp);
+			{
+				redirection_in(temp,in);
+				in++;
+			}
 			else
 			{
 				error_redirect_in(temp);
