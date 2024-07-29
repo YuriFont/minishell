@@ -89,10 +89,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		if (pid == 0)
 		{
 			// redirection(token);
-			if (prev_fdin != 0) 
-			{
+			if (prev_fdin != 0)
 				dup2(prev_fdin, STDIN_FILENO);
-			}
 			close(prev_fdin);
 			executa_isso(token, env, 0);
 		//	read_command(token, *env);
@@ -101,7 +99,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		else
 		{
 			close(prev_fdin);
-			// waitpid(pid, &status, 0);
+			waitpid(pid, &status, 0);
 			exit(WEXITSTATUS(status));
 			// return (WEXITSTATUS(status));
 		}
