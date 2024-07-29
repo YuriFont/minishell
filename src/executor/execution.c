@@ -106,6 +106,15 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (ft_strncmp(token->text, "./minishell", 12) == 0)
+		{
+			close(fd[1]);
+			close(fd[0]);
+			if (prev_fdin != 0)
+				close(prev_fdin);
+			executa_isso(token, env, 0);
+		}
+		else {
 		close(fd[0]);
 		if (prev_fdin != 0)
 		{
@@ -115,6 +124,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		executa_isso(token, env, 0);
+
+		}
 		exit(1);
 	}
 	else
