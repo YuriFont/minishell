@@ -58,8 +58,11 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (redirection(temp))
 			return ;
 	}
-	if (!check_builtins(temp, env))
-		read_command(temp, *env);
+	if (!(temp->token > 3 && temp->token < 8) && temp->token != PIPE)
+	{
+		if (!check_builtins(temp, env))
+			read_command(temp, *env);
+	}
 	close_fds(temp);
 }
 
