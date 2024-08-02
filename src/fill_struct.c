@@ -87,12 +87,15 @@ int	double_quotes(char *input, int start, t_token **data)
 					i = find_next_char(i, 34, input);
 			}
 		}
-		if (!break_point_quotes(input[i + 1]))
+		if ((input[i] && !break_point_quotes(input[i + 1])) || !input[i])
 			break ;
 		i++;
 	}
-	str = ft_substr(input, start, i - start + 1);
-	append_node(str, data);
+	if (data != NULL)
+	{
+		str = ft_substr(input, start, i - start + 1);
+		append_node(str, data);
+	}
 	return (i);
 }
 
@@ -113,6 +116,8 @@ int	sigle_quotes(char *input, int start, t_token **data)
 				if (input[i] == 39)
 					i = find_next_char(i, 39, input);
 			}
+			if (input[i] == 34)
+				i = double_quotes(input, i, NULL);
 		}
 		if (!break_point_quotes(input[i + 1]))
 			break ;
@@ -136,7 +141,7 @@ int	add_word(char *input, int start, t_token **data)
 		else if (input[i] == 39)
 			i = find_next_char(i, 39, input);
 		if (input[i] == '|'
-			|| input[i] == '>' || input[i] == '<')
+			|| input[i] == '>' || input[i] == '<' || !input[i])
 			break ;
 		i++;
 	}

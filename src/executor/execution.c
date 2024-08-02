@@ -58,8 +58,11 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (redirection(temp))
 			return ;
 	}
-	if (!check_builtins(temp, env))
-		read_command(temp, *env);
+	if (temp && !(temp->token > 3 && temp->token < 8) && temp->token != PIPE)
+	{
+		if (!check_builtins(temp, env))
+			read_command(temp, *env);
+	}
 	close_fds(temp);
 }
 
@@ -74,18 +77,32 @@ t_token	*next_command(t_token *token)
 	return (token);
 }
 
+int has_redirect_out(t_token *token)
+{
+	t_token *temp;
+
+	temp = token;
+	while (temp && temp->token != PIPE)
+	{
+		if (temp->token == REDIRECT_OUT)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+
 int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 {
 	int fd[2];
 	int pid;
 	int	status;
 
-	redirection(token);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
+			redirection(token);
 			if (prev_fdin != 0)
 			{
 				dup2(prev_fdin, STDIN_FILENO);
@@ -106,7 +123,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (ft_strncmp(token->text, "./minishell", 12) == 0)
+		if ((ft_strncmp(token->text, "./minishell", 12) == 0))
 		{
 			close(fd[1]);
 			close(fd[0]);
@@ -114,17 +131,18 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				close(prev_fdin);
 			executa_isso(token, env, 0);
 		}
-		else {
-		close(fd[0]);
-		if (prev_fdin != 0)
+		else
 		{
-			dup2(prev_fdin, STDIN_FILENO);
-			close(prev_fdin);
-		}
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		executa_isso(token, env, 0);
-
+			redirection(token);
+			close(fd[0]);
+			if (prev_fdin != 0)
+			{
+				dup2(prev_fdin, STDIN_FILENO);
+				close(prev_fdin);
+			}
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
+			executa_isso(token, env, 0);
 		}
 		exit(1);
 	}

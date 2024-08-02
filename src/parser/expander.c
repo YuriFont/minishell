@@ -50,7 +50,7 @@ int	find_dollar(char *text, int i)
 			double_quotes = !double_quotes;
 		if (text[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
-		if (!single_quotes && text[i] == '$')
+		if (!single_quotes && text[i] == '$' && (break_point_quotes(text[i + 1]) && text[i + 1] != '\'' && text[i + 1] != '\"'))
 			return (i);
 		i++;
 	}

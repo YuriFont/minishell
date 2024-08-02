@@ -42,7 +42,7 @@ FILES = main.c\
 		$(addprefix prompt/, $(PROMPT))\
 		$(addprefix redirect/, $(REDIRECT))
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra 
 RM = rm -rf
 LIBFT = ./libft/
 LIBFT_A = $(LIBFT)libft.a

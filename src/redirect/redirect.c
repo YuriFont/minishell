@@ -41,7 +41,7 @@ int	redirect_in(t_token *token)
 	int		hd;
 
 	temp = token;
-	hd	= 0;
+	hd = 0;
 	while (temp && temp->token != PIPE)
 	{
 		if (temp->token == REDIRECT_IN)
