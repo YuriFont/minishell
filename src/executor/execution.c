@@ -58,9 +58,10 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (redirection(temp))
 			return ;
 	}
-	if (!check_builtins(temp, env))
+	if (!(temp->token >= 4 && temp->token <= 7))
 	{
-		read_command(temp, *env);
+		if (!check_builtins(temp, env))
+			read_command(temp, *env);
 	}
 	close_fds(temp);
 }
@@ -74,6 +75,20 @@ t_token	*next_command(t_token *token)
 		token = token->next;
 	}
 	return (token);
+}
+
+int has_redirect_out(t_token *token)
+{
+    t_token *temp;
+
+    temp = token;
+    while (temp && temp->token != PIPE)
+    {
+        if (temp->token == REDIRECT_OUT)
+            return (1);
+        temp = temp->next;
+    }
+    return (0);
 }
 
 int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
@@ -103,6 +118,11 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			exit(WEXITSTATUS(status));
 			// return (WEXITSTATUS(status));
 		}
+	}
+	if (has_redirect_out(token))
+	{
+		executa_isso(token, env, 0);
+		return (execute_pipe(next_command(token), env, 0));
 	}
 	pipe(fd);
 	pid = fork();
