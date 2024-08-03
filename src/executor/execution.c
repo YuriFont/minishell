@@ -59,11 +59,7 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (redirection(temp))
 			return ;
 	}
-<<<<<<< HEAD
 	if (temp && !(temp->token > 3 && temp->token < 8) && temp->token != PIPE)
-=======
-	if (!(temp->token >= 4 && temp->token <= 7))
->>>>>>> yufontenV2
 	{
 		if (!check_builtins(temp, env))
 			read_command(temp, *env);
@@ -84,7 +80,6 @@ t_token	*next_command(t_token *token)
 
 int has_redirect_out(t_token *token)
 {
-<<<<<<< HEAD
 	t_token *temp;
 
 	temp = token;
@@ -107,18 +102,6 @@ t_token *first_token(t_token *token)
 		temp = temp->prev;
 	}
 	return (temp);
-=======
-    t_token *temp;
-
-    temp = token;
-    while (temp && temp->token != PIPE)
-    {
-        if (temp->token == REDIRECT_OUT)
-            return (1);
-        temp = temp->next;
-    }
-    return (0);
->>>>>>> yufontenV2
 }
 
 int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
