@@ -128,8 +128,22 @@ void		free_matriz(char **matriz);
 /* handler signals */
 void		signal_handler(int signal);
 void		handler_signals(void);
+void		handle_if_signal(int status);
 
+/* create args */
+
+char		**create_args(char *command, t_token *token);
+char		**create_args_options(char *command, t_token *token);
+
+char		*get_path_command(t_token *token, char *paths);
+
+/* prompt */
 char		*create_prompt(t_env_list *env);
+char		*get_username(t_env_list *env);
+char		*get_host_name(t_env_list *env);
+char		*get_new_host(char *host);
+char		*get_new_username(char *name);
+
 void		exe_exit(t_token *token, t_env_list *env, char *prompt,
 				int is_command);
 int			parse(char *input, char *prompt, t_minishell *mini);

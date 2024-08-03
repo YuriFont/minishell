@@ -1,21 +1,16 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_executor.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/03 16:08:27 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/03 16:08:33 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	handle_if_signal(int status)
-{
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == 3)
-		{
-			printf("Quit\n");
-			exit_status_repository(131);
-		}
-		else if (WTERMSIG(status) == 2)
-		{
-			printf("\n");
-			exit_status_repository(130);
-		}
-	}
-}
+#include "../../inc/minishell.h"
 
 void	execute_command(char *command, char *path_command, char **argv,
 		char **env)
@@ -40,91 +35,6 @@ void	execute_command(char *command, char *path_command, char **argv,
 		exit_status_repository(WEXITSTATUS(status));
 		handle_if_signal(status);
 	}
-}
-
-int	count_of_args(t_token *list)
-{
-	int		i;
-	t_token	*aux;
-
-	i = 0;
-	aux = list;
-	while (aux && aux->token != PIPE && !(aux->token >= 4 && aux->token <= 7))
-	{
-		aux = aux->next;
-		i++;
-	}
-	return (i);
-}
-
-char	**elaborating_args(t_token *token, char *command)
-{
-	t_token	*aux;
-	int		count_args;
-	int		i;
-	char	**args;
-
-	i = 1;
-	aux = token;
-	count_args = count_of_args(token);
-	args = (char **)malloc(sizeof(char *) * (count_args + 3));
-	args[0] = ft_strdup(command);
-	args[1] = ft_strdup("--color=auto");
-	while (++i <= (count_args + 1))
-	{
-		args[i] = ft_strdup(aux->text);
-		aux = aux->next;
-	}
-	args[i] = NULL;
-	return (args);
-}
-
-char	**create_args_options(char *command, t_token *token)
-{
-	char	**args;
-	int		count_args;
-	int		i;
-	t_token	*aux;
-
-	i = 1;
-	aux = token;
-	count_args = count_of_args(token);
-	if (ft_strncmp(command, "ls", 3) == 0)
-		args = elaborating_args(token, command);
-	else
-	{
-		args = (char **)malloc(sizeof(char *) * (count_args + 2));
-		args[0] = ft_strdup(command);
-		while (aux && (i <= (count_args)))
-		{
-			args[i] = ft_strdup(aux->text);
-			aux = aux->next;
-			i++;
-		}
-		args[i] = NULL;
-	}
-	return (args);
-}
-
-char	**create_args(char *command, t_token *token)
-{
-	char	**args;
-
-	if (!token)
-	{
-		args = (char **)malloc(sizeof(char *) * 3);
-		args[0] = ft_strdup(command);
-		if (ft_strncmp(command, "ls", 3) == 0)
-		{
-			args[1] = ft_strdup("--color=auto");
-			args[2] = NULL;
-		}
-		else
-			args[1] = NULL;
-	}
-	else
-		args = create_args_options(command, token);
-	return (args);
 }
 
 int	is_absolute_path(t_token *token, t_env_list *list)
@@ -159,33 +69,6 @@ int	is_current_directory(t_token *token, t_env_list *list)
 	free_matriz(env);
 	free_matriz(argv);
 	return (1);
-}
-
-char	*get_path_command(t_token *token, char *paths)
-{
-	char	**splits;
-	char	*path_command;
-	char	*found;
-	int		i;
-
-	i = 0;
-	splits = ft_split(paths, ':');
-	while (splits[i])
-	{
-		path_command = ft_strjoin(splits[i], "/");
-		path_command = ft_strjoinf(path_command, token->text);
-		if (access(path_command, F_OK) == 0)
-		{
-			found = ft_strdup(path_command);
-			free(path_command);
-			free_matriz(splits);
-			return (found);
-		}
-		free(path_command);
-		i++;
-	}
-	free_matriz(splits);
-	return (NULL);
 }
 
 void	run_command(t_token *token, t_env_list *env, char *path)

@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:12:14 by yufonten          #+#    #+#             */
 /*   Updated: 2024/07/13 20:12:14 by yufonten         ###   ########.fr       */
 /*                                                                            */
@@ -50,7 +47,9 @@ int	find_dollar(char *text, int i)
 			double_quotes = !double_quotes;
 		if (text[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
-		if (!single_quotes && text[i] == '$' && (break_point_quotes(text[i + 1]) && text[i + 1] != '\'' && text[i + 1] != '\"'))
+		if (!single_quotes && text[i] == '$'
+			&& (break_point_quotes(text[i + 1])
+				&& text[i + 1] != '\'' && text[i + 1] != '\"'))
 			return (i);
 		i++;
 	}

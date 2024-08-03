@@ -11,12 +11,15 @@ BUILTINS = cd.c\
 
 EXECUTOR = command_executor.c\
 			execution.c\
-			input_options.c
+			input_options.c\
+			path_commad.c\
+			make_args.c
 
 REDIRECT = redirect.c\
 			ft_redirections.c
 
-PROMPT = create_prompt.c
+PROMPT = create_prompt.c\
+			get_user_var.c
 
 PARSER	= analyzer.c\
 			check_input.c\
