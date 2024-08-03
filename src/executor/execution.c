@@ -23,13 +23,14 @@ void	close_fds(t_token *token)
 		if (token->fd_in != STDIN_FILENO)
 		{
 			dup2(token->fd_bk, STDIN_FILENO);
-			close(token->fd_in);
+			// if (close(token->fd_in) == -1)
+			// 	fprintf(stderr,"Error depois :%d\n", token->fd_bk);
 			close(token->fd_bk);
 		}
 		if (token->fd_out != STDOUT_FILENO)
 		{
 			dup2(token->fd_bk, STDOUT_FILENO);
-			close(token->fd_out);
+			// close(token->fd_out);
 			close(token->fd_bk);
 		}
 		token = token->next;
@@ -91,58 +92,85 @@ int has_redirect_out(t_token *token)
 	return (0);
 }
 
+t_token *first_token(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp->prev)
+	{
+		temp = temp->prev;
+	}
+	return (temp);
+}
+
 int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 {
 	int fd[2];
 	int pid;
 	int	status;
 
+	redirection(token);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			redirection(token);
 			if (prev_fdin != 0)
 			{
 				dup2(prev_fdin, STDIN_FILENO);
 			}
-			close(prev_fdin);
+			if (close(prev_fdin) == -1) {
+				fprintf(stderr,"Error depois :%d\n", token->fd_bk);
+			}
+			// close(prev_fdin);
 			executa_isso(token, env, 0);
+			free_env(*env);
+			free_list(first_token(token));
 			exit(exit_status_repository(-1));
 		}
 		else
 		{
-			close(prev_fdin);
+			if (close(prev_fdin) == -1) {
+				fprintf(stderr,"Error depois :\n");
+			}
 			waitpid(pid, &status, 0);
-			// exit(WEXITSTATUS(status));
 			return (WEXITSTATUS(status));
 		}
 	}
-	pipe(fd);
+	if (pipe(fd) == -1) {
+		perror("error ao criar pipe\n");
+	}
 	pid = fork();
 	if (pid == 0)
 	{
-		if ((ft_strncmp(token->text, "./minishell", 12) == 0))
+		if ((ft_strncmp(token->text, "./minishell", 12) == 0) || has_redirect_out(token))
 		{
 			close(fd[1]);
 			close(fd[0]);
 			if (prev_fdin != 0)
 				close(prev_fdin);
 			executa_isso(token, env, 0);
+			free_env(*env);
+			free_list(first_token(token));
 		}
 		else
 		{
-			redirection(token);
-			close(fd[0]);
+			if (close(fd[0]) == -1)
+				fprintf(stderr,"Error depois :\n");
 			if (prev_fdin != 0)
 			{
 				dup2(prev_fdin, STDIN_FILENO);
-				close(prev_fdin);
+				if (close(prev_fdin) == -1) {
+				fprintf(stderr,"Error depois :\n");
+			}
 			}
 			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
+			if (close(fd[1]) == -1)
+				fprintf(stderr,"Error depois :\n");
 			executa_isso(token, env, 0);
+			free_env(*env);
+			free_list(first_token(token));
 		}
 		exit(1);
 	}
@@ -150,10 +178,17 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	{
 		close(fd[1]);
 		if (prev_fdin != 0)
-			close(prev_fdin);
+		{
+			if (close(prev_fdin) == -1) {
+				fprintf(stderr,"Error depois :%d\n", token->fd_bk);
+			}
+
+		}
 		status = execute_pipe(next_command(token), env, fd[0]);
 		exit_status_repository(status);
 		while (waitpid(-1, NULL, WNOHANG) != -1) ;
+		free_env(*env);
+		free_list(first_token(token));
 		return (exit_status_repository(-1));
 	}
 }
@@ -181,7 +216,11 @@ void	exe_commands(t_minishell	*mini)
 			exit_status_repository(WEXITSTATUS(status));
 		}
 		if (get_my_pid() != mini->my_pid)
+		{
+			free_env(mini->env);
+			free_list(first_token(temp));
 			exit(WEXITSTATUS(status));
+		}
 		return ;
 	}
 	// while (temp)

@@ -41,7 +41,7 @@ void	free_env(t_env_list *list)
 	}
 }
 
-int	get_my_pid()
+int	get_my_pid(void)
 {
 	int		fd;
 	char	*resp;
@@ -70,4 +70,33 @@ int	everything_is_space(char *input)
 		i++;
 	}
 	return (1);
+}
+
+int	find_next_char(int i, char c, char *input)
+{
+	i++;
+	while (input[i] && input[i] != c)
+		i++;
+	return (i);
+}
+
+int	break_point_quotes(char c)
+{
+	if (c != ' ' && c != '\0' && c != '|' && c != '>' && c != '<')
+		return (1);
+	return (0);
+}
+/* 
+	Sem uso 
+*/
+
+int	find_last_caracter(char *input, int i)
+{
+	char	c;
+
+	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+		c = input[i];
+	while (input[i] && input[i] == c)
+		i++;
+	return (i);
 }

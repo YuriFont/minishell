@@ -34,6 +34,7 @@ FILES = main.c\
 		utils.c\
 		utils_list.c\
 		fill_struct.c\
+		struct_input_separator.c\
 		$(addprefix builtins/, $(BUILTINS))\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
@@ -65,6 +66,6 @@ fclean: clean
 re: fclean all
 
 valgrind_supression:
-		valgrind --leak-check=full -s --show-leak-kinds=all --suppressions=valgrind.supp ./minishell
+		valgrind --leak-check=full --tool=memcheck -s --show-leak-kinds=all --track-origins=yes --suppressions=valgrind.supp ./minishell
 
 .PHONY: all clean fclean re
