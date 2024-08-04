@@ -130,7 +130,7 @@ char	*expander_node(char *text, t_env_list *env)
 			continue ;
 		i++;
 	}
-	free(text);
+	// free(text);
 	return (result);
 }
 

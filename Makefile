@@ -7,7 +7,9 @@ BUILTINS = cd.c\
 			exit.c\
 			export.c\
 			pwd.c\
-			unset.c
+			unset.c\
+			utils_exit.c\
+			utils_export.c
 
 EXECUTOR = command_executor.c\
 			execution.c\

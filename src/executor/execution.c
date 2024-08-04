@@ -185,6 +185,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		while (waitpid(-1, NULL, WNOHANG) != -1) ;
 		free_env(*env);
 		free_list(first_token(token));
+			fprintf(stderr ,"saida do processo pipe : %d\n", exit_status_repository(-1));
 		return (exit_status_repository(-1));
 	}
 }
@@ -203,12 +204,13 @@ void	exe_commands(t_minishell	*mini)
 		pid = fork();
 		if (pid == 0)
 		{
-			execute_pipe(temp, &mini->env, 0);
+			status = execute_pipe(temp, &mini->env, 0);
 			exit(exit_status_repository(-1));
 		}
 		else
 		{
-			while (waitpid(-1, &status, WNOHANG) != -1) ;
+			waitpid(pid, &status, 0);
+			fprintf(stderr ,"saida do processo : %d\n", WEXITSTATUS(status));
 			exit_status_repository(WEXITSTATUS(status));
 		}
 		if (get_my_pid() != mini->my_pid)

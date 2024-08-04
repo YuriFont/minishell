@@ -146,6 +146,13 @@ char		*get_new_username(char *name);
 
 void		exe_exit(t_token *token, t_env_list *env, char *prompt,
 				int is_command);
+int			verify_exit_is_numeric(t_token *token);
+void		exec_exit_is_not_numeric(t_token *token);
+void		exec_exit_is_many_arguments(t_token *token);
+
+int			verify_nome_of_variable_is_valid(char *name);
+void		change_value_of_env(t_env_list *env, char *variable_change);
+
 int			parse(char *input, char *prompt, t_minishell *mini);
 int			check_quotes(char *input);
 int			redirection(t_token *token);

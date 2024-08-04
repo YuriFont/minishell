@@ -12,39 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int	verify_exit_is_numeric(t_token *token)
-{
-	char	*text;
-	int		i;
-
-	i = 0;
-	text = token->text;
-	if (text[i] == '-' || text[i] == '+')
-		i++;
-	while (text[i])
-	{
-		if (!ft_isdigit(text[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	exec_exit_is_not_numeric(t_token *token)
-{
-	printf("minishell: exit: %s: numeric argument required\n",
-		token->next->text);
-	free_list(token);
-	exit(2);
-}
-
-void	exec_exit_is_many_arguments(t_token *token)
-{
-	printf("minishell: exit: too many arguments\n");
-	free_list(token);
-	exit(1);
-}
-
 int	is_overflow(long long exit_code, char *number)
 {
 	int		mini_nb;
