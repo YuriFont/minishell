@@ -25,6 +25,8 @@ PROMPT = create_prompt.c\
 
 PARSER	= analyzer.c\
 			check_input.c\
+			check_input_quotes.c\
+			utils_expander.c\
 			check_syntax.c\
 			parse.c\
 			expander.c\

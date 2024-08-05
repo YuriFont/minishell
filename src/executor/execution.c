@@ -48,6 +48,18 @@ int	has_pipe(t_token *token)
 	return (0);
 }
 
+t_token *first_token(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp->prev)
+	{
+		temp = temp->prev;
+	}
+	return (temp);
+}
+
 void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 {
 	if (is_pipe)
@@ -88,18 +100,6 @@ int has_redirect_out(t_token *token)
 	return (0);
 }
 
-t_token *first_token(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp->prev)
-	{
-		temp = temp->prev;
-	}
-	return (temp);
-}
-
 int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 {
 	int fd[2];
@@ -131,7 +131,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				fprintf(stderr,"Error depois :\n");
 			}
 			waitpid(pid, &status, 0);
-			return (WEXITSTATUS(status));
+			exit_status_repository(WEXITSTATUS(status));
+			return (exit_status_repository(-1));
 		}
 	}
 	if (pipe(fd) == -1) {
@@ -181,7 +182,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 
 		}
 		status = execute_pipe(next_command(token), env, fd[0]);
-		exit_status_repository(status);
+		// exit_status_repository(status);
 		while (waitpid(-1, NULL, WNOHANG) != -1) ;
 		free_env(*env);
 		free_list(first_token(token));

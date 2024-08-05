@@ -161,6 +161,8 @@ void		exe_pwd(t_token *token);
 void		expander_va(t_minishell *mini);
 int			break_point_quotes(char c);
 int			find_next_char(int i, char c, char *input);
+int			verify_node_expander(char *text);
+int			find_dollar(char *text, int i);
 void		remove_quotes(t_token *token);
 void		redirection_out(t_token *temp);
 void		redirection_append(t_token *temp);
