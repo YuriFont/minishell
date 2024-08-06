@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/28 20:44:44 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:03:54 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	redirection_in(t_token *temp, int in)
 		dup2(temp->prev->fd_bk, STDIN_FILENO);
 	temp->next->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->next->fd_in, STDIN_FILENO);
-	close(temp->next->fd_in);
 }
 
 void	write_in_heredoc(char *input, int fd_hd)
@@ -53,8 +52,6 @@ void	heredoc(t_token *temp, int hd)
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
-	// if (close(temp->fd_in) == -1)
-	// 	fprintf(stderr,"Error depois fd_in :\n");
 }
 
 void	redirection_out(t_token *temp)

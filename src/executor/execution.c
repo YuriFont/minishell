@@ -51,27 +51,44 @@ int	has_pipe(t_token *token)
 
 t_token *first_token(t_token *token)
 {
+    t_token    *temp;
+
+    temp = token;
+    while (temp->prev)
+    {
+        temp = temp->prev;
+    }
+    return (temp);
+}
+
+t_token	*find_command(t_token *token)
+{
 	t_token	*temp;
 
 	temp = token;
-	while (temp->prev)
+	while (temp)
 	{
-		temp = temp->prev;
+		if (temp->token == COMAND)
+			return (temp);
+		temp = temp->next;
 	}
-	return (temp);
+	return (NULL);
 }
 
 void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 {
+	t_token	*cmd;
+
 	if (is_pipe)
 	{
 		if (redirection(temp))
 			return ;
 	}
-	if (temp && !(temp->token > 3 && temp->token < 8) && temp->token != PIPE)
+	cmd = find_command(temp);
+	if (cmd)
 	{
-		if (!check_builtins(temp, env))
-			read_command(temp, *env);
+		if (!check_builtins(cmd, env))
+			read_command(cmd, *env);
 	}
 	close_fds(temp);
 }
