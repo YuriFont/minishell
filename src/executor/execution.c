@@ -49,16 +49,23 @@ int	has_pipe(t_token *token)
 	return (0);
 }
 
-<<<<<<< HEAD
-t_token	*find_command(t_token *token)
-=======
 t_token *first_token(t_token *token)
->>>>>>> erramosv2
+{
+    t_token    *temp;
+
+    temp = token;
+    while (temp->prev)
+    {
+        temp = temp->prev;
+    }
+    return (temp);
+}
+
+t_token	*find_command(t_token *token)
 {
 	t_token	*temp;
 
 	temp = token;
-<<<<<<< HEAD
 	while (temp)
 	{
 		if (temp->token == COMAND)
@@ -66,13 +73,6 @@ t_token *first_token(t_token *token)
 		temp = temp->next;
 	}
 	return (NULL);
-=======
-	while (temp->prev)
-	{
-		temp = temp->prev;
-	}
-	return (temp);
->>>>>>> erramosv2
 }
 
 void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
@@ -84,12 +84,8 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (redirection(temp))
 			return ;
 	}
-<<<<<<< HEAD
 	cmd = find_command(temp);
 	if (cmd)
-=======
-	if (temp && !(temp->token > 3 && temp->token < 8) && temp->token != PIPE)
->>>>>>> erramosv2
 	{
 		if (!check_builtins(cmd, env))
 			read_command(cmd, *env);
