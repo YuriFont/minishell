@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:59:16 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/13 18:10:32 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:19:24 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int	valid_redirect(t_token *token)
 	flag = 0;
 	while (temp && flag == 0)
 	{
-		if ((temp->token > 3 && temp->token < 8) && temp->next == NULL)
+		if (temp->next == NULL && (temp->token > 3 && temp->token < 8))
 			flag = printf("bash: syntax error near unexpected token `nl'\n");
-		if ((temp->token > 3 && temp->token < 8) && temp->next->token == PIPE)
+		else if ((temp->token > 3 && temp->token < 8)
+			&& temp->next->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
-		if ((temp->token > 3 && temp->token < 8) && (temp->next->token > 3
+		else if ((temp->token > 3 && temp->token < 8) && (temp->next->token > 3
 				&& temp->next->token < 8))
 			flag = printf("bash: syntax error near unexpected token `<'\n");
 		temp = temp->next;
@@ -46,10 +47,10 @@ int	valid_pipe(t_token *token)
 	{
 		if (temp->prev == NULL && temp->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
-		if (temp->next != NULL && temp->token == PIPE
-				&& temp->next->token == PIPE)
+		else if (temp->next != NULL && temp->token == PIPE
+			&& temp->next->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
-		if (temp->token == PIPE && temp->next == NULL)
+		else if (temp->token == PIPE && temp->next == NULL)
 			flag = printf("bash: syntax error near unexpected token command\n");
 		temp = temp->next;
 	}

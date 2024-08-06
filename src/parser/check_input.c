@@ -1,43 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/03 16:23:36 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/03 16:23:37 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
-
-int	check_quotes(char *input)
-{
-	int		double_quotes;
-	int		single_quotes;
-	int		i;
-	char	c;
-
-	i = 0;
-	double_quotes = 0;
-	single_quotes = 0;
-	while (input[i])
-	{
-		if (input[i] == 39)
-		{
-			c = input[i];
-			double_quotes = !double_quotes;
-		}
-		if (input[i] == 34)
-		{
-			c = input[i];
-			single_quotes = !single_quotes;
-		}
-		if (single_quotes || double_quotes)
-		{
-			i++;
-			while (input[i] && input[i] != c)
-				i++;
-			if (single_quotes && input[i] == c)
-				single_quotes = !single_quotes;
-			else if (double_quotes && input[i] == c)
-				double_quotes = !double_quotes;
-		}
-		i++;
-	}
-	if (double_quotes || single_quotes)
-		return (0);
-	return (1);
-}
 
 int	check_amount_redirect(char *input, char redirect)
 {

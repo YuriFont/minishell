@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_options.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/03 16:09:22 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/03 16:09:26 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	get_fd(t_token *token)
@@ -21,7 +33,7 @@ int	check_builtins(t_token *token, t_env_list **env)
 	else if (ft_strncmp(token->text, "pwd", 4) == 0)
 		exe_pwd(token);
 	else if (ft_strncmp(token->text, "exit", 5) == 0)
-		exe_exit(token, *env);
+		exe_exit(token, *env, NULL, 1);
 	else if (ft_strncmp(token->text, "env", 4) == 0)
 		print_env_list(*env);
 	else if (ft_strncmp(token->text, "echo", 5) == 0)

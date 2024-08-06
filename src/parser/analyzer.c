@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   analyzer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/05 16:51:50 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/05 16:51:52 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	is_redirect(char *text)
@@ -54,7 +66,7 @@ void	mark_tokens(t_token *token)
 	while (temp)
 	{
 		set_builtin(temp);
-		printf("%s %d\n", temp->text, temp->token);
+		// printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }

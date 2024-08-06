@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/04 18:16:14 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/04 18:16:20 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 /*
@@ -5,13 +17,11 @@
 	uma quebra de linha
 */
 
-void	print_with_echo(t_token *token, int fd_out)
+void	print_with_echo(t_token *token)
 {
 	t_token	*aux;
 
 	aux = token;
-	int i = 0;
-
 	if (!aux)
 		return ;
 	while (ft_strncmp(aux->text, "-n", 3) == 0)
@@ -20,11 +30,10 @@ void	print_with_echo(t_token *token, int fd_out)
 	{
 		if (aux->token == PIPE || (aux->token > 3 && aux->token < 8))
 			return ;
-		write(fd_out, aux->text, ft_strlen(aux->text));
+		write(1, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
 		if (aux)
-			write(fd_out, " ", 1);
-		i++;
+			write(1, " ", 1);
 	}
 }
 
@@ -38,14 +47,12 @@ void	print_with_echo(t_token *token, int fd_out)
 
 void	print_echo(t_token *token)
 {
-	int	fd_out;
-
-	fd_out = get_fd(token);
 	if (token && ft_strncmp(token->text, "-n", 3) == 0)
-		print_with_echo(token->next, fd_out);
+		print_with_echo(token->next);
 	else
 	{
-		print_with_echo(token, fd_out);
-		write(fd_out, "\n", 1);
+		print_with_echo(token);
+		write(1, "\n", 1);
 	}
+	exit_status_repository(0);
 }

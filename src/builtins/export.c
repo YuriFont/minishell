@@ -1,28 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/04 18:16:41 by erramos           #+#    #+#             */
+/*   Updated: 2024/08/04 18:16:43 by erramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-int	verify_nome_of_variable_is_valid(char *name)
+char	*get_name_of_variable(char *variable)
 {
-	char	*not_valid;
-	int		i;
-	int		j;
+	char	*find_equal;
+	char	*name_variable;
 
-	not_valid = NO_VALID_CHAR;
-	i = 0;
-	while (name[i])
-	{
-		j = 0;
-		while (not_valid[j])
-		{
-			if (name[i] == not_valid[j])
-			{
-				printf("export: `%s': not a valid identifier\n", name);
-				return (0);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (1);
+	find_equal = ft_strchr(variable, '=');
+	if (!find_equal)
+		return (NULL);
+	name_variable = ft_substr(variable, 0,
+			ft_strlen(variable) - ft_strlen(find_equal));
+	return (name_variable);
 }
 
 /*
@@ -31,29 +31,18 @@ int	verify_nome_of_variable_is_valid(char *name)
 
 char	*valid_new_variable(char *new_variable)
 {
-	char	*find_equal;
 	char	*name_variable;
 
-	find_equal = ft_strchr(new_variable, '=');
-	if (!find_equal)
+	name_variable = get_name_of_variable(new_variable);
+	if (!name_variable)
 		return (NULL);
-	name_variable = ft_substr(new_variable, 0,
-			ft_strlen(new_variable) - ft_strlen(find_equal));
 	if (!verify_nome_of_variable_is_valid(name_variable))
 	{
 		free(name_variable);
+		exit_status_repository(1);
 		return (NULL);
 	}
 	return (name_variable);
-}
-
-void	change_value_of_env(t_env_list *env, char *variable_change)
-{
-	char	*temp;
-
-	temp = env->variable;
-	env->variable = variable_change;
-	free(temp);
 }
 
 int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
@@ -72,6 +61,30 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	return (1);
 }
 
+void	print_export(t_env_list *env)
+{
+	t_env_list	*temp;
+	char		*print_variable;
+	char		*name;
+
+	temp = env;
+	while (temp)
+	{
+		name = get_name_of_variable(temp->variable);
+		print_variable = ft_strdup("declare -x ");
+		print_variable = ft_strjoinf(print_variable, name);
+		print_variable = ft_strjoinf(print_variable, "=\"");
+		print_variable = ft_strjoinf(print_variable,
+				get_value_in_variable(name, env));
+		print_variable = ft_strjoinf(print_variable, "\"");
+		printf("%s\n", print_variable);
+		free(print_variable);
+		free(name);
+		temp = temp->next;
+	}
+	exit_status_repository(0);
+}
+
 /*
 	Inserir uma nova "variavel de ambiente" ao 
 	digitar export + <nome da variavel=conteudo da variavel>,
@@ -84,8 +97,12 @@ void	insert_in_env(t_env_list *env, t_token *token)
 	char	*name;
 	char	*value;
 
+	exit_status_repository(0);
 	if (!token)
+	{
+		print_export(env);
 		return ;
+	}
 	name = valid_new_variable(token->text);
 	if (!name)
 		return ;
