@@ -51,17 +51,34 @@ int	has_pipe(t_token *token)
 	return (0);
 }
 
+t_token	*find_command(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		if (temp->token == COMAND)
+			return (temp);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 {
+	t_token	*cmd;
+
 	if (is_pipe)
 	{
 		if (redirection(temp))
 			return ;
 	}
-	if (!(temp->token >= 4 && temp->token <= 7))
+	cmd = find_command(temp);
+	if (cmd)
 	{
-		if (!check_builtins(temp, env))
-			read_command(temp, *env);
+		if (!check_builtins(cmd, env))
+			read_command(cmd, *env);
 	}
 	close_fds(temp);
 }

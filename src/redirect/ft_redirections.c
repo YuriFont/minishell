@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/28 20:44:44 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:21:55 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	heredoc(t_token *temp, int hd)
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
-	close(temp->fd_in);
 }
 
 void	redirection_out(t_token *temp)

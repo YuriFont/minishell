@@ -1,14 +1,16 @@
 #include "../../inc/minishell.h"
 
-int	is_redirect(char *text)
+int	is_redirect(t_token *token)
 {
-	if (ft_strncmp(text, ">", 2) == 0)
+	if (!token)
+		return (0);
+	if (ft_strncmp(token->text, ">", 2) == 0)
 		return (1);
-	else if (ft_strncmp(text, "<", 2) == 0)
+	else if (ft_strncmp(token->text, "<", 2) == 0)
 		return (2);
-	else if (ft_strncmp(text, "<<", 3) == 0)
+	else if (ft_strncmp(token->text, "<<", 3) == 0)
 		return (3);
-	else if (ft_strncmp(text, ">>", 3) == 0)
+	else if (ft_strncmp(token->text, ">>", 3) == 0)
 		return (4);
 	return (0);
 }
@@ -16,8 +18,10 @@ int	is_redirect(char *text)
 int	is_command(t_token *token)
 {
 	if (token->prev == NULL || (token->prev != NULL
-			&& (ft_strncmp(token->prev->text, "|", 2) == 0)
-			&& !is_redirect(token->text)))
+			&& (ft_strncmp(token->prev->text, "|", 2) == 0))
+			|| (token->prev != NULL
+			&& is_redirect(token->prev->prev)
+			&& !is_redirect(token)))
 		return (1);
 	return (0);
 }
@@ -26,7 +30,7 @@ void	set_builtin(t_token *token)
 {
 	int	red;
 
-	red = is_redirect(token->text);
+	red = is_redirect(token);
 	if (red != 0)
 	{
 		if (red == 1)
