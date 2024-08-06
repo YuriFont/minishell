@@ -53,8 +53,8 @@ void	heredoc(t_token *temp, int hd)
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
-	if (close(temp->fd_in) == -1)
-		fprintf(stderr,"Error depois fd_in :\n");
+	// if (close(temp->fd_in) == -1)
+	// 	fprintf(stderr,"Error depois fd_in :\n");
 }
 
 void	redirection_out(t_token *temp)
