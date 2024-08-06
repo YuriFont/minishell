@@ -7,19 +7,26 @@ BUILTINS = cd.c\
 			exit.c\
 			export.c\
 			pwd.c\
-			unset.c
+			unset.c\
+			utils_exit.c\
+			utils_export.c
 
 EXECUTOR = command_executor.c\
 			execution.c\
-			input_options.c
+			input_options.c\
+			path_commad.c\
+			make_args.c
 
 REDIRECT = redirect.c\
 			ft_redirections.c
 
-PROMPT = create_prompt.c
+PROMPT = create_prompt.c\
+			get_user_var.c
 
 PARSER	= analyzer.c\
 			check_input.c\
+			check_input_quotes.c\
+			utils_expander.c\
 			check_syntax.c\
 			parse.c\
 			expander.c\
@@ -34,6 +41,7 @@ FILES = main.c\
 		utils.c\
 		utils_list.c\
 		fill_struct.c\
+		struct_input_separator.c\
 		$(addprefix builtins/, $(BUILTINS))\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
@@ -42,7 +50,7 @@ FILES = main.c\
 		$(addprefix prompt/, $(PROMPT))\
 		$(addprefix redirect/, $(REDIRECT))
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra 
 RM = rm -rf
 LIBFT = ./libft/
 LIBFT_A = $(LIBFT)libft.a
@@ -65,6 +73,6 @@ fclean: clean
 re: fclean all
 
 valgrind_supression:
-		valgrind --leak-check=full -s --show-leak-kinds=all --suppressions=valgrind.supp ./minishell
+		valgrind --leak-check=full --tool=memcheck -s --show-leak-kinds=all --track-origins=yes --suppressions=valgrind.supp ./minishell
 
 .PHONY: all clean fclean re

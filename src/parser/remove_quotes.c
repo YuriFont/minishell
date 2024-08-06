@@ -28,6 +28,8 @@ void	find_quotes(char *text)
 			if (text[i] == '\'' || text[i] == '"')
 				text[i] = -10;
 		}
+		if (!text[i])
+			break ;
 		i++;
 	}
 }

@@ -23,7 +23,8 @@ int	valid_redirect(t_token *token)
 	{
 		if (temp->next == NULL && (temp->token > 3 && temp->token < 8))
 			flag = printf("bash: syntax error near unexpected token `nl'\n");
-		else if ((temp->token > 3 && temp->token < 8) && temp->next->token == PIPE)
+		else if ((temp->token > 3 && temp->token < 8)
+			&& temp->next->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
 		else if ((temp->token > 3 && temp->token < 8) && (temp->next->token > 3
 				&& temp->next->token < 8))
@@ -47,7 +48,7 @@ int	valid_pipe(t_token *token)
 		if (temp->prev == NULL && temp->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
 		else if (temp->next != NULL && temp->token == PIPE
-				&& temp->next->token == PIPE)
+			&& temp->next->token == PIPE)
 			flag = printf("bash: syntax error near unexpected token `|'\n");
 		else if (temp->token == PIPE && temp->next == NULL)
 			flag = printf("bash: syntax error near unexpected token command\n");

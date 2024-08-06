@@ -2,60 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:12:14 by yufonten          #+#    #+#             */
 /*   Updated: 2024/07/13 20:12:14 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	verify_node_expander(char *text)
-{
-	int	single_quotes;
-	int	double_quotes;
-	int	i;
-
-	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
-	while (text[i])
-	{
-		if (text[i] == '\"')
-			double_quotes = !double_quotes;
-		if (text[i] == '\'' && !double_quotes)
-			single_quotes = !single_quotes;
-		if (!single_quotes && text[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	find_dollar(char *text, int i)
-{
-	int	single_quotes;
-	int	double_quotes;
-
-	single_quotes = 0;
-	double_quotes = 0;
-	while (text[i])
-	{
-		if (text[i] == '\"')
-			double_quotes = !double_quotes;
-		if (text[i] == '\'' && !double_quotes)
-			single_quotes = !single_quotes;
-		if (!single_quotes && text[i] == '$')
-			return (i);
-		i++;
-	}
-	return (i);
-}
 
 char	*get_variable(char *text, int i, t_env_list *env)
 {
