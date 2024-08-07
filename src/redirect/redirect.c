@@ -57,7 +57,7 @@ int	redirect_in(t_token *token)
 		{
 			if (!access(temp->next->text, F_OK | R_OK))
 			{
-				redirection_in(temp,in);
+				redirection_in(temp, in);
 				in++;
 			}
 			else

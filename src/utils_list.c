@@ -68,6 +68,8 @@ void	free_list(t_token *list)
 {
 	t_token	*aux;
 
+	if (!list)
+		return ;
 	while (list != NULL)
 	{
 		aux = list;
@@ -81,6 +83,8 @@ void	free_env(t_env_list *list)
 {
 	t_env_list	*aux;
 
+	if (!list)
+		return ;
 	while (list != NULL)
 	{
 		aux = list;

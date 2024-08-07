@@ -31,7 +31,7 @@ int	is_command(t_token *token)
 {
 	if (token->prev == NULL || (token->prev != NULL
 			&& (ft_strncmp(token->prev->text, "|", 2) == 0))
-			|| (token->prev != NULL
+		|| (token->prev != NULL
 			&& is_redirect(token->prev->prev)
 			&& !is_redirect(token)))
 		return (1);

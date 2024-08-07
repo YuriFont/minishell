@@ -44,10 +44,10 @@ int has_redirect_out(t_token *token)
 	return (0);
 }
 
-int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
+int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 {
-	int fd[2];
-	int pid;
+	int	fd[2];
+	int	pid;
 	int	status;
 
 	redirection(token);
@@ -60,10 +60,8 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			{
 				dup2(prev_fdin, STDIN_FILENO);
 			}
-			if (close(prev_fdin) == -1) {
-				fprintf(stderr,"Error depois :%d\n", token->fd_bk);
-			}
-			// close(prev_fdin);
+			if (close(prev_fdin) == -1)
+				fprintf(stderr, "Error depois :%d\n", token->fd_bk);
 			start_run_this(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
@@ -71,17 +69,15 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		}
 		else
 		{
-			if (close(prev_fdin) == -1) {
-				fprintf(stderr,"Error depois :\n");
-			}
+			if (close(prev_fdin) == -1)
+				fprintf(stderr, "Error depois :\n");
 			waitpid(pid, &status, 0);
 			exit_status_repository(WEXITSTATUS(status));
 			return (exit_status_repository(-1));
 		}
 	}
-	if (pipe(fd) == -1) {
+	if (pipe(fd) == -1)
 		perror("error ao criar pipe\n");
-	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -98,17 +94,16 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		else
 		{
 			if (close(fd[0]) == -1)
-				fprintf(stderr,"Error depois :\n");
+				fprintf(stderr, "Error depois :\n");
 			if (prev_fdin != 0)
 			{
 				dup2(prev_fdin, STDIN_FILENO);
-				if (close(prev_fdin) == -1) {
-				fprintf(stderr,"Error depois :\n");
-			}
+				if (close(prev_fdin) == -1)
+					fprintf(stderr, "Error depois :\n");
 			}
 			dup2(fd[1], STDOUT_FILENO);
 			if (close(fd[1]) == -1)
-				fprintf(stderr,"Error depois :\n");
+				fprintf(stderr, "Error depois :\n");
 			start_run_this(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
@@ -120,17 +115,12 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		close(fd[1]);
 		if (prev_fdin != 0)
 		{
-			if (close(prev_fdin) == -1) {
-				fprintf(stderr,"Error depois :%d\n", token->fd_bk);
-			}
-
+			if (close(prev_fdin) == -1)
+				fprintf(stderr, "Error depois :%d\n", token->fd_bk);
 		}
 		status = execute_pipe(next_command(token), env, fd[0]);
-		// exit_status_repository(status);
 		while (waitpid(-1, NULL, WNOHANG) != -1) ;
-		free_env(*env);
-		free_list(first_token(token));
-			fprintf(stderr ,"saida do processo pipe : %d\n", exit_status_repository(-1));
+		fprintf(stderr, "saida do processo pipe : %d\n", exit_status_repository(-1));
 		return (exit_status_repository(-1));
 	}
 }
@@ -150,12 +140,14 @@ void	exe_commands(t_minishell	*mini)
 		if (pid == 0)
 		{
 			status = execute_pipe(temp, &mini->env, 0);
+			free_env(mini->env);
+			free_list(first_token(temp));
 			exit(exit_status_repository(-1));
 		}
 		else
 		{
 			waitpid(pid, &status, 0);
-			fprintf(stderr ,"saida do processo : %d\n", WEXITSTATUS(status));
+			fprintf(stderr, "saida do processo : %d\n", WEXITSTATUS(status));
 			exit_status_repository(WEXITSTATUS(status));
 		}
 		if (get_my_pid() != mini->my_pid)
