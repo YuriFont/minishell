@@ -179,4 +179,11 @@ void		heredoc(t_token *temp, int hd);
 
 int			redirect_in(t_token *token);
 
+/* pipeline */
+
+int			has_pipe(t_token *token);
+t_token		*first_token(t_token *token);
+t_token		*find_command(t_token *token);
+t_token		*next_command(t_token *token);
+
 #endif

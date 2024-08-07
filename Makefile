@@ -15,10 +15,12 @@ EXECUTOR = command_executor.c\
 			execution.c\
 			input_options.c\
 			path_commad.c\
-			make_args.c
+			make_args.c\
+			utils_pipeline_execution.c
 
 REDIRECT = redirect.c\
-			ft_redirections.c
+			ft_redirections.c\
+			close_fds.c
 
 PROMPT = create_prompt.c\
 			get_user_var.c

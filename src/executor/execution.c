@@ -12,70 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-void	close_fds(t_token *token)
-{
-	while (token)
-	{
-		if (token->fd_in != STDIN_FILENO)
-		{
-			dup2(token->fd_bk, STDIN_FILENO);
-			if (close(token->fd_in) == -1)
-				fprintf(stderr,"Error close fdin :%d\n", token->fd_bk);
-			close(token->fd_bk);
-		}
-		if (token->fd_out != STDOUT_FILENO)
-		{
-			dup2(token->fd_bk, STDOUT_FILENO);
-			if (close(token->fd_out) == -1)
-				fprintf(stderr,"Error close fdout :%d\n", token->fd_bk);
-			close(token->fd_bk);
-		}
-		token = token->next;
-	}
-	unlink(".heredoc");
-}
-
-int	has_pipe(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp)
-	{
-		if (temp->token == PIPE)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
-
-t_token *first_token(t_token *token)
-{
-    t_token    *temp;
-
-    temp = token;
-    while (temp->prev)
-    {
-        temp = temp->prev;
-    }
-    return (temp);
-}
-
-t_token	*find_command(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp)
-	{
-		if (temp->token == COMAND)
-			return (temp);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
+void	start_run_this(t_token *temp, t_env_list **env, int is_pipe)
 {
 	t_token	*cmd;
 
@@ -93,20 +30,9 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 	close_fds(temp);
 }
 
-t_token	*next_command(t_token *token)
-{
-	while (token)
-	{
-		if (token->token == PIPE)
-			return (token->next);
-		token = token->next;
-	}
-	return (token);
-}
-
 int has_redirect_out(t_token *token)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = token;
 	while (temp && temp->token != PIPE)
@@ -138,7 +64,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				fprintf(stderr,"Error depois :%d\n", token->fd_bk);
 			}
 			// close(prev_fdin);
-			executa_isso(token, env, 0);
+			start_run_this(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
 			exit(exit_status_repository(-1));
@@ -165,7 +91,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			close(fd[0]);
 			if (prev_fdin != 0)
 				close(prev_fdin);
-			executa_isso(token, env, 0);
+			start_run_this(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
 		}
@@ -183,7 +109,7 @@ int execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			dup2(fd[1], STDOUT_FILENO);
 			if (close(fd[1]) == -1)
 				fprintf(stderr,"Error depois :\n");
-			executa_isso(token, env, 0);
+			start_run_this(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
 		}
@@ -240,19 +166,5 @@ void	exe_commands(t_minishell	*mini)
 		}
 		return ;
 	}
-	// while (temp)
-	// {
-	 executa_isso(temp, &mini->env, 1);
-		// if (redirection(temp))
-		// 	return ;
-		// if (!check_builtins(token, env))
-		// {
-		// 	pid = fork();
-		// 	if (pid == 0)
-		// 		read_command(token, *env);
-		// 	waitpid(pid, &status, 0);
-		// }
-		// close_fds(temp);
-	//	temp = next_command(temp);
-//	}
+	start_run_this(temp, &mini->env, 1);
 }
