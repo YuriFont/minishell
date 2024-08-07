@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   handler_signals.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+        +:+     */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+      +#+        */
+/*                                                +#+#+#+#+#+  +#+           */
 /*   Created: 2024/07/09 09:08:07 by yufonten          #+#    #+#             */
 /*   Updated: 2024/07/09 09:08:07 by yufonten         ###   ########.fr       */
 /*                                                                            */
@@ -29,15 +26,8 @@ void	signal_handler(int signal)
 
 void	handler_signals(void)
 {
-	// struct sigaction sig;
-
-    signal(SIGINT, signal_handler);
+	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	// sig.sa_handler = signal_handler;
-	// sigemptyset(&sig.sa_mask);
-	// sigaddset(&sig.sa_mask, SIGINT);
-	// sig.sa_flags = 0;
-	// sigaction(SIGINT, &sig, NULL);
 }
 
 void	handle_if_signal(int status)

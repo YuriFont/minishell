@@ -35,7 +35,9 @@ PARSER	= analyzer.c\
 SIGNALS = handler_signals.c
 
 UTILS	= tools.c\
-			ft_ltoa.c
+			ft_ltoa.c\
+			make_matriz_env.c\
+			exit_repository.c
 
 FILES = main.c\
 		utils.c\
