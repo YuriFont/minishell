@@ -57,9 +57,7 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		if (pid == 0)
 		{
 			if (prev_fdin != 0)
-			{
 				dup2(prev_fdin, STDIN_FILENO);
-			}
 			if (close(prev_fdin) == -1)
 				fprintf(stderr, "Error depois :%d\n", token->fd_bk);
 			start_run_this(token, env, 0);
@@ -120,7 +118,7 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		}
 		status = execute_pipe(next_command(token), env, fd[0]);
 		while (waitpid(-1, NULL, WNOHANG) != -1) ;
-		fprintf(stderr, "saida do processo pipe : %d\n", exit_status_repository(-1));
+		// fprintf(stderr, "saida do processo pipe : %d\n", exit_status_repository(-1));
 		return (exit_status_repository(-1));
 	}
 }
@@ -147,7 +145,7 @@ void	exe_commands(t_minishell	*mini)
 		else
 		{
 			waitpid(pid, &status, 0);
-			fprintf(stderr, "saida do processo : %d\n", WEXITSTATUS(status));
+			// fprintf(stderr, "saida do processo : %d\n", WEXITSTATUS(status));
 			exit_status_repository(WEXITSTATUS(status));
 		}
 		if (get_my_pid() != mini->my_pid)

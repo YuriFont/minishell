@@ -21,7 +21,7 @@ int	redirect_out(t_token *token)
 	{
 		if (temp->token == REDIRECT_OUT || temp->token == APPEND)
 		{
-			if (temp->prev->fd_out != STDOUT_FILENO)
+			if (temp->prev && temp->prev->fd_out != STDOUT_FILENO)
 				close_fds(token);
 			if (temp->token == REDIRECT_OUT)
 				redirection_out(temp);
@@ -39,6 +39,8 @@ void	error_redirect_in(t_token *temp)
 {
 	printf("bash: %s: No such file or", temp->next->text);
 	printf(" directory || Permission denied\n");
+	if (temp->prev && temp->prev->token == COMAND)
+		temp->prev->token = -1;
 	exit_status_repository(1);
 }
 

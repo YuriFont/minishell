@@ -19,6 +19,7 @@ char	*get_local_of_session(char *host)
 	int		i;
 
 	i = 0;
+	resul_of_session = NULL;
 	temp = ft_strchr(host, '/') + 1;
 	while (temp[i])
 	{

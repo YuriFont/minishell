@@ -42,7 +42,7 @@ char	**create_matriz(t_env_list *list, int size_list)
 		i++;
 		aux = aux->next;
 	}
-	env_clone[i] = '\0';
+	env_clone[i] = NULL;
 	return (env_clone);
 }
 
