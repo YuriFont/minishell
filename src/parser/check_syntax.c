@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:59:16 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/08 22:22:22 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:43:50 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	valid_redirect(t_token *token)
 		else if ((temp->token == REDIRECT_OUT || temp->token == APPEND)
 				&& !access(temp->next->text, F_OK)
 				&& access(temp->next->text, W_OK) == -1)
-			flag = printf("minishell: %s: Permission denied\n", temp->next->text);
+			flag = printf("bash: %s: Permission denied\n", temp->next->text);
 		temp = temp->next;
 	}
 	if (flag != 0)
