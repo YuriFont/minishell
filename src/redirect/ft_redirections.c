@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/05 22:03:54 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:04:03 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	heredoc(t_token *temp, int hd)
 	{
 		input = NULL;
 		input = readline("> ");
-		if (!input || !ft_strncmp(temp->next->text, input, ft_strlen(input) + 1))
+		if (!input || !ft_strncmp(temp->next->text, input,
+				ft_strlen(input) + 1))
 			break ;
 		else
 			write_in_heredoc(input, fd_hd);
