@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/09 10:07:37 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:35:25 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int	redirect_out(t_token *token)
 	return (0);
 }
 
-void	error_redirect_in(t_token *temp)
+int	error_redirect_in(t_token *temp)
 {
 	printf("bash: %s: No such file or", temp->next->text);
 	printf(" directory || Permission denied\n");
 	exit_status_repository(1);
+	return (1);
 }
 
 int	redirect_in(t_token *token)
