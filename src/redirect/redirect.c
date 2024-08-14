@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/28 20:44:37 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:21:28 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	redirect_out(t_token *token)
 	{
 		if (temp->token == REDIRECT_OUT || temp->token == APPEND)
 		{
-			if (temp->prev->fd_out != STDOUT_FILENO)
-				close_fds(token);
+			if (temp->prev && temp->prev->fd_out != STDOUT_FILENO)
+				close_fds(token, 0, 1);
 			if (temp->token == REDIRECT_OUT)
 				redirection_out(temp);
 			else
@@ -35,11 +35,12 @@ int	redirect_out(t_token *token)
 	return (0);
 }
 
-void	error_redirect_in(t_token *temp)
+int	error_redirect_in(t_token *temp)
 {
 	printf("bash: %s: No such file or", temp->next->text);
 	printf(" directory || Permission denied\n");
 	exit_status_repository(1);
+	return (1);
 }
 
 int	redirect_in(t_token *token)
@@ -56,20 +57,14 @@ int	redirect_in(t_token *token)
 		if (temp->token == REDIRECT_IN)
 		{
 			if (!access(temp->next->text, F_OK | R_OK))
-			{
-				redirection_in(temp,in);
-				in++;
-			}
+				redirection_in(temp, in++);
 			else
-			{
-				error_redirect_in(temp);
-				return (1);
-			}
+				return (error_redirect_in(temp));
 		}
 		else if (temp->token == HEREDOC)
 		{
-			heredoc(temp, hd);
-			hd++;
+			close_fds(token, 1, 1);
+			heredoc(temp, hd++);
 		}
 		temp = temp->next;
 	}

@@ -13,7 +13,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	free_list(t_token *list)
 {
@@ -76,27 +76,6 @@ int	find_next_char(int i, char c, char *input)
 {
 	i++;
 	while (input[i] && input[i] != c)
-		i++;
-	return (i);
-}
-
-int	break_point_quotes(char c)
-{
-	if (c != ' ' && c != '\0' && c != '|' && c != '>' && c != '<')
-		return (1);
-	return (0);
-}
-/* 
-	Sem uso 
-*/
-
-int	find_last_caracter(char *input, int i)
-{
-	char	c;
-
-	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
-		c = input[i];
-	while (input[i] && input[i] == c)
 		i++;
 	return (i);
 }

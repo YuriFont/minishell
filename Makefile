@@ -35,11 +35,13 @@ PARSER	= analyzer.c\
 SIGNALS = handler_signals.c
 
 UTILS	= tools.c\
-			ft_ltoa.c
+			tools2.c\
+			ft_ltoa.c\
+			utils.c\
+			utils2.c\
+			utils_list.c
 
 FILES = main.c\
-		utils.c\
-		utils_list.c\
 		fill_struct.c\
 		struct_input_separator.c\
 		$(addprefix builtins/, $(BUILTINS))\

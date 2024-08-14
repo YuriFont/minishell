@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyzer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:51:50 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/05 16:51:52 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/14 14:26:22 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	is_command(t_token *token)
 {
 	if (token->prev == NULL || (token->prev != NULL
 			&& (ft_strncmp(token->prev->text, "|", 2) == 0))
-			|| (token->prev != NULL
-			&& is_redirect(token->prev->prev)
+		|| (token->prev != NULL && is_redirect(token->prev->prev)
 			&& !is_redirect(token)))
 		return (1);
 	return (0);
@@ -70,7 +69,7 @@ void	mark_tokens(t_token *token)
 	while (temp)
 	{
 		set_builtin(temp);
-		// printf("%s %d\n", temp->text, temp->token);
+		printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }

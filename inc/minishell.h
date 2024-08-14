@@ -167,7 +167,7 @@ void		remove_quotes(t_token *token);
 void		redirection_out(t_token *temp);
 void		redirection_append(t_token *temp);
 void		redirection_in(t_token *temp, int in);
-void		close_fds(t_token *token);
+void		close_fds(t_token *token, int in, int out);
 int			exit_status_repository(int exit_status);
 char		*get_value_of_exit(void);
 int			mini_atoi(char *number);
@@ -176,7 +176,7 @@ int			get_my_pid(void);
 int			everything_is_space(char *input);
 char		*get_value_of_exit(void);
 void		heredoc(t_token *temp, int hd);
-
+int			break_point_quotes(char c);
 int			redirect_in(t_token *token);
 
 #endif
