@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/08 22:04:03 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:47:11 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	heredoc(t_token *temp, int hd)
 	if (input)
 		free(input);
 	if (close(fd_hd) == -1)
-		fprintf(stderr,"Error depois : fd_hd\n");
+		fprintf(stderr, "Error depois : fd_hd\n");
 	temp->fd_in = open(".heredoc", O_RDONLY);
 	temp->fd_bk = dup(STDIN_FILENO);
 	dup2(temp->fd_in, STDIN_FILENO);
