@@ -12,11 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-void	close_fds(t_token *token)
+void	close_fds(t_token *token, int in, int out)
 {
 	while (token)
 	{
-		if (token->fd_in != STDIN_FILENO)
+		if (token->fd_in != STDIN_FILENO && in)
 		{
 			dup2(token->fd_bk, STDIN_FILENO);
 			if (close(token->fd_in) == -1)
@@ -24,7 +24,7 @@ void	close_fds(t_token *token)
 			token->fd_in = 0;
 			close(token->fd_bk);
 		}
-		if (token->fd_out != STDOUT_FILENO)
+		if (token->fd_out != STDOUT_FILENO && out)
 		{
 			dup2(token->fd_bk, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)
@@ -92,7 +92,7 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (!check_builtins(cmd, env))
 			read_command(cmd, *env);
 	}
-	close_fds(temp);
+	close_fds(temp, 1, 1);
 }
 
 t_token	*next_command(t_token *token)

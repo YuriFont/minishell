@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/13 13:35:25 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:21:28 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	redirect_out(t_token *token)
 		if (temp->token == REDIRECT_OUT || temp->token == APPEND)
 		{
 			if (temp->prev && temp->prev->fd_out != STDOUT_FILENO)
-				close_fds(token);
+				close_fds(token, 0, 1);
 			if (temp->token == REDIRECT_OUT)
 				redirection_out(temp);
 			else
@@ -63,7 +63,7 @@ int	redirect_in(t_token *token)
 		}
 		else if (temp->token == HEREDOC)
 		{
-			close_fds(token);
+			close_fds(token, 1, 1);
 			heredoc(temp, hd++);
 		}
 		temp = temp->next;
