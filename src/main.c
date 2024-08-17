@@ -20,6 +20,9 @@ int	main(void)
 
 	mini.env = get_envp();
 	mini.my_pid = get_my_pid();
+	printf("%d\n", mini.my_pid);
+	mini.fd_bk_in = 0;
+	mini.fd_bk_out = 1;
 	handler_signals();
 	while (1)
 	{

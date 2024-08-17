@@ -63,11 +63,37 @@ int	valid_pipe(t_token *token)
 	return (1);
 }
 
+void	valid_redirect_in(t_token *token)
+{
+	t_token	*temp;
+	t_token	*aux;
+
+	temp = token;
+	aux = NULL;
+	while (temp)
+	{
+		if ((temp->next != NULL && temp->next->token == REDIRECT_IN)
+				&& (temp->next->next->next != NULL
+			&& temp->next->next->next->token == WORD))
+		{
+			aux = temp->next;
+			temp->next->next->next->prev = temp;
+			temp->next = temp->next->next->next;
+			free(aux->next->text);
+			free(aux->next);
+			free(aux->text);
+			free(aux);
+		}
+		temp = temp->next;
+	}
+}
+
 int	check_syntax(t_token *token)
 {
 	if (!valid_redirect(token))
 		return (0);
 	if (!valid_pipe(token))
 		return (0);
+	valid_redirect_in(token);
 	return (1);
 }

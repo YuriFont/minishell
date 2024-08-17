@@ -16,24 +16,26 @@ void	close_fds(t_token *token, int in, int out)
 {
 	while (token)
 	{
+		//fprintf(stderr, "%s - d_out_token: %d | fd_bk_out: %d | stdout: %d\n", token->text, token->fd_out, token->mini->fd_bk_out, STDOUT_FILENO);
 		if (token->fd_in != STDIN_FILENO && in)
 		{
-			dup2(token->fd_bk, STDIN_FILENO);
+			dup2(token->mini->fd_bk_in, STDIN_FILENO);
 			if (close(token->fd_in) == -1)
-				fprintf(stderr, "Error close fdin :%d\n", token->fd_in);
+				printf("Error close fdin :%d\n", token->fd_in);
 			token->fd_in = 0;
-			close(token->fd_bk);
+			close(token->mini->fd_bk_in);
 		}
 		if (token->fd_out != STDOUT_FILENO && out)
 		{
-			dup2(token->fd_bk, STDOUT_FILENO);
+			dup2(token->mini->fd_bk_out, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)
-				fprintf(stderr, "Error close fdout :%d\n", token->fd_out);
+				printf("Error close fdout :%d\n", token->fd_out);
 			token->fd_out = 1;
-			close(token->fd_bk);
+			close(token->mini->fd_bk_out);
 		}
 		token = token->next;
 	}
+	dup2(6, STDOUT_FILENO);
 	unlink(".heredoc");
 }
 
@@ -92,7 +94,7 @@ void	executa_isso(t_token *temp, t_env_list **env, int is_pipe)
 		if (!check_builtins(cmd, env))
 			read_command(cmd, *env);
 	}
-	close_fds(temp, 1, 1);
+	close_fds(first_token(temp), 1, 1);
 }
 
 t_token	*next_command(t_token *token)
@@ -137,7 +139,7 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				dup2(prev_fdin, STDIN_FILENO);
 			}
 			if (close(prev_fdin) == -1)
-				fprintf(stderr, "Error depois :%d\n", token->fd_bk);
+				fprintf(stderr, "Error depois :%d\n", prev_fdin);
 			// close(prev_fdin);
 			executa_isso(token, env, 0);
 			free_env(*env);
@@ -194,7 +196,7 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		if (prev_fdin != 0)
 		{
 			if (close(prev_fdin) == -1)
-				fprintf(stderr, "Error depois :%d\n", token->fd_bk);
+				fprintf(stderr, "Error depois :%d\n", prev_fdin);
 		}
 		status = execute_pipe(next_command(token), env, fd[0]);
 		// exit_status_repository(status);

@@ -20,6 +20,7 @@ char	*get_local_of_session(char *host)
 
 	i = 0;
 	temp = ft_strchr(host, '/') + 1;
+	resul_of_session = NULL;
 	while (temp[i])
 	{
 		if (temp[i] == '.')

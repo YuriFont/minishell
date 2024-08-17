@@ -25,6 +25,18 @@ int	checker_parse(t_minishell *mini)
 	return (0);
 }
 
+void	direct_mini(t_minishell *mini)
+{
+	t_token	*temp;
+
+	temp = mini->token;
+	while (temp)
+	{
+		temp->mini = mini;
+		temp = temp->next;
+	}
+}
+
 int	parse(char *input, char *prompt, t_minishell *mini)
 {
 	if (!input)
@@ -44,6 +56,7 @@ int	parse(char *input, char *prompt, t_minishell *mini)
 		return (1);
 	}
 	fill_struct(input, &mini->token);
+	direct_mini(mini);
 	free(input);
 	free(prompt);
 	return (checker_parse(mini));
