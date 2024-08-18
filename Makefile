@@ -17,6 +17,9 @@ EXECUTOR = command_executor.c\
 			path_commad.c\
 			make_args.c
 
+STRUCT = fill_struct.c\
+			struct_input_separator.c
+
 REDIRECT = redirect.c\
 			ft_redirections.c
 
@@ -42,15 +45,15 @@ UTILS	= tools.c\
 			utils_list.c
 
 FILES = main.c\
-		fill_struct.c\
-		struct_input_separator.c\
 		$(addprefix builtins/, $(BUILTINS))\
 		$(addprefix executor/, $(EXECUTOR))\
 		$(addprefix parser/, $(PARSER))\
 		$(addprefix utils/, $(UTILS))\
 		$(addprefix signals/, $(SIGNALS))\
 		$(addprefix prompt/, $(PROMPT))\
-		$(addprefix redirect/, $(REDIRECT))
+		$(addprefix redirect/, $(REDIRECT))\
+		$(addprefix struct/, $(STRUCT))
+
 CC = cc
 CFLAGS = -Wall -Werror -Wextra 
 RM = rm -rf
