@@ -78,7 +78,7 @@ void	mark_tokens(t_token *token)
 			has_command = 1;
 		if (temp->token == PIPE)
 			has_command = 0;
-		printf("%s %d\n", temp->text, temp->token);
+		// printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }

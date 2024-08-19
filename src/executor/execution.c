@@ -35,7 +35,7 @@ void	close_fds(t_token *token, int in, int out)
 		}
 		token = token->next;
 	}
-	dup2(6, STDOUT_FILENO);
+	// dup2(6, STDOUT_FILENO);
 	unlink(".heredoc");
 }
 
@@ -202,8 +202,6 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 		// exit_status_repository(status);
 		while (waitpid(-1, NULL, WNOHANG) != -1)
 			;
-		free_env(*env);
-		free_list(first_token(token));
 		fprintf(stderr, "saida do processo pipe : %d\n",
 			exit_status_repository(-1));
 		return (exit_status_repository(-1));
@@ -225,6 +223,8 @@ void	exe_commands(t_minishell	*mini)
 		if (pid == 0)
 		{
 			status = execute_pipe(temp, &mini->env, 0);
+			free_env(mini->env);
+			free_list(first_token(temp));
 			exit(exit_status_repository(-1));
 		}
 		else
@@ -233,12 +233,12 @@ void	exe_commands(t_minishell	*mini)
 			fprintf(stderr, "saida do processo : %d\n", WEXITSTATUS(status));
 			exit_status_repository(WEXITSTATUS(status));
 		}
-		if (get_my_pid() != mini->my_pid)
-		{
-			free_env(mini->env);
-			free_list(first_token(temp));
-			exit(WEXITSTATUS(status));
-		}
+		// if (get_my_pid() != mini->my_pid)
+		// {
+		// 	free_env(mini->env);
+		// 	free_list(first_token(temp));
+		// 	exit(WEXITSTATUS(status));
+		// }
 		return ;
 	}
 	// while (temp)

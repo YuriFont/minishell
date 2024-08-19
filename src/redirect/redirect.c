@@ -26,7 +26,10 @@ int	redirect_out(t_token *token)
 			if (temp->token == REDIRECT_OUT)
 				redirection_out(temp);
 			else
+			{
+				close_fds(token, 1, 1);
 				redirection_append(temp);
+			}
 			if (temp->next->fd_out == -1)
 				return (1);
 		}

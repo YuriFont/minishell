@@ -88,12 +88,27 @@ void	valid_redirect_in(t_token *token)
 	}
 }
 
+void	mark_args_of_redirect(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		if (temp->prev && (temp->prev->token >= 4 && temp->prev->token <= 7))
+			temp->token = ARGM;
+		// printf("%s %d\n", temp->text, temp->token);
+		temp = temp->next;
+	}
+}
+
 int	check_syntax(t_token *token)
 {
 	if (!valid_redirect(token))
 		return (0);
 	if (!valid_pipe(token))
 		return (0);
-	valid_redirect_in(token);
+//	valid_redirect_in(token);
+	mark_args_of_redirect(token);
 	return (1);
 }

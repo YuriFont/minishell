@@ -19,10 +19,11 @@ int	count_of_args(t_token *list)
 
 	i = 0;
 	aux = list;
-	while (aux && aux->token != PIPE && !(aux->token >= 4 && aux->token <= 7))
+	while (aux && aux->token != PIPE)
 	{
+		if (aux->token == WORD)
+			i++;
 		aux = aux->next;
-		i++;
 	}
 	return (i);
 }
@@ -40,9 +41,10 @@ char	**elaborating_args(t_token *token, char *command)
 	args = (char **)malloc(sizeof(char *) * (count_args + 3));
 	args[0] = ft_strdup(command);
 	args[1] = ft_strdup("--color=auto");
-	while (++i <= (count_args + 1))
+	while (aux && aux->token != PIPE)
 	{
-		args[i] = ft_strdup(aux->text);
+		if (aux->token == WORD)
+			args[i++] = ft_strdup(aux->text);
 		aux = aux->next;
 	}
 	args[i] = NULL;
@@ -65,11 +67,11 @@ char	**create_args_options(char *command, t_token *token)
 	{
 		args = (char **)malloc(sizeof(char *) * (count_args + 2));
 		args[0] = ft_strdup(command);
-		while (aux && (i <= (count_args)))
+		while (aux && aux->token != PIPE)
 		{
-			args[i] = ft_strdup(aux->text);
+			if (aux->token == WORD)
+				args[i++] = ft_strdup(aux->text);
 			aux = aux->next;
-			i++;
 		}
 		args[i] = NULL;
 	}
