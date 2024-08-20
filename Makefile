@@ -16,7 +16,8 @@ EXECUTOR = command_executor.c\
 			input_options.c\
 			path_commad.c\
 			make_args.c\
-			ft_pipe.c
+			ft_pipe.c\
+			utils_execution.c
 
 STRUCT = fill_struct.c\
 			struct_input_separator.c

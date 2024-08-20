@@ -37,32 +37,6 @@ void	close_fds(t_token *token, int in, int out)
 	unlink(".heredoc");
 }
 
-int	has_pipe(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp)
-	{
-		if (temp->token == PIPE)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
-
-t_token	*first_token(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp->prev)
-	{
-		temp = temp->prev;
-	}
-	return (temp);
-}
-
 t_token	*find_command(t_token *token)
 {
 	t_token	*temp;
@@ -93,31 +67,6 @@ void	exe_this(t_token *temp, t_env_list **env, int is_pipe)
 			read_command(cmd, *env);
 	}
 	close_fds(first_token(temp), 1, 1);
-}
-
-t_token	*next_command(t_token *token)
-{
-	while (token)
-	{
-		if (token->token == PIPE)
-			return (token->next);
-		token = token->next;
-	}
-	return (token);
-}
-
-int	has_redirect_out(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp && temp->token != PIPE)
-	{
-		if (temp->token == REDIRECT_OUT)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
 }
 
 int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)

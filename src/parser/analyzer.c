@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:51:50 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/14 14:26:22 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:14:04 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	mark_tokens(t_token *token)
 			has_command = 1;
 		if (temp->token == PIPE)
 			has_command = 0;
-		// printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }

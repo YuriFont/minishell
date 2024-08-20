@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:59:16 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/14 14:27:26 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:14:56 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,6 @@ int	valid_pipe(t_token *token)
 	return (1);
 }
 
-void	valid_redirect_in(t_token *token)
-{
-	t_token	*temp;
-	t_token	*aux;
-
-	temp = token;
-	aux = NULL;
-	while (temp)
-	{
-		if ((temp->next != NULL && temp->next->token == REDIRECT_IN)
-				&& (temp->next->next->next != NULL
-			&& temp->next->next->next->token == WORD))
-		{
-			aux = temp->next;
-			temp->next->next->next->prev = temp;
-			temp->next = temp->next->next->next;
-			free(aux->next->text);
-			free(aux->next);
-			free(aux->text);
-			free(aux);
-		}
-		temp = temp->next;
-	}
-}
-
 void	mark_args_of_redirect(t_token *token)
 {
 	t_token	*temp;
@@ -97,7 +72,6 @@ void	mark_args_of_redirect(t_token *token)
 	{
 		if (temp->prev && (temp->prev->token >= 4 && temp->prev->token <= 7))
 			temp->token = ARGM;
-		// printf("%s %d\n", temp->text, temp->token);
 		temp = temp->next;
 	}
 }
@@ -108,7 +82,6 @@ int	check_syntax(t_token *token)
 		return (0);
 	if (!valid_pipe(token))
 		return (0);
-//	valid_redirect_in(token);
 	mark_args_of_redirect(token);
 	return (1);
 }

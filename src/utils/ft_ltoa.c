@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_ltoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:29:26 by yufonten          #+#    #+#             */
-/*   Updated: 2023/10/25 11:48:42 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:08:06 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	count_size(long long n)
+int	count_size(long long n)
 {
 	int	i;
 	int	sign;
@@ -31,7 +31,7 @@ static int	count_size(long long n)
 	return (i + sign);
 }
 
-static long long	ft_abs(long long n)
+long long	ft_abs(long long n)
 {
 	if (n < 0)
 		return (n * -1);

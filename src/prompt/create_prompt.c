@@ -6,13 +6,13 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:05:21 by yufonten          #+#    #+#             */
-/*   Updated: 2024/07/12 14:07:58 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:48:06 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*organize_prompt(char *host, char *name, char *dir)
+char	*organize_prompt(char *host, char *name, char *dir)
 {
 	char	*prompt;
 
