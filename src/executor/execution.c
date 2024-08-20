@@ -142,7 +142,7 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	if (pid == 0)
 	{
 		if (!new_minishell(token, fd, prev_fdin, env))
-			command_pipe(fd, prev_fdin, token, env);
+			command_pipe(fd, prev_fdin, token, env, is_error);
 		exit(1);
 	}
 	else

@@ -51,7 +51,7 @@ int	new_minishell(t_token *token, int *fd, int prev_fdin, t_env_list **env)
 	return (0);
 }
 
-void	command_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env)
+void	command_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env, int is_error)
 {
 	if (close(fd[0]) == -1)
 		fprintf(stderr, "Error depois :\n");
@@ -78,7 +78,7 @@ int	next_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env)
 		if (close(prev_fdin) == -1)
 			fprintf(stderr, "Error depois :%d\n", prev_fdin);
 	}
-	status = exe_pipe(next_command(token), env, fd[0]);
+	exe_pipe(next_command(token), env, fd[0]);
 	while (waitpid(-1, NULL, WNOHANG) != -1)
 		;
 	return (exit_status_repository(-1));
