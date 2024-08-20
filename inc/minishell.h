@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/25 15:22:22 by yufonten          #+#    #+#             */
-/*   Updated: 2024/05/25 15:22:22 by yufonten         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
+/*   Updated: 2024/08/20 10:16:55 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +180,13 @@ void		heredoc(t_token *temp, int hd);
 int			break_point_quotes(char c);
 int			redirect_in(t_token *token);
 t_token		*first_token(t_token *token);
+int			ls_pipe_first(int prev_fdin, int is_error, t_token *token, t_env_list **env);
+int 		ls_pipe_second(int prev_fdin, int *status, int pid);
+int			new_minishell(t_token *token, int *fd, int prev_fdin, t_env_list **env);
+void		command_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env);
+int			next_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env);
+void		exe_this(t_token *temp, t_env_list **env, int is_pipe);
+int			exe_pipe(t_token *token, t_env_list **env, int prev_fdin);
+int			has_redirect_out(t_token *token);
 
 #endif

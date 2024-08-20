@@ -15,7 +15,8 @@ EXECUTOR = command_executor.c\
 			execution.c\
 			input_options.c\
 			path_commad.c\
-			make_args.c
+			make_args.c\
+			ft_pipe.c
 
 STRUCT = fill_struct.c\
 			struct_input_separator.c
@@ -41,7 +42,7 @@ UTILS	= tools.c\
 			utils_env.c\
 			ft_ltoa.c\
 			utils.c\
-			utils2.c\
+			sc_utils.c\
 			utils_list.c
 
 FILES = main.c\

@@ -21,11 +21,6 @@ t_token	*find_last_node(t_token *head)
 	return (head);
 }
 
-/*
-	Achar a ultima variavel de ambiente e retornar o no dela
-	para adicionar uma nova variavel no nó seguinte
-*/
-
 t_env_list	*find_last_node_in_env(t_env_list *head)
 {
 	if (head == NULL)
