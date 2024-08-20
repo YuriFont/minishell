@@ -127,8 +127,9 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	fd[2];
 	int	pid;
 	int	status;
+	int	is_error;
 
-	redirection(token);
+	is_error = redirection(token);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
@@ -141,7 +142,8 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			if (close(prev_fdin) == -1)
 				fprintf(stderr, "Error depois :%d\n", prev_fdin);
 			// close(prev_fdin);
-			executa_isso(token, env, 0);
+			if (!is_error)
+				executa_isso(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
 			exit(exit_status_repository(-1));
@@ -184,7 +186,8 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			dup2(fd[1], STDOUT_FILENO);
 			if (close(fd[1]) == -1)
 				fprintf(stderr, "Error depois :\n");
-			executa_isso(token, env, 0);
+			if (!is_error)
+				executa_isso(token, env, 0);
 			free_env(*env);
 			free_list(first_token(token));
 		}
@@ -208,7 +211,7 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	}
 }
 
-void	exe_commands(t_minishell	*mini)
+void	exe_commands(t_minishell *mini)
 {
 	int		have_pipe;
 	t_token	*temp;
