@@ -16,7 +16,6 @@ void	close_fds(t_token *token, int in, int out)
 {
 	while (token)
 	{
-		//fprintf(stderr, "%s - d_out_token: %d | fd_bk_out: %d | stdout: %d\n", token->text, token->fd_out, token->mini->fd_bk_out, STDOUT_FILENO);
 		if (token->fd_in != STDIN_FILENO && in)
 		{
 			dup2(token->mini->fd_bk_in, STDIN_FILENO);
@@ -35,7 +34,6 @@ void	close_fds(t_token *token, int in, int out)
 		}
 		token = token->next;
 	}
-	// dup2(6, STDOUT_FILENO);
 	unlink(".heredoc");
 }
 
@@ -141,7 +139,6 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			}
 			if (close(prev_fdin) == -1)
 				fprintf(stderr, "Error depois :%d\n", prev_fdin);
-			// close(prev_fdin);
 			if (!is_error)
 				executa_isso(token, env, 0);
 			free_env(*env);
@@ -202,11 +199,8 @@ int	execute_pipe(t_token *token, t_env_list **env, int prev_fdin)
 				fprintf(stderr, "Error depois :%d\n", prev_fdin);
 		}
 		status = execute_pipe(next_command(token), env, fd[0]);
-		// exit_status_repository(status);
 		while (waitpid(-1, NULL, WNOHANG) != -1)
 			;
-		fprintf(stderr, "saida do processo pipe : %d\n",
-			exit_status_repository(-1));
 		return (exit_status_repository(-1));
 	}
 }
@@ -233,30 +227,9 @@ void	exe_commands(t_minishell *mini)
 		else
 		{
 			waitpid(pid, &status, 0);
-			fprintf(stderr, "saida do processo : %d\n", WEXITSTATUS(status));
 			exit_status_repository(WEXITSTATUS(status));
 		}
-		// if (get_my_pid() != mini->my_pid)
-		// {
-		// 	free_env(mini->env);
-		// 	free_list(first_token(temp));
-		// 	exit(WEXITSTATUS(status));
-		// }
 		return ;
 	}
-	// while (temp)
-	// {
 	executa_isso(temp, &mini->env, 1);
-		// if (redirection(temp))
-		// 	return ;
-		// if (!check_builtins(token, env))
-		// {
-		// 	pid = fork();
-		// 	if (pid == 0)
-		// 		read_command(token, *env);
-		// 	waitpid(pid, &status, 0);
-		// }
-		// close_fds(temp);
-	//	temp = next_command(temp);
-//	}
 }
