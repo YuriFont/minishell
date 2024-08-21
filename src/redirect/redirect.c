@@ -38,10 +38,12 @@ int	redirect_out(t_token *token)
 	return (0);
 }
 
-int	error_redirect_in(t_token *temp)
+int	error_redirect_in(t_token *temp, int *error)
 {
-	printf("bash: %s: No such file or", temp->next->text);
-	printf(" directory || Permission denied\n");
+	// printf("bash: %s: No such file or", temp->next->text);
+	// printf(" directory || Permission denied\n");
+	temp->next->token = NOT_EXIST;
+	*error = 1;
 	exit_status_repository(1);
 	return (1);
 }
@@ -49,34 +51,58 @@ int	error_redirect_in(t_token *temp)
 int	redirect_in(t_token *token)
 {
 	t_token	*temp;
-	int		hd;
-	int		in;
+	int		error;
 
 	temp = token;
-	hd = 0;
-	in = 0;
+	error = 0;
 	while (temp && temp->token != PIPE)
 	{
 		if (temp->token == REDIRECT_IN)
 		{
 			if (!access(temp->next->text, F_OK | R_OK))
-				redirection_in(temp, in++);
+				redirection_in(temp);
 			else
-				return (error_redirect_in(temp));
+				error_redirect_in(temp, &error);
 		}
 		else if (temp->token == HEREDOC)
 		{
 			close_fds(token, 1, 1);
-			heredoc(temp, hd++);
+			heredoc(temp);
 		}
 		temp = temp->next;
 	}
+	if (error)
+		return (1);
 	return (0);
+}
+
+int	print_error_redirectin(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp && temp->token != PIPE)
+	{
+		if (temp->token == NOT_EXIST)
+		{
+			printf("minishell: %s: No such file or", temp->text);
+			printf(" directory || Permission denied\n");
+			return (0);
+		}
+		temp = temp->next;
+	}
+	return (1);
 }
 
 int	redirection(t_token *token)
 {
-	if (redirect_in(token) || redirect_out(token))
+	if (redirect_in(token))
+	{
+		print_error_redirectin(token);
+		close_fds(token, 1, 0);
+		return (1);
+	}
+	if (redirect_out(token))
 		return (1);
 	return (0);
 }

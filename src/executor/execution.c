@@ -50,11 +50,26 @@ t_token	*find_command(t_token *token)
 	}
 	return (NULL);
 }
+int	file_redirect_valid(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp && temp->token != PIPE)
+	{
+		if (temp->token == NOT_EXIST)
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
+}
 
 void	exe_this(t_token *temp, t_env_list **env, int is_pipe)
 {
 	t_token	*cmd;
 
+	if (!file_redirect_valid(temp))
+		return ;
 	if (is_pipe)
 	{
 		if (redirection(temp))
@@ -74,14 +89,13 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	fd[2];
 	int	pid;
 	int	status;
-	int	is_error;
 
-	is_error = redirection(token);
+	redirection(token);
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
 		if (pid == 0)
-			exit(ls_pipe_first(prev_fdin, is_error, token, env));
+			exit(ls_pipe_first(prev_fdin, token, env));
 		else
 			return (ls_pipe_second(prev_fdin, &status, pid));
 	}
@@ -91,7 +105,7 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	if (pid == 0)
 	{
 		if (!new_minishell(token, fd, prev_fdin, env))
-			command_pipe(fd, prev_fdin, token, env, is_error);
+			command_pipe(fd, prev_fdin, token, env);
 		exit(1);
 	}
 	else

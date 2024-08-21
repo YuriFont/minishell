@@ -19,6 +19,7 @@ int	checker_parse(t_minishell *mini)
 	remove_quotes(mini->token);
 	if (!check_syntax(mini->token))
 	{
+		exit_status_repository(2);
 		free_list(mini->token);
 		return (1);
 	}

@@ -41,7 +41,8 @@ typedef enum e_command
 	APPEND,
 	HEREDOC,
 	ENV_VA,
-	WORD
+	WORD,
+	NOT_EXIST
 }						t_command;
 
 typedef struct s_minishell	t_minishell;
@@ -138,13 +139,13 @@ int			exe_pipe(t_token *token, t_env_list **env, int prev_fdin);
 void		exe_commands(t_minishell *mini);
 
 //ft_pipe.c
-int			ls_pipe_first(int prev_fdin, int is_error,
+int			ls_pipe_first(int prev_fdin,
 				t_token *token, t_env_list **env);
 int			ls_pipe_second(int prev_fdin, int *status, int pid);
 int			new_minishell(t_token *token, int *fd,
 				int prev_fdin, t_env_list **env);
 void		command_pipe(int *fd, int prev_fdin, t_token *token,
-				t_env_list **env, int is_error);
+				t_env_list **env);
 int			next_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env);
 
 //input_options.c
@@ -227,15 +228,15 @@ char		*get_new_username(char *name);
 
 //Redirect:
 //ft_rediretions.c
-void		redirection_in(t_token *temp, int in);
+void		redirection_in(t_token *temp);
 void		write_in_heredoc(char *input, int fd_hd);
-void		heredoc(t_token *temp, int hd);
+void		heredoc(t_token *temp);
 void		redirection_out(t_token *temp);
 void		redirection_append(t_token *temp);
 
 //redirect.c
 int			redirect_out(t_token *token);
-int			error_redirect_in(t_token *temp);
+int			error_redirect_in(t_token *temp, int *error);
 int			redirect_in(t_token *token);
 int			redirection(t_token *token);
 

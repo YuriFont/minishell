@@ -83,6 +83,12 @@ void	run_command(t_token *token, t_env_list *env, char *path)
 	free_matriz(env_mat);
 }
 
+void	print_command_not_found(char *not_found_command)
+{
+	printf("%s :Command not found\n", not_found_command);
+	exit_status_repository(127);
+}
+
 void	read_command(t_token *token, t_env_list *list)
 {
 	char	*path;
@@ -94,18 +100,10 @@ void	read_command(t_token *token, t_env_list *list)
 		return ;
 	path = get_value_in_variable("PATH", list);
 	if (!path)
-	{
-		printf("%s :Command not found\n", token->text);
-		exit_status_repository(127);
-		return ;
-	}
+		return (print_command_not_found(token->text));
 	path_command = get_path_command(token, path);
 	if (!path_command)
-	{
-		printf("%s :Command not found\n", token->text);
-		exit_status_repository(127);
-		return ;
-	}
+		return (print_command_not_found(token->text));
 	run_command(token, list, path_command);
 	free(path_command);
 }

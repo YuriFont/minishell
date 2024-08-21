@@ -12,13 +12,10 @@
 
 #include "../../inc/minishell.h"
 
-void	redirection_in(t_token *temp, int in)
+void	redirection_in(t_token *temp)
 {
-	if (in)
-		close_fds(first_token(temp), 1, 0);
+	close_fds(first_token(temp), 1, 0);
 	temp->next->fd_in = open(temp->next->text, O_RDONLY);
-	if (in && temp->prev->prev->token == REDIRECT_IN)
-		dup2(temp->mini->fd_bk_in, STDIN_FILENO);
 	temp->mini->fd_bk_in = dup(STDIN_FILENO);
 	dup2(temp->next->fd_in, STDIN_FILENO);
 }
@@ -30,14 +27,12 @@ void	write_in_heredoc(char *input, int fd_hd)
 	free(input);
 }
 
-void	heredoc(t_token *temp, int hd)
+void	heredoc(t_token *temp)
 {
 	char	*input;
 	int		fd_hd;
 
 	fd_hd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (hd && temp->prev->prev->token == HEREDOC)
-		dup2(temp->mini->fd_bk_in, STDIN_FILENO);
 	while (1)
 	{
 		input = NULL;
