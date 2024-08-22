@@ -78,7 +78,8 @@ void	mark_tokens(t_token *token)
 			has_command = 1;
 		if (temp->token == PIPE)
 			has_command = 0;
-		if (temp->prev && temp->prev->token == HEREDOC && (temp->text[0] == '\'' || temp->text[0] == '\"'))
+		if (temp->prev && temp->prev->token == HEREDOC
+			&& (temp->text[0] == '\'' || temp->text[0] == '\"'))
 			temp->token = NOT_EXPAND_VA;
 		temp = temp->next;
 	}

@@ -39,7 +39,11 @@ char	*get_host_name(t_env_list *env)
 
 	host = get_value_in_variable("SESSION_MANAGER", env);
 	if (host)
+	{
 		host = get_local_of_session(host);
+		if (host)
+			return (host);
+	}
 	else
 		host = get_value_in_variable("LOGNAME", env);
 	if (!host)

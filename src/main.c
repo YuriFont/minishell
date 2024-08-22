@@ -26,7 +26,6 @@ int	main(void)
 	while (1)
 	{
 		input = NULL;
-		prompt = NULL;
 		mini.token = NULL;
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);

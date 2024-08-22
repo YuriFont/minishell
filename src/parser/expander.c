@@ -98,7 +98,10 @@ void	expander_va(t_minishell *mini)
 	while (node)
 	{
 		if (node->token != NOT_EXPAND_VA && verify_node_expander(node->text))
-			node->text = expander_node(node->text, mini->env, 0);
+		{
+			if (node->prev && node->prev->token != HEREDOC)
+				node->text = expander_node(node->text, mini->env, 0);
+		}
 		node = node->next;
 	}
 }

@@ -35,7 +35,7 @@ char	**elaborating_args(t_token *token, char *command)
 	int		i;
 	char	**args;
 
-	i = 1;
+	i = 2;
 	aux = token;
 	count_args = count_of_args(token);
 	args = (char **)malloc(sizeof(char *) * (count_args + 3));
