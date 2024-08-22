@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/20 15:22:23 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:12:56 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ char		*get_new_username(char *name);
 //Redirect:
 //ft_rediretions.c
 void		redirection_in(t_token *temp);
-void		write_in_heredoc(char *input, int fd_hd);
+void		write_in_heredoc(char *input, int fd_hd, t_env_list *env);
 void		heredoc(t_token *temp);
 void		redirection_out(t_token *temp);
 void		redirection_append(t_token *temp);

@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/18 14:40:08 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:13:26 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	redirection_in(t_token *temp)
 	dup2(temp->next->fd_in, STDIN_FILENO);
 }
 
-void	write_in_heredoc(char *input, int fd_hd)
+void	write_in_heredoc(char *input, int fd_hd, t_env_list *env)
 {
+	input = expander_node(input, env);
 	write(fd_hd, input, ft_strlen(input));
 	write(fd_hd, "\n", 1);
 	free(input);
@@ -41,7 +42,7 @@ void	heredoc(t_token *temp)
 				ft_strlen(input) + 1))
 			break ;
 		else
-			write_in_heredoc(input, fd_hd);
+			write_in_heredoc(input, fd_hd, temp->mini->env);
 	}
 	if (input)
 		free(input);
