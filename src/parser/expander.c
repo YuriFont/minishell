@@ -97,7 +97,7 @@ void	expander_va(t_minishell *mini)
 	node = mini->token;
 	while (node)
 	{
-		if (verify_node_expander(node->text))
+		if (node->token != NOT_EXPAND_VA && verify_node_expander(node->text))
 			node->text = expander_node(node->text, mini->env, 0);
 		node = node->next;
 	}

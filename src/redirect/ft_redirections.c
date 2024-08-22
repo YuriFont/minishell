@@ -20,9 +20,10 @@ void	redirection_in(t_token *temp)
 	dup2(temp->next->fd_in, STDIN_FILENO);
 }
 
-void	write_in_heredoc(char *input, int fd_hd, t_env_list *env)
+void	write_in_heredoc(char *input, int fd_hd, t_token *token)
 {
-	input = expander_node(input, env, 1);
+	if (token->token != NOT_EXPAND_VA)
+		input = expander_node(input, token->mini->env, 1);
 	write(fd_hd, input, ft_strlen(input));
 	write(fd_hd, "\n", 1);
 	free(input);
@@ -42,7 +43,7 @@ void	heredoc(t_token *temp)
 				ft_strlen(input) + 1))
 			break ;
 		else
-			write_in_heredoc(input, fd_hd, temp->mini->env);
+			write_in_heredoc(input, fd_hd, temp->next);
 	}
 	if (input)
 		free(input);

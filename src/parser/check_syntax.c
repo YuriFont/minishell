@@ -70,7 +70,7 @@ void	mark_args_of_redirect(t_token *token)
 	temp = token;
 	while (temp)
 	{
-		if (temp->prev && (temp->prev->token >= 4 && temp->prev->token <= 7))
+		if (temp->token != NOT_EXPAND_VA && temp->prev && (temp->prev->token >= 4 && temp->prev->token <= 7))
 			temp->token = ARGM;
 		temp = temp->next;
 	}

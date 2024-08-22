@@ -42,7 +42,8 @@ typedef enum e_command
 	HEREDOC,
 	ENV_VA,
 	WORD,
-	NOT_EXIST
+	NOT_EXIST,
+	NOT_EXPAND_VA
 }						t_command;
 
 typedef struct s_minishell	t_minishell;
@@ -229,7 +230,7 @@ char		*get_new_username(char *name);
 //Redirect:
 //ft_rediretions.c
 void		redirection_in(t_token *temp);
-void		write_in_heredoc(char *input, int fd_hd, t_env_list *env);
+void		write_in_heredoc(char *input, int fd_hd, t_token *token);
 void		heredoc(t_token *temp);
 void		redirection_out(t_token *temp);
 void		redirection_append(t_token *temp);
