@@ -32,9 +32,10 @@ int	is_command(t_token *token)
 	if (token->prev == NULL || (token->prev != NULL
 			&& (ft_strncmp(token->prev->text, "|", 2) == 0))
 		|| (token->prev != NULL && is_redirect(token->prev->prev)
-			&& !is_redirect(token) && token->next == NULL))
+			&& !is_redirect(token)))
 		return (1);
 	return (0);
+	//  && token->next == NULL
 }
 
 int	set_builtin(t_token *token, int has_command)
