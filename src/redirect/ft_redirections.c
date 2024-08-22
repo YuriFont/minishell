@@ -22,7 +22,7 @@ void	redirection_in(t_token *temp)
 
 void	write_in_heredoc(char *input, int fd_hd, t_env_list *env)
 {
-	input = expander_node(input, env);
+	input = expander_node(input, env, 1);
 	write(fd_hd, input, ft_strlen(input));
 	write(fd_hd, "\n", 1);
 	free(input);
