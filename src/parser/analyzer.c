@@ -35,7 +35,6 @@ int	is_command(t_token *token)
 			&& !is_redirect(token)))
 		return (1);
 	return (0);
-	//  && token->next == NULL
 }
 
 int	set_builtin(t_token *token, int has_command)

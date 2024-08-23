@@ -194,7 +194,8 @@ int			check_syntax(t_token *token);
 
 //expander.c
 char		*get_variable(char *text, int i, t_env_list *env);
-char		*get_prev_content(char *result, char *text, int *i, int expande_everything);
+char		*get_prev_content(char *result, char *text, int *i,
+				int expande_everything);
 int			get_next_content_after_expander(char *text, int *i);
 char		*expander_node(char *text, t_env_list *env, int expande_everything);
 void		expander_va(t_minishell *mini);

@@ -40,8 +40,6 @@ int	redirect_out(t_token *token)
 
 int	error_redirect_in(t_token *temp, int *error)
 {
-	// printf("bash: %s: No such file or", temp->next->text);
-	// printf(" directory || Permission denied\n");
 	temp->next->token = NOT_EXIST;
 	*error = 1;
 	exit_status_repository(1);

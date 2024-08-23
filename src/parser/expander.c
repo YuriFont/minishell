@@ -37,7 +37,8 @@ char	*get_variable(char *text, int i, t_env_list *env)
 	return (ft_strdup(content_variable));
 }
 
-char	*get_prev_content(char *result, char *text, int *i, int expande_everything)
+char	*get_prev_content(char *result, char *text, int *i,
+		int expande_everything)
 {
 	char	*prev;
 	int		prev_i;

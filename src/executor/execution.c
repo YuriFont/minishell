@@ -50,6 +50,7 @@ t_token	*find_command(t_token *token)
 	}
 	return (NULL);
 }
+
 int	file_redirect_valid(t_token *token)
 {
 	t_token	*temp;
