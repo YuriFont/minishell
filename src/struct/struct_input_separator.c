@@ -61,7 +61,7 @@ int	add_sigle_quotes(char *input, int start, t_token **data)
 			if (input[i] == 34)
 				i = add_double_quotes(input, i, NULL);
 		}
-		if (!break_point_quotes(input[i + 1]))
+		if (!input[i] || !break_point_quotes(input[i + 1]))
 			break ;
 		i++;
 	}
