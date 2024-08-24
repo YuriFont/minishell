@@ -6,19 +6,37 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:26:59 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/08 21:35:37 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:13:21 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	valid_redirect_in(t_token *token)
+void	remove_node(t_token **token, t_token *temp)
+{
+	if (temp->next == NULL && temp->prev == NULL)
+		*token = NULL;
+	else if (temp->next == NULL && temp->prev != NULL)
+		temp->prev->next = NULL;
+	else if (temp->next != NULL && temp->prev == NULL)
+	{
+		*token = temp->next;
+		temp->next->prev = NULL;
+	}
+	else if (temp->next != NULL && temp->prev != NULL)
+	{
+		temp->prev->next = temp->next;
+		temp->next->prev = temp->prev;
+	}
+}
+
+void	valid_redirect_in(t_token **token)
 {
 	t_token	*temp;
 	t_token	*aux;
 	int		remark;
 
-	temp = token;
+	temp = *token;
 	aux = NULL;
 	remark = 0;
 	while (temp)
@@ -26,34 +44,26 @@ void	valid_redirect_in(t_token *token)
 		if (ft_strlen(temp->text) == 0)
 		{
 			aux = temp;
-			if (temp->prev == NULL && temp->next != NULL)
-			{
-				temp->mini->token = temp->next;
-				temp->next->prev = NULL;
-			}
-			else
-			{
-
-			}
-			aux = temp->next;
-			temp->next->next->prev = temp;
-			temp->next = temp->next->next->next;
-			free(aux->next->text);
-			free(aux->next);
+			remove_node(token, temp);
+			temp = temp->next;
 			free(aux->text);
 			free(aux);
 			remark = 1;
 		}
-		temp = temp->next;
+		else
+			temp = temp->next;
 	}
 	if (remark)
-		mark_tokens(token);
+		mark_tokens(*token);
 }
 
 int	checker_parse(t_minishell *mini)
 {
 	mark_tokens(mini->token);
 	expander_va(mini);
+	valid_redirect_in(&mini->token);
+	if (!mini->token)
+		return (1);
 	remove_quotes(mini->token);
 	if (!check_syntax(mini->token))
 	{

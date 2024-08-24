@@ -52,20 +52,6 @@ t_token	*find_command(t_token *token)
 	return (NULL);
 }
 
-int	file_redirect_valid(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	while (temp && temp->token != PIPE)
-	{
-		if (temp->token == NOT_EXIST)
-			return (0);
-		temp = temp->next;
-	}
-	return (1);
-}
-
 void	exe_this(t_token *temp, t_env_list **env, int is_pipe)
 {
 	t_token	*cmd;
@@ -92,8 +78,7 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	pid;
 	int	status;
 
-	dup2(token->mini->fd_bk_out, STDOUT_FILENO);
-	dup2(token->mini->fd_bk_in, STDIN_FILENO);
+	reset_fds(token->mini);
 	redirection(token);
 	if (next_command(token) == NULL)
 	{

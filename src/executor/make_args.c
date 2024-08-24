@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:09:33 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/03 16:10:28 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/24 19:13:04 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	**create_args_options(char *command, t_token *token)
 	i = 1;
 	aux = token;
 	count_args = count_of_args(token);
-	if (ft_strncmp(command, "ls", 3) == 0 || ft_strncmp(command, "grep", 5) == 0)
+	if (ft_strncmp(command, "ls", 3) == 0
+		|| ft_strncmp(command, "grep", 5) == 0)
 		args = elaborating_args(token, command);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:15:29 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/20 15:22:01 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:13:38 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,10 @@ t_token	*first_token(t_token *token)
 		temp = temp->prev;
 	}
 	return (temp);
+}
+
+void	reset_fds(t_minishell *mini)
+{
+	dup2(mini->fd_bk_out, STDOUT_FILENO);
+	dup2(mini->fd_bk_in, STDIN_FILENO);
 }

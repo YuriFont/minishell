@@ -12,20 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int	has_redirect_in(t_token *node)
-{
-	t_token	*temp;
-
-	temp = node;
-	while (temp && temp->token != PIPE)
-	{
-		if (temp->token == REDIRECT_IN || temp->token == HEREDOC)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
-
 int	ls_pipe_first(int prev_fdin, t_token *token, t_env_list **env)
 {
 	if (prev_fdin != 0)

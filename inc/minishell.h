@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/21 21:12:56 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:19:13 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,12 @@ t_token		*next_command(t_token *token);
 int			has_redirect_out(t_token *token);
 int			has_pipe(t_token *token);
 t_token		*first_token(t_token *token);
+void		reset_fds(t_minishell *mini);
+
+//sec_utils_execution.c
+int			file_redirect_valid(t_token *token);
+int			has_redirect_in(t_token *node);
+void		print_command_not_found(char *not_found_command);
 
 //Parser:
 //analyzer.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_executor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:08:27 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/03 16:08:33 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/24 19:17:24 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,6 @@ void	run_command(t_token *token, t_env_list *env, char *path)
 	execute_command(token->text, path, argv, env_mat);
 	free_matriz(argv);
 	free_matriz(env_mat);
-}
-
-void	print_command_not_found(char *not_found_command)
-{
-	printf("%s :Command not found\n", not_found_command);
-	exit_status_repository(127);
 }
 
 void	read_command(t_token *token, t_env_list *list)

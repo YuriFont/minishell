@@ -91,6 +91,7 @@ void	remove_quotes(t_token *token)
 	temp = token;
 	while (temp)
 	{
+		printf("%s %d\n", temp->text, temp->token);
 		find_quotes(temp->text);
 		temp->text = new_text_without_quotes(temp->text);
 		temp = temp->next;
