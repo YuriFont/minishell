@@ -12,6 +12,44 @@
 
 #include "../../inc/minishell.h"
 
+void	valid_redirect_in(t_token *token)
+{
+	t_token	*temp;
+	t_token	*aux;
+	int		remark;
+
+	temp = token;
+	aux = NULL;
+	remark = 0;
+	while (temp)
+	{
+		if (ft_strlen(temp->text) == 0)
+		{
+			aux = temp;
+			if (temp->prev == NULL && temp->next != NULL)
+			{
+				temp->mini->token = temp->next;
+				temp->next->prev = NULL;
+			}
+			else
+			{
+
+			}
+			aux = temp->next;
+			temp->next->next->prev = temp;
+			temp->next = temp->next->next->next;
+			free(aux->next->text);
+			free(aux->next);
+			free(aux->text);
+			free(aux);
+			remark = 1;
+		}
+		temp = temp->next;
+	}
+	if (remark)
+		mark_tokens(token);
+}
+
 int	checker_parse(t_minishell *mini)
 {
 	mark_tokens(mini->token);
