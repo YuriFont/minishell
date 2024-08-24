@@ -12,10 +12,27 @@
 
 #include "../../inc/minishell.h"
 
+int	has_redirect_in(t_token *node)
+{
+	t_token	*temp;
+
+	temp = node;
+	while (temp && temp->token != PIPE)
+	{
+		if (temp->token == REDIRECT_IN || temp->token == HEREDOC)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+
 int	ls_pipe_first(int prev_fdin, t_token *token, t_env_list **env)
 {
 	if (prev_fdin != 0)
-		dup2(prev_fdin, STDIN_FILENO);
+	{
+		if (!has_redirect_in(token))
+			dup2(prev_fdin, STDIN_FILENO);
+	}
 	if (close(prev_fdin) == -1)
 		fprintf(stderr, "Error depois :%d\n", prev_fdin);
 	exe_this(token, env, 0);
@@ -56,7 +73,8 @@ void	command_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env)
 		fprintf(stderr, "Error depois :\n");
 	if (prev_fdin != 0)
 	{
-		dup2(prev_fdin, STDIN_FILENO);
+		if (!has_redirect_in(token))
+			dup2(prev_fdin, STDIN_FILENO);
 		if (close(prev_fdin) == -1)
 			fprintf(stderr, "Error depois :\n");
 	}

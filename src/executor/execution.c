@@ -14,7 +14,7 @@
 
 void	close_fds(t_token *token, int in, int out)
 {
-	while (token)
+	while (token && token->token != PIPE)
 	{
 		if (token->fd_in != STDIN_FILENO && in)
 		{
@@ -34,7 +34,8 @@ void	close_fds(t_token *token, int in, int out)
 		}
 		token = token->next;
 	}
-	unlink(".heredoc");
+	if (!token)
+		unlink(".heredoc");
 }
 
 t_token	*find_command(t_token *token)
@@ -91,6 +92,8 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	pid;
 	int	status;
 
+	dup2(token->mini->fd_bk_out, STDOUT_FILENO);
+	dup2(token->mini->fd_bk_in, STDIN_FILENO);
 	redirection(token);
 	if (next_command(token) == NULL)
 	{
@@ -135,6 +138,7 @@ void	exe_commands(t_minishell *mini)
 		else
 		{
 			waitpid(pid, &status, 0);
+			unlink(".heredoc");
 			exit_status_repository(WEXITSTATUS(status));
 		}
 		return ;

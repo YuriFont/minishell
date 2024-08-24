@@ -26,10 +26,7 @@ int	redirect_out(t_token *token)
 			if (temp->token == REDIRECT_OUT)
 				redirection_out(temp);
 			else
-			{
-				close_fds(token, 1, 1);
 				redirection_append(temp);
-			}
 			if (temp->next->fd_out == -1)
 				return (1);
 		}
@@ -64,7 +61,7 @@ int	redirect_in(t_token *token)
 		}
 		else if (temp->token == HEREDOC)
 		{
-			close_fds(token, 1, 1);
+			close_fds(token, 1, 0);
 			heredoc(temp);
 		}
 		temp = temp->next;
