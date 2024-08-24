@@ -100,9 +100,11 @@ void	expander_va(t_minishell *mini)
 	{
 		if (node->token != NOT_EXPAND_VA && verify_node_expander(node->text))
 		{
-			if (node->prev && node->prev->token != HEREDOC)
+			if (node->prev == NULL
+				|| (node->prev && node->prev->token != HEREDOC))
 				node->text = expander_node(node->text, mini->env, 0);
 		}
+		printf("tamanho %ld\n", ft_strlen(node->text));
 		node = node->next;
 	}
 }

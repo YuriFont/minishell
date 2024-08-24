@@ -118,14 +118,12 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 
 void	exe_commands(t_minishell *mini)
 {
-	int		have_pipe;
 	t_token	*temp;
 	int		pid;
 	int		status;
 
 	temp = mini->token;
-	have_pipe = has_pipe(temp);
-	if (have_pipe)
+	if (has_pipe(temp))
 	{
 		pid = fork();
 		if (pid == 0)

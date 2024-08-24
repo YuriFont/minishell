@@ -61,7 +61,7 @@ char	**create_args_options(char *command, t_token *token)
 	i = 1;
 	aux = token;
 	count_args = count_of_args(token);
-	if (ft_strncmp(command, "ls", 3) == 0)
+	if (ft_strncmp(command, "ls", 3) == 0 || ft_strncmp(command, "grep", 5) == 0)
 		args = elaborating_args(token, command);
 	else
 	{
