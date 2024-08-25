@@ -20,11 +20,12 @@ int	main(void)
 
 	mini.env = get_envp();
 	mini.my_pid = get_my_pid();
+	mini.fd_bk_in = 0;
+	mini.fd_bk_out = 1;
 	handler_signals();
 	while (1)
 	{
 		input = NULL;
-		prompt = NULL;
 		mini.token = NULL;
 		prompt = create_prompt(mini.env);
 		input = readline(prompt);

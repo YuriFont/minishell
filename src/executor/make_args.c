@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:09:33 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/03 16:10:28 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/24 19:13:04 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	count_of_args(t_token *list)
 
 	i = 0;
 	aux = list;
-	while (aux && aux->token != PIPE && !(aux->token >= 4 && aux->token <= 7))
+	while (aux && aux->token != PIPE)
 	{
+		if (aux->token == WORD)
+			i++;
 		aux = aux->next;
-		i++;
 	}
 	return (i);
 }
@@ -34,15 +35,16 @@ char	**elaborating_args(t_token *token, char *command)
 	int		i;
 	char	**args;
 
-	i = 1;
+	i = 2;
 	aux = token;
 	count_args = count_of_args(token);
 	args = (char **)malloc(sizeof(char *) * (count_args + 3));
 	args[0] = ft_strdup(command);
 	args[1] = ft_strdup("--color=auto");
-	while (++i <= (count_args + 1))
+	while (aux && aux->token != PIPE)
 	{
-		args[i] = ft_strdup(aux->text);
+		if (aux->token == WORD)
+			args[i++] = ft_strdup(aux->text);
 		aux = aux->next;
 	}
 	args[i] = NULL;
@@ -59,17 +61,18 @@ char	**create_args_options(char *command, t_token *token)
 	i = 1;
 	aux = token;
 	count_args = count_of_args(token);
-	if (ft_strncmp(command, "ls", 3) == 0)
+	if (ft_strncmp(command, "ls", 3) == 0
+		|| ft_strncmp(command, "grep", 5) == 0)
 		args = elaborating_args(token, command);
 	else
 	{
 		args = (char **)malloc(sizeof(char *) * (count_args + 2));
 		args[0] = ft_strdup(command);
-		while (aux && (i <= (count_args)))
+		while (aux && aux->token != PIPE)
 		{
-			args[i] = ft_strdup(aux->text);
+			if (aux->token == WORD)
+				args[i++] = ft_strdup(aux->text);
 			aux = aux->next;
-			i++;
 		}
 		args[i] = NULL;
 	}

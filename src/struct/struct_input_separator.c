@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   struct_input_separator.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:04:25 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/05 17:04:27 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/20 15:06:40 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	add_double_quotes(char *input, int start, t_token **data)
 {
@@ -61,7 +61,7 @@ int	add_sigle_quotes(char *input, int start, t_token **data)
 			if (input[i] == 34)
 				i = add_double_quotes(input, i, NULL);
 		}
-		if (!break_point_quotes(input[i + 1]))
+		if (!input[i] || !break_point_quotes(input[i + 1]))
 			break ;
 		i++;
 	}

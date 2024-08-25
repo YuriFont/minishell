@@ -37,13 +37,14 @@ char	*get_variable(char *text, int i, t_env_list *env)
 	return (ft_strdup(content_variable));
 }
 
-char	*get_prev_content(char *result, char *text, int *i)
+char	*get_prev_content(char *result, char *text, int *i,
+		int expande_everything)
 {
 	char	*prev;
 	int		prev_i;
 
 	prev_i = *i;
-	*i = find_dollar(text, *i);
+	*i = find_dollar(text, *i, expande_everything);
 	prev = ft_substr(text, prev_i, *i - prev_i);
 	result = ft_strjoinf(result, prev);
 	free(prev);
@@ -66,7 +67,7 @@ int	get_next_content_after_expander(char *text, int *i)
 	return (1);
 }
 
-char	*expander_node(char *text, t_env_list *env)
+char	*expander_node(char *text, t_env_list *env, int expande_everything)
 {
 	char	*result;
 	char	*expansor;
@@ -76,7 +77,7 @@ char	*expander_node(char *text, t_env_list *env)
 	result = ft_strdup("");
 	while (text[i])
 	{
-		result = get_prev_content(result, text, &i);
+		result = get_prev_content(result, text, &i, expande_everything);
 		if (text[i] == '\0')
 			break ;
 		expansor = get_variable(text, i, env);
@@ -97,8 +98,12 @@ void	expander_va(t_minishell *mini)
 	node = mini->token;
 	while (node)
 	{
-		if (verify_node_expander(node->text))
-			node->text = expander_node(node->text, mini->env);
+		if (node->token != NOT_EXPAND_VA && verify_node_expander(node->text))
+		{
+			if (node->prev == NULL
+				|| (node->prev && node->prev->token != HEREDOC))
+				node->text = expander_node(node->text, mini->env, 0);
+		}
 		node = node->next;
 	}
 }

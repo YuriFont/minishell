@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_executor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:08:27 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/03 16:08:33 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/24 19:17:24 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,10 @@ void	read_command(t_token *token, t_env_list *list)
 		return ;
 	path = get_value_in_variable("PATH", list);
 	if (!path)
-	{
-		printf("%s :Command not found\n", token->text);
-		exit_status_repository(127);
-		return ;
-	}
+		return (print_command_not_found(token->text));
 	path_command = get_path_command(token, path);
 	if (!path_command)
-	{
-		printf("%s :Command not found\n", token->text);
-		exit_status_repository(127);
-		return ;
-	}
+		return (print_command_not_found(token->text));
 	run_command(token, list, path_command);
 	free(path_command);
 }

@@ -21,11 +21,6 @@ t_token	*find_last_node(t_token *head)
 	return (head);
 }
 
-/*
-	Achar a ultima variavel de ambiente e retornar o no dela
-	para adicionar uma nova variavel no nó seguinte
-*/
-
 t_env_list	*find_last_node_in_env(t_env_list *head)
 {
 	if (head == NULL)
@@ -47,10 +42,10 @@ void	append_node(char *input, t_token **data)
 		return ;
 	node->next = NULL;
 	node->token = 0;
-	node->fd_bk = 0;
 	node->fd_in = 0;
 	node->fd_out = 1;
 	node->text = input;
+	node->mini = NULL;
 	if (*data == NULL)
 	{
 		*data = node;

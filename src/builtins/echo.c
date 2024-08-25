@@ -28,11 +28,12 @@ void	print_with_echo(t_token *token)
 		aux = aux->next;
 	while (aux)
 	{
-		if (aux->token == PIPE || (aux->token > 3 && aux->token < 8))
+		if (aux && aux->token == PIPE)
 			return ;
-		write(1, aux->text, ft_strlen(aux->text));
+		if (aux->token == WORD)
+			write(1, aux->text, ft_strlen(aux->text));
 		aux = aux->next;
-		if (aux)
+		if (aux && aux->token == WORD)
 			write(1, " ", 1);
 	}
 }

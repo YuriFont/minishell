@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:51:50 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/14 14:26:22 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:52:46 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_command(t_token *token)
 	return (0);
 }
 
-void	set_builtin(t_token *token)
+int	set_builtin(t_token *token, int has_command)
 {
 	int	red;
 
@@ -55,21 +55,32 @@ void	set_builtin(t_token *token)
 	}
 	else if (ft_strncmp(token->text, "|", ft_strlen(token->text)) == 0)
 		token->token = PIPE;
-	else if (is_command(token))
+	else if (is_command(token) && !has_command)
+	{
 		token->token = COMAND;
+		return (1);
+	}
 	else
 		token->token = WORD;
+	return (0);
 }
 
 void	mark_tokens(t_token *token)
 {
 	t_token	*temp;
+	int		has_command;
 
 	temp = token;
+	has_command = 0;
 	while (temp)
 	{
-		set_builtin(temp);
-		printf("%s %d\n", temp->text, temp->token);
+		if (set_builtin(temp, has_command))
+			has_command = 1;
+		if (temp->token == PIPE)
+			has_command = 0;
+		if (temp->prev && temp->prev->token == HEREDOC
+			&& (temp->text[0] == '\'' || temp->text[0] == '\"'))
+			temp->token = NOT_EXPAND_VA;
 		temp = temp->next;
 	}
 }
