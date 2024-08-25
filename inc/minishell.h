@@ -24,6 +24,7 @@
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
 # define GREEN "\001\e[0;32m\002"

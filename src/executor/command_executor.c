@@ -54,6 +54,31 @@ int	is_absolute_path(t_token *token, t_env_list *list)
 	return (1);
 }
 
+int	is_directory(t_token *token)
+{
+	struct stat	st;
+
+	if (!((token->text[0] == '.' && token->text[1] == '/')
+			|| token->text[ft_strlen(token->text) - 1] == '/'))
+		return (0);
+	if (stat(token->text, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			printf("-mini: %s: Is a directory\n", token->text);
+			exit_status_repository(126);
+			return (1);
+		}
+	}
+	else
+	{
+		printf("-mini: %s No such file or directory\n", token->text);
+		exit_status_repository(127);
+		return (1);
+	}
+	return (0);
+}
+
 int	is_current_directory(t_token *token, t_env_list *list)
 {
 	char	**argv;
@@ -61,6 +86,8 @@ int	is_current_directory(t_token *token, t_env_list *list)
 	t_token	*temp;
 
 	temp = token;
+	if (is_directory(temp))
+		return (1);
 	if (temp->text[0] != '.' && temp->text[1] != '/')
 		return (0);
 	argv = create_args_options(temp->text, temp->next);
