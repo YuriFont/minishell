@@ -80,6 +80,7 @@ clean:
 		$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
+		$(MAKE) fclean -C $(FT_FPRINTF)
 		$(MAKE) fclean -C $(LIBFT)
 		rm -rf $(NAME)
 		
