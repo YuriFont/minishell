@@ -12,8 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-void	close_fds(t_token *token, int in, int out)
+void	close_fds(t_token *temp, int in, int out)
 {
+	t_token	*token;
+
+	token = temp;
 	while (token && token->token != PIPE)
 	{
 		if (token->fd_in != STDIN_FILENO && in)
@@ -28,7 +31,7 @@ void	close_fds(t_token *token, int in, int out)
 		{
 			dup2(token->mini->fd_bk_out, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)
-				printf("Error close fdout :%d\n", token->fd_out);
+				printf("Error close fdout :%d in %s\n", token->fd_out, token->text);
 			token->fd_out = 1;
 			close(token->mini->fd_bk_out);
 		}

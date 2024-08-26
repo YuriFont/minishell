@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/24 19:19:13 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:42:27 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef enum e_command
 	ENV_VA,
 	WORD,
 	NOT_EXIST,
-	NOT_EXPAND_VA
+	NOT_EXPAND_VA,
+	NOT_PERMISSION
 }						t_command;
 
 typedef struct s_minishell	t_minishell;
@@ -134,7 +135,7 @@ void		run_command(t_token *token, t_env_list *env, char *path);
 void		read_command(t_token *token, t_env_list *list);
 
 //execution.c
-void		close_fds(t_token *token, int in, int out);
+void		close_fds(t_token *temp, int in, int out);
 t_token		*find_command(t_token *token);
 void		exe_this(t_token *temp, t_env_list **env, int is_pipe);
 int			exe_pipe(t_token *token, t_env_list **env, int prev_fdin);
@@ -174,6 +175,7 @@ void		reset_fds(t_minishell *mini);
 int			file_redirect_valid(t_token *token);
 int			has_redirect_in(t_token *node);
 void		print_command_not_found(char *not_found_command);
+t_token		*after_pipe(t_token	*token);
 
 //Parser:
 //analyzer.c
