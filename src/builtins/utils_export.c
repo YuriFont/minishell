@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 18:26:08 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/04 18:26:09 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:18:00 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	verify_nome_of_variable_is_valid(char *name)
 		{
 			if (name[i] == not_valid[j])
 			{
-				printf("export: `%s': not a valid identifier\n", name);
+				ft_fprintf(2, "export: `%s': not a valid identifier\n", name);
 				return (0);
 			}
 			j++;

@@ -20,7 +20,7 @@ int	ls_pipe_first(int prev_fdin, t_token *token, t_env_list **env)
 			dup2(prev_fdin, STDIN_FILENO);
 	}
 	if (close(prev_fdin) == -1)
-		fprintf(stderr, "Error depois :%d\n", prev_fdin);
+		ft_fprintf(2, "Error depois :%d\n", prev_fdin);
 	exe_this(token, env, 0);
 	free_env(*env);
 	free_list(first_token(token));
@@ -30,7 +30,7 @@ int	ls_pipe_first(int prev_fdin, t_token *token, t_env_list **env)
 int	ls_pipe_second(int prev_fdin, int *status, int pid)
 {
 	if (close(prev_fdin) == -1)
-		fprintf(stderr, "Error depois close: %d\n", prev_fdin);
+		ft_fprintf(2, "Error depois close: %d\n", prev_fdin);
 	waitpid(pid, status, 0);
 	exit_status_repository(WEXITSTATUS(*status));
 	return (exit_status_repository(-1));
@@ -56,17 +56,17 @@ int	new_minishell(t_token *token, int *fd, int prev_fdin, t_env_list **env)
 void	command_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env)
 {
 	if (close(fd[0]) == -1)
-		fprintf(stderr, "Error depois :\n");
+		ft_fprintf(2, "Error depois :\n");
 	if (prev_fdin != 0)
 	{
 		if (!has_redirect_in(token))
 			dup2(prev_fdin, STDIN_FILENO);
 		if (close(prev_fdin) == -1)
-			fprintf(stderr, "Error depois :\n");
+			ft_fprintf(2, "Error depois :\n");
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	if (close(fd[1]) == -1)
-		fprintf(stderr, "Error depois :\n");
+		ft_fprintf(2, "Error depois :\n");
 	exe_this(token, env, 0);
 	free_env(*env);
 	free_list(first_token(token));
@@ -78,7 +78,7 @@ int	next_pipe(int *fd, int prev_fdin, t_token *token, t_env_list **env)
 	if (prev_fdin != 0)
 	{
 		if (close(prev_fdin) == -1)
-			fprintf(stderr, "Error depois :%d\n", prev_fdin);
+			ft_fprintf(2, "Error depois :%d\n", prev_fdin);
 	}
 	exe_pipe(next_command(token), env, fd[0]);
 	while (waitpid(-1, NULL, WNOHANG) != -1)

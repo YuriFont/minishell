@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 19:42:27 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:10:39 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "../ft_fprintf/ft_printf.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>

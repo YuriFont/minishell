@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:08:27 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/24 19:17:24 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:18:23 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	execute_command(char *command, char *path_command, char **argv,
 		signal(SIGQUIT, SIG_DFL);
 		if (execve(path_command, argv, env) == -1)
 		{
-			printf("%s: command not found\n", command);
+			ft_fprintf(2, "%s: command not found\n", command);
 			exit(127);
 		}
 		exit(EXIT_FAILURE);
@@ -65,14 +65,14 @@ int	is_directory(t_token *token)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			printf("-mini: %s: Is a directory\n", token->text);
+			ft_fprintf(2, "-mini: %s: Is a directory\n", token->text);
 			exit_status_repository(126);
 			return (1);
 		}
 	}
 	else
 	{
-		printf("-mini: %s No such file or directory\n", token->text);
+		ft_fprintf(2, "-mini: %s No such file or directory\n", token->text);
 		exit_status_repository(127);
 		return (1);
 	}

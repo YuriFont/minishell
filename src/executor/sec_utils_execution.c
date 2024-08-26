@@ -23,7 +23,7 @@ int	file_redirect_valid(t_token *token)
 			return (0);
 		if (temp->token == NOT_PERMISSION)
 		{
-			fprintf(stderr, "mini: %s: Permission denied\n", temp->next->text);
+			ft_fprintf(2, "mini: %s: Permission denied\n", temp->next->text);
 			exit_status_repository(1);
 			return (0);
 		}
@@ -48,7 +48,7 @@ int	has_redirect_in(t_token *node)
 
 void	print_command_not_found(char *not_found_command)
 {
-	printf("%s :Command not found\n", not_found_command);
+	ft_fprintf(2, "%s :Command not found\n", not_found_command);
 	exit_status_repository(127);
 }
 

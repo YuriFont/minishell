@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 18:16:06 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/20 13:56:18 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:25:52 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	change_directory(t_token *directory, t_env_list *env)
 		dir = get_value_in_variable("HOME", env);
 		if (!dir)
 		{
-			printf("minishell: cd: HOME not set\n");
+			ft_fprintf(2, "minishell: cd: HOME not set\n");
 			exit_status_repository(1);
 			return ;
 		}
@@ -120,7 +120,7 @@ void	change_directory(t_token *directory, t_env_list *env)
 	}
 	else
 	{
-		printf("too many arguments\n");
+		ft_fprintf(2, "too many arguments\n");
 		exit_status_repository(1);
 	}
 }

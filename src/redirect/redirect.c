@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 19:01:36 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:24:42 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	print_error_redirectin(t_token *token)
 	{
 		if (temp->token == NOT_EXIST)
 		{
-			printf("minishell: %s: No such file or", temp->text);
-			printf(" directory || Permission denied\n");
+			ft_fprintf(2, "minishell: %s: No such file or", temp->text);
+			ft_fprintf(2, " directory || Permission denied\n");
 			return (0);
 		}
 		temp = temp->next;

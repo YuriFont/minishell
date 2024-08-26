@@ -61,15 +61,20 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra 
 RM = rm -rf
 LIBFT = ./libft/
+FT_FPRINTF = ./ft_fprintf/
 LIBFT_A = $(LIBFT)libft.a
+FT_FPRINTF_A = $(FT_FPRINTF)libftprintf.a
 
 all: $(NAME)
+
+$(FT_FPRINTF_A):
+	$(MAKE) -C $(FT_FPRINTF)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
-$(NAME): $(LIBFT_A)
-		$(CC) -g $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) -o $(NAME) -lreadline
+$(NAME): $(LIBFT_A) $(FT_FPRINTF_A)
+		$(CC) -g $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) $(FT_FPRINTF_A) -o $(NAME) -lreadline
 
 clean:
 		$(MAKE) clean -C $(LIBFT)
