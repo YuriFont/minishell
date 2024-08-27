@@ -96,7 +96,8 @@ char	*change_value_of_variable(char *new_value, char *variable)
 	 é o valor dela
 */
 
-void	add_new_variable(t_env_list *env, char *variable, char *value)
+void	add_new_variable(t_env_list *env, char *variable,
+		char *value, int is_free)
 {
 	t_env_list	*aux;
 	t_env_list	*new_node;
@@ -110,4 +111,6 @@ void	add_new_variable(t_env_list *env, char *variable, char *value)
 	new_node->variable = new_variable;
 	new_node->next = NULL;
 	aux->next = new_node;
+	if (is_free)
+		free(value);
 }

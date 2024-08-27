@@ -19,7 +19,7 @@ char	*get_name_of_variable(char *variable)
 
 	find_equal = ft_strchr(variable, '=');
 	if (!find_equal)
-		return (NULL);
+		return (ft_strdup(variable));
 	name_variable = ft_substr(variable, 0,
 			ft_strlen(variable) - ft_strlen(find_equal));
 	return (name_variable);
@@ -34,12 +34,18 @@ char	*valid_new_variable(char *new_variable)
 	char	*name_variable;
 
 	name_variable = get_name_of_variable(new_variable);
-	if (!name_variable)
-		return (NULL);
+	if (!name_variable || ft_strlen(name_variable) == 0)
+	{
+		if (!verify_nome_of_variable_is_valid(new_variable))
+		{
+			free(name_variable);
+			return (NULL);
+		}
+		return (new_variable);
+	}
 	if (!verify_nome_of_variable_is_valid(name_variable))
 	{
 		free(name_variable);
-		exit_status_repository(1);
 		return (NULL);
 	}
 	return (name_variable);
@@ -54,7 +60,11 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	result = get_in_env(name, env);
 	if (!result)
 		return (0);
-	value = ft_strchr(token->text, '=') + 1;
+	value = ft_strchr(token->text, '=');
+	if (value)
+		value = value + 1;
+	else
+		return (1);
 	value_change = change_value_of_variable(value, name);
 	change_value_of_env(result, value_change);
 	free(name);
@@ -96,19 +106,25 @@ void	insert_in_env(t_env_list *env, t_token *token)
 {
 	char	*name;
 	char	*value;
+	int		is_free;
 
 	exit_status_repository(0);
+	is_free = 0;
 	if (!token)
-	{
-		print_export(env);
-		return ;
-	}
+		return (print_export(env));
 	name = valid_new_variable(token->text);
 	if (!name)
 		return ;
 	if (verify_exist_in_env(name, env, token))
 		return ;
-	value = ft_strchr(token->text, '=') + 1;
-	add_new_variable(env, name, value);
+	value = ft_strchr(token->text, '=');
+	if (value)
+		value = value + 1;
+	else
+	{
+		value = ft_strdup("");
+		is_free = 1;
+	}
+	add_new_variable(env, name, value, is_free);
 	free(name);
 }

@@ -58,8 +58,7 @@ int	verify_direction(t_token *directory,
 	}
 	if (!aux)
 	{
-		add_new_variable(env, "OLDPWD", old_dir);
-		free(old_dir);
+		add_new_variable(env, "OLDPWD", old_dir, 1);
 		return (0);
 	}
 	return (1);

@@ -91,6 +91,7 @@ int	print_error_redirectin(t_token *token)
 
 int	redirection(t_token *token)
 {
+	exit_status_repository(0);
 	if (redirect_in(token))
 	{
 		print_error_redirectin(token);

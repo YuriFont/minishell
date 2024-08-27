@@ -94,7 +94,8 @@ void		print_env_list(t_env_list *list);
 t_env_list	*get_in_env(char *search, t_env_list *list);
 char		*get_value_in_variable(char *variable, t_env_list *list);
 char		*change_value_of_variable(char *new_value, char *variable);
-void		add_new_variable(t_env_list *env, char *variable, char *value);
+void		add_new_variable(t_env_list *env, char *variable,
+				char *value, int is_free);
 
 //exit.c
 int			is_overflow(long long exit_code, char *number);

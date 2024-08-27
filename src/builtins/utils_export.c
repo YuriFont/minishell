@@ -28,6 +28,7 @@ int	verify_nome_of_variable_is_valid(char *name)
 			if (name[i] == not_valid[j])
 			{
 				ft_fprintf(2, "export: `%s': not a valid identifier\n", name);
+				exit_status_repository(1);
 				return (0);
 			}
 			j++;
