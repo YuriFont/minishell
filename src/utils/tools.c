@@ -59,7 +59,7 @@ int	mini_atoi(char *number)
 	{
 		if (number[i] == '-')
 			signal = 1;
-		i++;
+		number = number + 1;
 	}
 	while (number[i] && i < 3)
 	{

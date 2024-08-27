@@ -37,29 +37,13 @@ void	execute_command(char *command, char *path_command, char **argv,
 	}
 }
 
-int	is_absolute_path(t_token *token, t_env_list *list)
-{
-	char	**argv;
-	char	**env;
-	t_token	*temp;
-
-	temp = token;
-	if (temp->text[0] != '/')
-		return (0);
-	argv = create_args_options(temp->text, temp->next);
-	env = env_to_matriz(list);
-	execute_command(temp->text, temp->text, argv, env);
-	free_matriz(env);
-	free_matriz(argv);
-	return (1);
-}
-
 int	is_directory(t_token *token)
 {
 	struct stat	st;
 
 	if (!((token->text[0] == '.' && token->text[1] == '/')
-			|| token->text[ft_strlen(token->text) - 1] == '/'))
+			|| token->text[ft_strlen(token->text) - 1] == '/'
+			|| token->text[0] == '/'))
 		return (0);
 	if (stat(token->text, &st) == 0)
 	{
@@ -77,6 +61,24 @@ int	is_directory(t_token *token)
 		return (1);
 	}
 	return (0);
+}
+int	is_absolute_path(t_token *token, t_env_list *list)
+{
+	char	**argv;
+	char	**env;
+	t_token	*temp;
+
+	temp = token;
+	if (temp->text[0] != '/')
+		return (0);
+	if (is_directory(temp))
+		return (1);
+	argv = create_args_options(temp->text, temp->next);
+	env = env_to_matriz(list);
+	execute_command(temp->text, temp->text, argv, env);
+	free_matriz(env);
+	free_matriz(argv);
+	return (1);
 }
 
 int	is_current_directory(t_token *token, t_env_list *list)
