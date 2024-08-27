@@ -32,9 +32,9 @@ void	print_with_echo(t_token *token)
 			return ;
 		if (aux->token == WORD)
 			write(1, aux->text, ft_strlen(aux->text));
-		aux = aux->next;
-		if (aux && aux->token == WORD)
+		if (aux && aux->token == WORD && aux->next)
 			write(1, " ", 1);
+		aux = aux->next;
 	}
 }
 

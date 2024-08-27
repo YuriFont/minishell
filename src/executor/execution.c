@@ -27,7 +27,7 @@ void	close_fds(t_token *temp, int in, int out)
 			token->fd_in = 0;
 			close(token->mini->fd_bk_in);
 		}
-		if (token->fd_out != STDOUT_FILENO && out)
+		if (token->fd_out != STDOUT_FILENO && out && token->token != NOT_EXIST)
 		{
 			dup2(token->mini->fd_bk_out, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)

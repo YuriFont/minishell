@@ -69,6 +69,22 @@ int	verify_direction(t_token *directory,
 	E tambem tenta pegar o antigo diretorio anterior.
 */
 
+void	change_pwd(t_env_list *env)
+{
+	t_env_list	*aux;
+	char		*pwd;
+	char		*current_directory;
+
+	aux = get_in_env("PWD", env);
+	if (!aux)
+		return ;
+	current_directory = getcwd(NULL, 0);
+	pwd = change_value_of_variable(current_directory, aux->variable);
+	free(current_directory);
+	free(aux->variable);
+	aux->variable = pwd;
+}
+
 int	move_to_directory(t_token *directory, t_env_list *env)
 {
 	char		*old_dir;
@@ -83,6 +99,7 @@ int	move_to_directory(t_token *directory, t_env_list *env)
 	free(old_dir);
 	free(aux->variable);
 	aux->variable = new_old_dir;
+	change_pwd(env);
 	return (1);
 }
 

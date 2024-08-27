@@ -110,7 +110,7 @@ void	insert_in_env(t_env_list *env, t_token *token)
 
 	exit_status_repository(0);
 	is_free = 0;
-	if (!token)
+	if (!token || (token && token->token == PIPE))
 		return (print_export(env));
 	name = valid_new_variable(token->text);
 	if (!name)

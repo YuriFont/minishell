@@ -30,7 +30,7 @@ int	has_redirect_out(t_token *token)
 	temp = token;
 	while (temp && temp->token != PIPE)
 	{
-		if (temp->token == REDIRECT_OUT)
+		if (temp->token == REDIRECT_OUT || temp->token == APPEND)
 			return (1);
 		temp = temp->next;
 	}
