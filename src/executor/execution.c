@@ -31,7 +31,7 @@ void	close_fds(t_token *temp, int in, int out)
 		{
 			dup2(token->mini->fd_bk_out, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)
-				ft_fprintf(2, "Error close fdout :%d in %s\n", token->fd_out, token->text);
+				ft_fprintf(2, "Error close fdout :%d\n", token->fd_out);
 			token->fd_out = 1;
 			close(token->mini->fd_bk_out);
 		}

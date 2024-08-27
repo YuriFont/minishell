@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 20:10:39 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:33:32 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int			file_redirect_valid(t_token *token);
 int			has_redirect_in(t_token *node);
 void		print_command_not_found(char *not_found_command);
 t_token		*after_pipe(t_token	*token);
+int			is_directory(t_token *token);
 
 //Parser:
 //analyzer.c
