@@ -69,7 +69,8 @@ int	is_directory(t_token *token)
 	struct stat	st;
 
 	if (!((token->text[0] == '.' && token->text[1] == '/')
-			|| token->text[ft_strlen(token->text) - 1] == '/'))
+			|| token->text[ft_strlen(token->text) - 1] == '/'
+			|| token->text[0] == '/'))
 		return (0);
 	if (stat(token->text, &st) == 0)
 	{
