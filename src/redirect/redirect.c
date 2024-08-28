@@ -63,6 +63,11 @@ int	redirect_in(t_token *token)
 		{
 			close_fds(token, 1, 0);
 			heredoc(temp);
+			if (exit_status_repository(-1) == 130)
+			{
+				error = 1;
+				break ;
+			}
 		}
 		temp = temp->next;
 	}
@@ -94,6 +99,8 @@ int	redirection(t_token *token)
 	exit_status_repository(0);
 	if (redirect_in(token))
 	{
+		if (exit_status_repository(-1) == 130)
+			return (0);
 		print_error_redirectin(token);
 		close_fds(token, 1, 0);
 		return (1);

@@ -42,6 +42,12 @@ void	heredoc(t_token *temp)
 		if (!input || !ft_strncmp(temp->next->text, input,
 				ft_strlen(input) + 1))
 			break ;
+		if (exit_status_repository(-1) == 130)
+		{
+			close(fd_hd);
+			free(input);
+			return ;
+		}
 		else
 			write_in_heredoc(input, fd_hd, temp->next);
 	}

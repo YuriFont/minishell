@@ -67,7 +67,7 @@ void	exe_this(t_token *temp, t_env_list **env, int is_pipe)
 			return ;
 	}
 	cmd = find_command(temp);
-	if (cmd)
+	if (cmd && exit_status_repository(-1) != 130)
 	{
 		if (!check_builtins(cmd, env))
 			read_command(cmd, *env);
@@ -83,6 +83,8 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 
 	reset_fds(token->mini);
 	redirection(token);
+	if (exit_status_repository(-1) == 130)
+		return (exit_status_repository(-1));
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
