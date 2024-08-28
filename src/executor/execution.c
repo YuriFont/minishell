@@ -81,9 +81,7 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	pid;
 	int	status;
 
-	reset_fds(token->mini);
-	redirection(token);
-	if (exit_status_repository(-1) == 130)
+	if (reset_for_pipe(token, token->mini))
 		return (exit_status_repository(-1));
 	if (next_command(token) == NULL)
 	{

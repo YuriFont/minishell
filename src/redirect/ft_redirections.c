@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:46:55 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 20:24:49 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:18:58 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ void	heredoc(t_token *temp)
 				ft_strlen(input) + 1))
 			break ;
 		if (exit_status_repository(-1) == 130)
-		{
-			close(fd_hd);
-			free(input);
-			return ;
-		}
+			return (exit_heredoc(fd_hd, input));
 		else
 			write_in_heredoc(input, fd_hd, temp->next);
 	}

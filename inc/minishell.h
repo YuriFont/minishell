@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 20:33:32 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:26:21 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,9 @@ void		print_command_not_found(char *not_found_command);
 t_token		*after_pipe(t_token	*token);
 int			is_directory(t_token *token);
 
+//thir_utils_execution.c
+int			reset_for_pipe(t_token *token, t_minishell *mini);
+
 //Parser:
 //analyzer.c
 int			is_redirect(t_token *token);
@@ -253,6 +256,10 @@ int			redirect_out(t_token *token);
 int			error_redirect_in(t_token *temp, int *error);
 int			redirect_in(t_token *token);
 int			redirection(t_token *token);
+
+//utils_redirect.c
+void		exit_heredoc(int fd_hd, char *input);
+int			init_heredoc(t_token *token, t_token *temp);
 
 //Signals
 //handler_signals.c

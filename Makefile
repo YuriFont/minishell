@@ -18,13 +18,15 @@ EXECUTOR = command_executor.c\
 			make_args.c\
 			ft_pipe.c\
 			utils_execution.c\
-			sec_utils_execution.c
+			sec_utils_execution.c\
+			thir_utils_execution.c
 
 STRUCT = fill_struct.c\
 			struct_input_separator.c
 
 REDIRECT = redirect.c\
-			ft_redirections.c
+			ft_redirections.c\
+			utils_redirect.c
 
 PROMPT = create_prompt.c\
 			get_user_var.c

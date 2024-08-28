@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/26 20:24:42 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:42:56 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	redirect_in(t_token *token)
 	int		error;
 
 	temp = token;
-	error = 0;
 	while (temp && temp->token != PIPE)
 	{
 		if (temp->token == REDIRECT_IN)
@@ -61,18 +60,11 @@ int	redirect_in(t_token *token)
 		}
 		else if (temp->token == HEREDOC)
 		{
-			close_fds(token, 1, 0);
-			heredoc(temp);
-			if (exit_status_repository(-1) == 130)
-			{
-				error = 1;
-				break ;
-			}
+			if (init_heredoc(token, temp))
+				return (1);
 		}
 		temp = temp->next;
 	}
-	if (error)
-		return (1);
 	return (0);
 }
 
