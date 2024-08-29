@@ -61,6 +61,7 @@ void	redirection_out(t_token *temp)
 	close_fds(first_token(temp), 0, 1);
 	temp->next->fd_out = open(temp->next->text,
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	temp->mini->fd_bk_out = dup(STDOUT_FILENO);
 	if (temp->next->fd_out == -1)
 	{
 		ft_fprintf(2,
@@ -69,7 +70,6 @@ void	redirection_out(t_token *temp)
 		temp->next->token = NOT_EXIST;
 		return ;
 	}
-	temp->mini->fd_bk_out = dup(STDOUT_FILENO);
 	dup2(temp->next->fd_out, STDOUT_FILENO);
 }
 
@@ -78,6 +78,7 @@ void	redirection_append(t_token *temp)
 	close_fds(first_token(temp), 0, 1);
 	temp->next->fd_out = open(temp->next->text,
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
+	temp->mini->fd_bk_out = dup(STDOUT_FILENO);
 	if (temp->next->fd_out == -1)
 	{
 		ft_fprintf(2,
@@ -86,6 +87,5 @@ void	redirection_append(t_token *temp)
 		temp->next->token = NOT_EXIST;
 		return ;
 	}
-	temp->mini->fd_bk_out = dup(STDOUT_FILENO);
 	dup2(temp->next->fd_out, STDOUT_FILENO);
 }
