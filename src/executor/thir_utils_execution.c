@@ -20,3 +20,25 @@ int	reset_for_pipe(t_token *token, t_minishell *mini)
 		return (1);
 	return (0);
 }
+
+int	check_exist_or_is_directory(t_token *token)
+{
+	struct stat	st;
+
+	if (stat(token->text, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			ft_fprintf(2, "-mini: %s: Is a directory\n", token->text);
+			exit_status_repository(126);
+			return (1);
+		}
+	}
+	else
+	{
+		ft_fprintf(2, "-mini: %s No such file or directory\n", token->text);
+		exit_status_repository(127);
+		return (1);
+	}
+	return (0);
+}

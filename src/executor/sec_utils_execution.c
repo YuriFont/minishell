@@ -66,26 +66,11 @@ t_token	*after_pipe(t_token	*token)
 
 int	is_directory(t_token *token)
 {
-	struct stat	st;
-
 	if (!((token->text[0] == '.' && token->text[1] == '/')
 			|| token->text[ft_strlen(token->text) - 1] == '/'
 			|| token->text[0] == '/'))
 		return (0);
-	if (stat(token->text, &st) == 0)
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			ft_fprintf(2, "-mini: %s: Is a directory\n", token->text);
-			exit_status_repository(126);
-			return (1);
-		}
-	}
-	else
-	{
-		ft_fprintf(2, "-mini: %s No such file or directory\n", token->text);
-		exit_status_repository(127);
+	if (check_exist_or_is_directory(token))
 		return (1);
-	}
 	return (0);
 }

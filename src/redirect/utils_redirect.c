@@ -27,3 +27,15 @@ int	init_heredoc(t_token *token, t_token *temp)
 		return (1);
 	return (0);
 }
+
+int	error_redirectout(t_token *temp)
+{
+	if (temp->next->fd_out == -1)
+	{
+		check_exist_or_is_directory(temp->next);
+		exit_status_repository(1);
+		temp->next->token = NOT_EXIST;
+		return (1);
+	}
+	return (0);
+}

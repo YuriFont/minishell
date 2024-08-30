@@ -28,7 +28,8 @@ int	valid_redirect(t_token *token)
 			f = ft_fprintf(2, "mini: syntax error near unexpected token `|'\n");
 		else if ((temp->token > 3 && temp->token < 8) && (temp->next->token > 3
 				&& temp->next->token < 8))
-			f = ft_fprintf(2, "mini: syntax error near unexpected token `<'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token `%s'\n",
+					token->next->next->text);
 		else if ((temp->token == REDIRECT_OUT || temp->token == APPEND)
 			&& !access(temp->next->text, F_OK)
 			&& access(temp->next->text, W_OK) == -1)

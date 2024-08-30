@@ -64,7 +64,10 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	if (value)
 		value = value + 1;
 	else
+	{
+		free(name);
 		return (1);
+	}
 	value_change = change_value_of_variable(value, name);
 	change_value_of_env(result, value_change);
 	free(name);

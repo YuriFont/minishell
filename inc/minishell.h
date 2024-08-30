@@ -182,6 +182,7 @@ int			is_directory(t_token *token);
 
 //thir_utils_execution.c
 int			reset_for_pipe(t_token *token, t_minishell *mini);
+int			check_exist_or_is_directory(t_token *token);
 
 //Parser:
 //analyzer.c
@@ -260,6 +261,7 @@ int			redirection(t_token *token);
 //utils_redirect.c
 void		exit_heredoc(int fd_hd, char *input);
 int			init_heredoc(t_token *token, t_token *temp);
+int			error_redirectout(t_token *temp);
 
 //Signals
 //handler_signals.c
