@@ -67,6 +67,12 @@ int	is_current_directory(t_token *token, t_env_list *list)
 		return (1);
 	if (temp->text[0] != '.' && temp->text[1] != '/')
 		return (0);
+	if (access(temp->text, X_OK) == -1)
+	{
+		ft_fprintf(2, "-mini: %s: Permission denied\n", temp->text);
+		exit_status_repository(126);
+		return (1);
+	}
 	argv = create_args_options(temp->text, temp->next);
 	env = env_to_matriz(list);
 	execute_command(temp->text, temp->text, argv, env);

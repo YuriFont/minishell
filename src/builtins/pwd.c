@@ -14,9 +14,9 @@
 
 void	exe_pwd(t_token *token)
 {
-	(void)token;
 	char	*pwd;
 
+	(void)token;
 	pwd = getcwd(NULL, 0);
 	ft_putstr_fd(pwd, 1);
 	ft_putstr_fd("\n", 1);

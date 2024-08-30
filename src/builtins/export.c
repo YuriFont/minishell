@@ -107,27 +107,16 @@ void	print_export(t_env_list *env)
 
 void	insert_in_env(t_env_list *env, t_token *token)
 {
-	char	*name;
-	char	*value;
-	int		is_free;
+	t_token	*temp;
 
 	exit_status_repository(0);
-	is_free = 0;
 	if (!token || (token && token->token == PIPE))
 		return (print_export(env));
-	name = valid_new_variable(token->text);
-	if (!name)
-		return ;
-	if (verify_exist_in_env(name, env, token))
-		return ;
-	value = ft_strchr(token->text, '=');
-	if (value)
-		value = value + 1;
-	else
+	temp = token;
+	while (temp && temp->token != PIPE)
 	{
-		value = ft_strdup("");
-		is_free = 1;
+		if (temp->token == WORD)
+			add_env(env, temp);
+		temp = temp->next;
 	}
-	add_new_variable(env, name, value, is_free);
-	free(name);
 }

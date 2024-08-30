@@ -126,6 +126,7 @@ void		exec_exit_is_many_arguments(t_token *token);
 //utils_export.c
 int			verify_nome_of_variable_is_valid(char *name);
 void		change_value_of_env(t_env_list *env, char *variable_change);
+void		add_env(t_env_list *env, t_token *temp);
 
 //Executor:
 //command_executor.c
