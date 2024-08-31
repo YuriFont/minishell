@@ -32,7 +32,7 @@ int	verify_exit_is_numeric(t_token *token)
 
 void	exec_exit_is_not_numeric(t_token *token)
 {
-	printf("minishell: exit: %s: numeric argument required\n",
+	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
 		token->next->text);
 	free_list(token);
 	exit(2);
@@ -40,7 +40,7 @@ void	exec_exit_is_not_numeric(t_token *token)
 
 void	exec_exit_is_many_arguments(t_token *token)
 {
-	printf("minishell: exit: too many arguments\n");
+	ft_fprintf(2, "minishell: exit: too many arguments\n");
 	free_list(token);
 	exit(1);
 }

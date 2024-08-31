@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:26:59 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/24 19:13:21 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/25 12:10:23 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ int	checker_parse(t_minishell *mini)
 	expander_va(mini);
 	valid_redirect_in(&mini->token);
 	if (!mini->token)
+	{
+		exit_status_repository(0);
 		return (1);
+	}
 	remove_quotes(mini->token);
 	if (!check_syntax(mini->token))
 	{

@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 14:36:43 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/19 20:54:38 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:42:56 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	redirect_in(t_token *token)
 		}
 		else if (temp->token == HEREDOC)
 		{
-			close_fds(token, 1, 0);
-			heredoc(temp);
+			if (init_heredoc(token, temp))
+				return (1);
 		}
 		temp = temp->next;
 	}
@@ -80,8 +80,8 @@ int	print_error_redirectin(t_token *token)
 	{
 		if (temp->token == NOT_EXIST)
 		{
-			printf("minishell: %s: No such file or", temp->text);
-			printf(" directory || Permission denied\n");
+			ft_fprintf(2, "minishell: %s: No such file or", temp->text);
+			ft_fprintf(2, " directory || Permission denied\n");
 			return (0);
 		}
 		temp = temp->next;
@@ -91,8 +91,11 @@ int	print_error_redirectin(t_token *token)
 
 int	redirection(t_token *token)
 {
+	exit_status_repository(0);
 	if (redirect_in(token))
 	{
+		if (exit_status_repository(-1) == 130)
+			return (0);
 		print_error_redirectin(token);
 		close_fds(token, 1, 0);
 		return (1);

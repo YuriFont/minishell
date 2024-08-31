@@ -25,10 +25,6 @@ void	print_env_list(t_env_list *list)
 	exit_status_repository(0);
 }
 
-/*
-	Devolve o nó em que a variavel se encontra
-*/
-
 t_env_list	*get_in_env(char *search, t_env_list *list)
 {
 	t_env_list	*aux;
@@ -46,10 +42,6 @@ t_env_list	*get_in_env(char *search, t_env_list *list)
 	return (NULL);
 }
 
-/*
-	Pega apenas o valor da variavel passada no parametro
-*/
-
 char	*get_value_in_variable(char *variable, t_env_list *list)
 {
 	char		*value;
@@ -63,12 +55,6 @@ char	*get_value_in_variable(char *variable, t_env_list *list)
 		return (NULL);
 	return (value + 1);
 }
-
-/*
-	Altera apenas o valor da variavel, só formata a variavel
-	passada para o novo valor, (variavel é recebida por 
-	inteira, com chave é valor)
-*/
 
 char	*change_value_of_variable(char *new_value, char *variable)
 {
@@ -91,12 +77,8 @@ char	*change_value_of_variable(char *new_value, char *variable)
 	return (new_variable);
 }
 
-/*
-	Adiciona uma nova variavel na env_list passando o nome da variavel
-	 é o valor dela
-*/
-
-void	add_new_variable(t_env_list *env, char *variable, char *value)
+void	add_new_variable(t_env_list *env, char *variable,
+		char *value, int is_free)
 {
 	t_env_list	*aux;
 	t_env_list	*new_node;
@@ -110,4 +92,6 @@ void	add_new_variable(t_env_list *env, char *variable, char *value)
 	new_node->variable = new_variable;
 	new_node->next = NULL;
 	aux->next = new_node;
+	if (is_free)
+		free(value);
 }

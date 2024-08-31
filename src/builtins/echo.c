@@ -12,10 +12,19 @@
 
 #include "../../inc/minishell.h"
 
-/*
-	Se der sum um echo sem argumentos e printado apenas
-	uma quebra de linha
-*/
+int	everything_n(char *n)
+{
+	int	i;
+
+	i = 0;
+	while (n[i])
+	{
+		if (n[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	print_with_echo(t_token *token)
 {
@@ -24,7 +33,8 @@ void	print_with_echo(t_token *token)
 	aux = token;
 	if (!aux)
 		return ;
-	while (ft_strncmp(aux->text, "-n", 3) == 0)
+	while (ft_strncmp(aux->text, "-n", 2) == 0
+		&& everything_n(aux->text + 1))
 		aux = aux->next;
 	while (aux)
 	{
@@ -32,23 +42,16 @@ void	print_with_echo(t_token *token)
 			return ;
 		if (aux->token == WORD)
 			write(1, aux->text, ft_strlen(aux->text));
-		aux = aux->next;
-		if (aux && aux->token == WORD)
+		if (aux && aux->token == WORD && aux->next)
 			write(1, " ", 1);
+		aux = aux->next;
 	}
 }
 
-/*
-	Não sei como funciona, existe a possibilidade do texto
-	entrar entre aspas no echo, todo o espaco que estiver
-	entre as aspas não e alterado, no caso deveria printar
-	os espaços tambem, porem a split retirar os espaço e
-	divide o que esta ente aspas
-*/
-
 void	print_echo(t_token *token)
 {
-	if (token && ft_strncmp(token->text, "-n", 3) == 0)
+	if (token && ft_strncmp(token->text, "-n", 2) == 0
+		&& everything_n(token->text + 1))
 		print_with_echo(token->next);
 	else
 	{

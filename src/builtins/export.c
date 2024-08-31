@@ -19,27 +19,29 @@ char	*get_name_of_variable(char *variable)
 
 	find_equal = ft_strchr(variable, '=');
 	if (!find_equal)
-		return (NULL);
+		return (ft_strdup(variable));
 	name_variable = ft_substr(variable, 0,
 			ft_strlen(variable) - ft_strlen(find_equal));
 	return (name_variable);
 }
-
-/*
-	Valida apenas o nome da "variavel de ambiente"
-*/
 
 char	*valid_new_variable(char *new_variable)
 {
 	char	*name_variable;
 
 	name_variable = get_name_of_variable(new_variable);
-	if (!name_variable)
-		return (NULL);
+	if (!name_variable || ft_strlen(name_variable) == 0)
+	{
+		if (!verify_nome_of_variable_is_valid(new_variable))
+		{
+			free(name_variable);
+			return (NULL);
+		}
+		return (new_variable);
+	}
 	if (!verify_nome_of_variable_is_valid(name_variable))
 	{
 		free(name_variable);
-		exit_status_repository(1);
 		return (NULL);
 	}
 	return (name_variable);
@@ -54,7 +56,14 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	result = get_in_env(name, env);
 	if (!result)
 		return (0);
-	value = ft_strchr(token->text, '=') + 1;
+	value = ft_strchr(token->text, '=');
+	if (value)
+		value = value + 1;
+	else
+	{
+		free(name);
+		return (1);
+	}
 	value_change = change_value_of_variable(value, name);
 	change_value_of_env(result, value_change);
 	free(name);
@@ -85,30 +94,18 @@ void	print_export(t_env_list *env)
 	exit_status_repository(0);
 }
 
-/*
-	Inserir uma nova "variavel de ambiente" ao 
-	digitar export + <nome da variavel=conteudo da variavel>,
-	necessario verificar se a variavel ja existe
-	 e alterar apenas o valor ao invez de mallocar.
-*/
-
 void	insert_in_env(t_env_list *env, t_token *token)
 {
-	char	*name;
-	char	*value;
+	t_token	*temp;
 
 	exit_status_repository(0);
-	if (!token)
+	if (!token || (token && token->token == PIPE))
+		return (print_export(env));
+	temp = token;
+	while (temp && temp->token != PIPE)
 	{
-		print_export(env);
-		return ;
+		if (temp->token == WORD)
+			add_env(env, temp);
+		temp = temp->next;
 	}
-	name = valid_new_variable(token->text);
-	if (!name)
-		return ;
-	if (verify_exist_in_env(name, env, token))
-		return ;
-	value = ft_strchr(token->text, '=') + 1;
-	add_new_variable(env, name, value);
-	free(name);
 }
