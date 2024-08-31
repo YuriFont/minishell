@@ -12,6 +12,20 @@
 
 #include "../../inc/minishell.h"
 
+int	everything_n(char *n)
+{
+	int	i;
+
+	i = 0;
+	while (n[i])
+	{
+		if (n[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 /*
 	Se der sum um echo sem argumentos e printado apenas
 	uma quebra de linha
@@ -24,7 +38,8 @@ void	print_with_echo(t_token *token)
 	aux = token;
 	if (!aux)
 		return ;
-	while (ft_strncmp(aux->text, "-n", 3) == 0)
+	while (ft_strncmp(aux->text, "-n", 2) == 0
+		&& everything_n(aux->text + 1))
 		aux = aux->next;
 	while (aux)
 	{
@@ -48,7 +63,8 @@ void	print_with_echo(t_token *token)
 
 void	print_echo(t_token *token)
 {
-	if (token && ft_strncmp(token->text, "-n", 3) == 0)
+	if (token && ft_strncmp(token->text, "-n", 2) == 0
+		&& everything_n(token->text + 1))
 		print_with_echo(token->next);
 	else
 	{
