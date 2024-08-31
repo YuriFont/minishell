@@ -75,6 +75,7 @@ typedef struct s_minishell
 	int					my_pid;
 	int					fd_bk_in;
 	int					fd_bk_out;
+	int					pipe_fds[2];
 }						t_minishell;
 
 //Builtin:
@@ -136,6 +137,9 @@ int			is_absolute_path(t_token *token, t_env_list *list);
 int			is_current_directory(t_token *token, t_env_list *list);
 void		run_command(t_token *token, t_env_list *env, char *path);
 void		read_command(t_token *token, t_env_list *list);
+
+//exe_pipe.c
+void		init_pipe(t_minishell *mini);
 
 //execution.c
 void		close_fds(t_token *temp, int in, int out);

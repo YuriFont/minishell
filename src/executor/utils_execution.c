@@ -65,6 +65,6 @@ t_token	*first_token(t_token *token)
 
 void	reset_fds(t_minishell *mini)
 {
-	dup2(mini->fd_bk_out, STDOUT_FILENO);
-	dup2(mini->fd_bk_in, STDIN_FILENO);
+	dup2(mini->pipe_fds[1], STDOUT_FILENO);
+	dup2(mini->pipe_fds[0], STDIN_FILENO);
 }

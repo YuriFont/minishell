@@ -107,26 +107,11 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 void	exe_commands(t_minishell *mini)
 {
 	t_token	*temp;
-	int		pid;
-	int		status;
 
 	temp = mini->token;
 	if (has_pipe(temp))
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			status = exe_pipe(temp, &mini->env, 0);
-			free_env(mini->env);
-			free_list(first_token(temp));
-			exit(exit_status_repository(-1));
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			unlink(".heredoc");
-			exit_status_repository(WEXITSTATUS(status));
-		}
+		init_pipe(mini);
 		return ;
 	}
 	exe_this(temp, &mini->env, 1);

@@ -12,6 +12,7 @@ BUILTINS = cd.c\
 			utils_export.c
 
 EXECUTOR = command_executor.c\
+			exe_pipe.c\
 			execution.c\
 			input_options.c\
 			path_commad.c\
