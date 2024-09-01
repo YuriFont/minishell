@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erramos <erramos@student.42.rio>           +#+  +:+       +#+        */
+/*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:23:36 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/03 16:23:37 by erramos          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:24:41 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	check_input(char *input)
 {
 	if (!check_quotes(input))
 	{
-		printf("Quotes does not close!\n");
+		ft_fprintf(2, "Quotes does not close!\n");
 		return (0);
 	}
 	if (!check_redirect(input))
 	{
-		printf("syntax error near unexpected token redirect\n");
+		ft_fprintf(2, "syntax error near unexpected token redirect\n");
 		return (0);
 	}
 	return (1);

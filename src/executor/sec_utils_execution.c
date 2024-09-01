@@ -21,6 +21,12 @@ int	file_redirect_valid(t_token *token)
 	{
 		if (temp->token == NOT_EXIST)
 			return (0);
+		if (temp->token == NOT_PERMISSION)
+		{
+			ft_fprintf(2, "mini: %s: Permission denied\n", temp->next->text);
+			exit_status_repository(1);
+			return (0);
+		}
 		temp = temp->next;
 	}
 	return (1);
@@ -42,6 +48,29 @@ int	has_redirect_in(t_token *node)
 
 void	print_command_not_found(char *not_found_command)
 {
-	printf("%s :Command not found\n", not_found_command);
+	ft_fprintf(2, "%s :Command not found\n", not_found_command);
 	exit_status_repository(127);
+}
+
+t_token	*after_pipe(t_token	*token)
+{
+	t_token	*temp;
+
+	if (!token)
+		return (NULL);
+	temp = token;
+	while (temp->prev != NULL && temp->prev->token != PIPE)
+		temp = temp->prev;
+	return (temp);
+}
+
+int	is_directory(t_token *token)
+{
+	if (!((token->text[0] == '.' && token->text[1] == '/')
+			|| token->text[ft_strlen(token->text) - 1] == '/'
+			|| token->text[0] == '/'))
+		return (0);
+	if (check_exist_or_is_directory(token))
+		return (1);
+	return (0);
 }

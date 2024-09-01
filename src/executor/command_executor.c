@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:08:27 by erramos           #+#    #+#             */
-/*   Updated: 2024/08/24 19:17:24 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:33:03 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	execute_command(char *command, char *path_command, char **argv,
 		signal(SIGQUIT, SIG_DFL);
 		if (execve(path_command, argv, env) == -1)
 		{
-			printf("%s: command not found\n", command);
+			ft_fprintf(2, "%s: command not found\n", command);
 			exit(127);
 		}
 		exit(EXIT_FAILURE);
@@ -46,6 +46,8 @@ int	is_absolute_path(t_token *token, t_env_list *list)
 	temp = token;
 	if (temp->text[0] != '/')
 		return (0);
+	if (is_directory(temp))
+		return (1);
 	argv = create_args_options(temp->text, temp->next);
 	env = env_to_matriz(list);
 	execute_command(temp->text, temp->text, argv, env);
@@ -61,8 +63,16 @@ int	is_current_directory(t_token *token, t_env_list *list)
 	t_token	*temp;
 
 	temp = token;
+	if (is_directory(temp))
+		return (1);
 	if (temp->text[0] != '.' && temp->text[1] != '/')
 		return (0);
+	if (access(temp->text, X_OK) == -1)
+	{
+		ft_fprintf(2, "-mini: %s: Permission denied\n", temp->text);
+		exit_status_repository(126);
+		return (1);
+	}
 	argv = create_args_options(temp->text, temp->next);
 	env = env_to_matriz(list);
 	execute_command(temp->text, temp->text, argv, env);

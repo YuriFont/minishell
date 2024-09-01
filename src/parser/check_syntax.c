@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:59:16 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/20 14:14:56 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:22:41 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,28 @@
 int	valid_redirect(t_token *token)
 {
 	t_token	*temp;
-	int		flag;
+	int		f;
 
 	temp = token;
-	flag = 0;
-	while (temp && flag == 0)
+	f = 0;
+	while (temp && f == 0)
 	{
 		if (temp->next == NULL && (temp->token > 3 && temp->token < 8))
-			flag = printf("mini: syntax error near unexpected token `nl'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token nl'\n");
 		else if ((temp->token > 3 && temp->token < 8)
 			&& temp->next->token == PIPE)
-			flag = printf("mini: syntax error near unexpected token `|'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token `|'\n");
 		else if ((temp->token > 3 && temp->token < 8) && (temp->next->token > 3
 				&& temp->next->token < 8))
-			flag = printf("mini: syntax error near unexpected token `<'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token `%s'\n",
+					token->next->next->text);
 		else if ((temp->token == REDIRECT_OUT || temp->token == APPEND)
 			&& !access(temp->next->text, F_OK)
 			&& access(temp->next->text, W_OK) == -1)
-			flag = printf("mini: %s: Permission denied\n", temp->next->text);
+			temp->token = NOT_PERMISSION;
 		temp = temp->next;
 	}
-	if (flag != 0)
+	if (f != 0)
 		return (0);
 	return (1);
 }
@@ -43,22 +44,22 @@ int	valid_redirect(t_token *token)
 int	valid_pipe(t_token *token)
 {
 	t_token	*temp;
-	int		flag;
+	int		f;
 
 	temp = token;
-	flag = 0;
-	while (temp && flag == 0)
+	f = 0;
+	while (temp && f == 0)
 	{
 		if (temp->prev == NULL && temp->token == PIPE)
-			flag = printf("mini: syntax error near unexpected token `|'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token `|'\n");
 		else if (temp->next != NULL && temp->token == PIPE
 			&& temp->next->token == PIPE)
-			flag = printf("mini: syntax error near unexpected token `|'\n");
+			f = ft_fprintf(2, "mini: syntax error near unexpected token `|'\n");
 		else if (temp->token == PIPE && temp->next == NULL)
-			flag = printf("mini: syntax error near unexpected token command\n");
+			f = ft_fprintf(2, "mini: syntax error, unexpected token command\n");
 		temp = temp->next;
 	}
-	if (flag != 0)
+	if (f != 0)
 		return (0);
 	return (1);
 }
@@ -71,7 +72,8 @@ void	mark_args_of_redirect(t_token *token)
 	while (temp)
 	{
 		if (temp->token != NOT_EXPAND_VA && temp->prev
-			&& (temp->prev->token >= 4 && temp->prev->token <= 7))
+			&& (temp->prev->token >= 4 && temp->prev->token <= 7)
+			&& temp->token != NOT_PERMISSION)
 			temp->token = ARGM;
 		temp = temp->next;
 	}

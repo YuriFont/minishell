@@ -36,7 +36,7 @@ void	handle_if_signal(int status)
 	{
 		if (WTERMSIG(status) == 3)
 		{
-			printf("Quit\n");
+			ft_fprintf(2, "Quit\n");
 			exit_status_repository(131);
 		}
 		else if (WTERMSIG(status) == 2)

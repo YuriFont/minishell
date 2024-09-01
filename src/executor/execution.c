@@ -12,23 +12,26 @@
 
 #include "../../inc/minishell.h"
 
-void	close_fds(t_token *token, int in, int out)
+void	close_fds(t_token *temp, int in, int out)
 {
+	t_token	*token;
+
+	token = temp;
 	while (token && token->token != PIPE)
 	{
 		if (token->fd_in != STDIN_FILENO && in)
 		{
 			dup2(token->mini->fd_bk_in, STDIN_FILENO);
 			if (close(token->fd_in) == -1)
-				printf("Error close fdin :%d\n", token->fd_in);
+				ft_fprintf(2, "Error close fdin :%d\n", token->fd_in);
 			token->fd_in = 0;
 			close(token->mini->fd_bk_in);
 		}
-		if (token->fd_out != STDOUT_FILENO && out)
+		if (token->fd_out != STDOUT_FILENO && out && token->token != NOT_EXIST)
 		{
 			dup2(token->mini->fd_bk_out, STDOUT_FILENO);
 			if (close(token->fd_out) == -1)
-				printf("Error close fdout :%d\n", token->fd_out);
+				ft_fprintf(2, "Error close fdout :%d\n", token->fd_out);
 			token->fd_out = 1;
 			close(token->mini->fd_bk_out);
 		}
@@ -64,7 +67,7 @@ void	exe_this(t_token *temp, t_env_list **env, int is_pipe)
 			return ;
 	}
 	cmd = find_command(temp);
-	if (cmd)
+	if (cmd && exit_status_repository(-1) != 130)
 	{
 		if (!check_builtins(cmd, env))
 			read_command(cmd, *env);
@@ -78,8 +81,8 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 	int	pid;
 	int	status;
 
-	reset_fds(token->mini);
-	redirection(token);
+	if (reset_for_pipe(token, token->mini))
+		return (exit_status_repository(-1));
 	if (next_command(token) == NULL)
 	{
 		pid = fork();
@@ -89,7 +92,7 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 			return (ls_pipe_second(prev_fdin, &status, pid));
 	}
 	if (pipe(fd) == -1)
-		perror("error ao criar pipe\n");
+		perror("Error in make a pipe\n");
 	pid = fork();
 	if (pid == 0)
 	{
@@ -104,26 +107,11 @@ int	exe_pipe(t_token *token, t_env_list **env, int prev_fdin)
 void	exe_commands(t_minishell *mini)
 {
 	t_token	*temp;
-	int		pid;
-	int		status;
 
 	temp = mini->token;
 	if (has_pipe(temp))
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			status = exe_pipe(temp, &mini->env, 0);
-			free_env(mini->env);
-			free_list(first_token(temp));
-			exit(exit_status_repository(-1));
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			unlink(".heredoc");
-			exit_status_repository(WEXITSTATUS(status));
-		}
+		init_pipe(mini);
 		return ;
 	}
 	exe_this(temp, &mini->env, 1);

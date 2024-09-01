@@ -6,7 +6,7 @@
 /*   By: yufonten <yufonten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 09:45:49 by yufonten          #+#    #+#             */
-/*   Updated: 2024/08/24 19:19:13 by yufonten         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:26:21 by yufonten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "../ft_fprintf/ft_printf.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -24,6 +25,7 @@
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # define NO_VALID_CHAR "!@#$%^&*()-+={}[]|\\:;<>,?/"
 # define GREEN "\001\e[0;32m\002"
@@ -43,7 +45,8 @@ typedef enum e_command
 	ENV_VA,
 	WORD,
 	NOT_EXIST,
-	NOT_EXPAND_VA
+	NOT_EXPAND_VA,
+	NOT_PERMISSION
 }						t_command;
 
 typedef struct s_minishell	t_minishell;
@@ -72,6 +75,7 @@ typedef struct s_minishell
 	int					my_pid;
 	int					fd_bk_in;
 	int					fd_bk_out;
+	int					pipe_fds[2];
 }						t_minishell;
 
 //Builtin:
@@ -91,7 +95,8 @@ void		print_env_list(t_env_list *list);
 t_env_list	*get_in_env(char *search, t_env_list *list);
 char		*get_value_in_variable(char *variable, t_env_list *list);
 char		*change_value_of_variable(char *new_value, char *variable);
-void		add_new_variable(t_env_list *env, char *variable, char *value);
+void		add_new_variable(t_env_list *env, char *variable,
+				char *value, int is_free);
 
 //exit.c
 int			is_overflow(long long exit_code, char *number);
@@ -122,6 +127,7 @@ void		exec_exit_is_many_arguments(t_token *token);
 //utils_export.c
 int			verify_nome_of_variable_is_valid(char *name);
 void		change_value_of_env(t_env_list *env, char *variable_change);
+void		add_env(t_env_list *env, t_token *temp);
 
 //Executor:
 //command_executor.c
@@ -132,8 +138,11 @@ int			is_current_directory(t_token *token, t_env_list *list);
 void		run_command(t_token *token, t_env_list *env, char *path);
 void		read_command(t_token *token, t_env_list *list);
 
+//exe_pipe.c
+void		init_pipe(t_minishell *mini);
+
 //execution.c
-void		close_fds(t_token *token, int in, int out);
+void		close_fds(t_token *temp, int in, int out);
 t_token		*find_command(t_token *token);
 void		exe_this(t_token *temp, t_env_list **env, int is_pipe);
 int			exe_pipe(t_token *token, t_env_list **env, int prev_fdin);
@@ -173,6 +182,12 @@ void		reset_fds(t_minishell *mini);
 int			file_redirect_valid(t_token *token);
 int			has_redirect_in(t_token *node);
 void		print_command_not_found(char *not_found_command);
+t_token		*after_pipe(t_token	*token);
+int			is_directory(t_token *token);
+
+//thir_utils_execution.c
+int			reset_for_pipe(t_token *token, t_minishell *mini);
+int			check_exist_or_is_directory(t_token *token);
 
 //Parser:
 //analyzer.c
@@ -247,6 +262,11 @@ int			redirect_out(t_token *token);
 int			error_redirect_in(t_token *temp, int *error);
 int			redirect_in(t_token *token);
 int			redirection(t_token *token);
+
+//utils_redirect.c
+void		exit_heredoc(int fd_hd, char *input);
+int			init_heredoc(t_token *token, t_token *temp);
+int			error_redirectout(t_token *temp);
 
 //Signals
 //handler_signals.c

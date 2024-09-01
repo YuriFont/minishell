@@ -12,19 +12,22 @@ BUILTINS = cd.c\
 			utils_export.c
 
 EXECUTOR = command_executor.c\
+			exe_pipe.c\
 			execution.c\
 			input_options.c\
 			path_commad.c\
 			make_args.c\
 			ft_pipe.c\
 			utils_execution.c\
-			sec_utils_execution.c
+			sec_utils_execution.c\
+			thir_utils_execution.c
 
 STRUCT = fill_struct.c\
 			struct_input_separator.c
 
 REDIRECT = redirect.c\
-			ft_redirections.c
+			ft_redirections.c\
+			utils_redirect.c
 
 PROMPT = create_prompt.c\
 			get_user_var.c
@@ -61,20 +64,26 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra 
 RM = rm -rf
 LIBFT = ./libft/
+FT_FPRINTF = ./ft_fprintf/
 LIBFT_A = $(LIBFT)libft.a
+FT_FPRINTF_A = $(FT_FPRINTF)libftprintf.a
 
 all: $(NAME)
+
+$(FT_FPRINTF_A):
+	$(MAKE) -C $(FT_FPRINTF)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
-$(NAME): $(LIBFT_A)
-		$(CC) -g $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) -o $(NAME) -lreadline
+$(NAME): $(LIBFT_A) $(FT_FPRINTF_A)
+		$(CC) -g $(CFLAGS) $(addprefix ./src/, $(FILES)) $(LIBFT_A) $(FT_FPRINTF_A) -o $(NAME) -lreadline
 
 clean:
 		$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
+		$(MAKE) fclean -C $(FT_FPRINTF)
 		$(MAKE) fclean -C $(LIBFT)
 		rm -rf $(NAME)
 		
