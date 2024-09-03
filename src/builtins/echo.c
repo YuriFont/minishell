@@ -26,6 +26,14 @@ int	everything_n(char *n)
 	return (1);
 }
 
+t_token	*has_next_word(t_token *temp)
+{
+	temp = temp->next;
+	while (temp && temp->token != WORD && temp->token != PIPE)
+		temp = temp->next;
+	return (temp);
+}
+
 void	print_with_echo(t_token *token)
 {
 	t_token	*aux;
@@ -36,15 +44,17 @@ void	print_with_echo(t_token *token)
 	while (ft_strncmp(aux->text, "-n", 2) == 0
 		&& everything_n(aux->text + 1))
 		aux = aux->next;
+	if (aux->token != WORD)
+		aux = has_next_word(aux);
 	while (aux)
 	{
 		if (aux && aux->token == PIPE)
 			return ;
 		if (aux->token == WORD)
 			write(1, aux->text, ft_strlen(aux->text));
-		if (aux && aux->token == WORD && aux->next)
+		aux = has_next_word(aux);
+		if (aux && aux->token == WORD && aux->token != PIPE)
 			write(1, " ", 1);
-		aux = aux->next;
 	}
 }
 

@@ -77,7 +77,7 @@ char	*change_value_of_variable(char *new_value, char *variable)
 	return (new_variable);
 }
 
-void	add_new_variable(t_env_list *env, char *variable,
+void	add_new_variable(t_env_list **env, char *variable,
 		char *value, int is_free)
 {
 	t_env_list	*aux;
@@ -85,13 +85,16 @@ void	add_new_variable(t_env_list *env, char *variable,
 	char		*new_variable;
 
 	new_variable = change_value_of_variable(value, variable);
-	aux = find_last_node_in_env(env);
+	aux = find_last_node_in_env(*env);
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 		return ;
 	new_node->variable = new_variable;
 	new_node->next = NULL;
-	aux->next = new_node;
+	if (!aux)
+		*env = new_node;
+	else
+		aux->next = new_node;
 	if (is_free)
 		free(value);
 }

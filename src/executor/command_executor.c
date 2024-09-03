@@ -107,7 +107,16 @@ void	read_command(t_token *token, t_env_list *list)
 		return (print_command_not_found(token->text));
 	path_command = get_path_command(token, path);
 	if (!path_command)
+	{
+		if (has_slash(token->text))
+		{
+			if (check_exist_or_is_directory(token))
+				return ;
+			run_command(token, list, token->text);
+			return ;
+		}
 		return (print_command_not_found(token->text));
+	}
 	run_command(token, list, path_command);
 	free(path_command);
 }

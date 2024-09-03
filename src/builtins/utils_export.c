@@ -52,7 +52,7 @@ void	change_value_of_env(t_env_list *env, char *variable_change)
 	free(temp);
 }
 
-void	add_env(t_env_list *env, t_token *temp)
+void	add_env(t_env_list **env, t_token *temp)
 {
 	char	*name;
 	char	*value;
@@ -62,7 +62,7 @@ void	add_env(t_env_list *env, t_token *temp)
 	name = valid_new_variable(temp->text);
 	if (!name)
 		return ;
-	if (verify_exist_in_env(name, env, temp))
+	if (verify_exist_in_env(name, *env, temp))
 		return ;
 	value = ft_strchr(temp->text, '=');
 	if (value)
