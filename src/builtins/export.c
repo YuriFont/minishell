@@ -53,6 +53,8 @@ int	verify_exist_in_env(char *name, t_env_list *env, t_token *token)
 	char		*value;
 	char		*value_change;
 
+	if (!env)
+		return (0);
 	result = get_in_env(name, env);
 	if (!result)
 		return (0);
@@ -94,13 +96,13 @@ void	print_export(t_env_list *env)
 	exit_status_repository(0);
 }
 
-void	insert_in_env(t_env_list *env, t_token *token)
+void	insert_in_env(t_env_list **env, t_token *token)
 {
 	t_token	*temp;
 
 	exit_status_repository(0);
 	if (!token || (token && token->token == PIPE))
-		return (print_export(env));
+		return (print_export(*env));
 	temp = token;
 	while (temp && temp->token != PIPE)
 	{

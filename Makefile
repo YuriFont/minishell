@@ -9,7 +9,8 @@ BUILTINS = cd.c\
 			pwd.c\
 			unset.c\
 			utils_exit.c\
-			utils_export.c
+			utils_export.c\
+			utils_cd.c
 
 EXECUTOR = command_executor.c\
 			exe_pipe.c\
@@ -61,7 +62,7 @@ FILES = main.c\
 		$(addprefix struct/, $(STRUCT))
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -ggdb3
 RM = rm -rf
 LIBFT = ./libft/
 FT_FPRINTF = ./ft_fprintf/

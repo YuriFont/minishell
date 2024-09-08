@@ -86,6 +86,9 @@ int			verify_direction(t_token *directory,
 int			move_to_directory(t_token *directory, t_env_list *env);
 void		change_directory(t_token *directory, t_env_list *env);
 
+//utils_cd.c
+void		print_error_home_not_set(void);
+
 //echo.c
 void		print_with_echo(t_token *token);
 void		print_echo(t_token *token);
@@ -95,7 +98,7 @@ void		print_env_list(t_env_list *list);
 t_env_list	*get_in_env(char *search, t_env_list *list);
 char		*get_value_in_variable(char *variable, t_env_list *list);
 char		*change_value_of_variable(char *new_value, char *variable);
-void		add_new_variable(t_env_list *env, char *variable,
+void		add_new_variable(t_env_list **env, char *variable,
 				char *value, int is_free);
 
 //exit.c
@@ -109,7 +112,7 @@ char		*get_name_of_variable(char *variable);
 char		*valid_new_variable(char *new_variable);
 int			verify_exist_in_env(char *name, t_env_list *env, t_token *token);
 void		print_export(t_env_list *env);
-void		insert_in_env(t_env_list *env, t_token *token);
+void		insert_in_env(t_env_list **env, t_token *token);
 
 //pwd.c
 void		exe_pwd(t_token *token);
@@ -127,7 +130,7 @@ void		exec_exit_is_many_arguments(t_token *token);
 //utils_export.c
 int			verify_nome_of_variable_is_valid(char *name);
 void		change_value_of_env(t_env_list *env, char *variable_change);
-void		add_env(t_env_list *env, t_token *temp);
+void		add_env(t_env_list **env, t_token *temp);
 
 //Executor:
 //command_executor.c
@@ -188,6 +191,7 @@ int			is_directory(t_token *token);
 //thir_utils_execution.c
 int			reset_for_pipe(t_token *token, t_minishell *mini);
 int			check_exist_or_is_directory(t_token *token);
+int			has_slash(char *text);
 
 //Parser:
 //analyzer.c

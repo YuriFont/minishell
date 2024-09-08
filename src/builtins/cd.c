@@ -48,7 +48,7 @@ int	verify_direction(t_token *directory,
 	}
 	if (!aux)
 	{
-		add_new_variable(env, "OLDPWD", old_dir, 1);
+		add_new_variable(&env, "OLDPWD", old_dir, 1);
 		return (0);
 	}
 	return (1);
@@ -92,19 +92,16 @@ void	change_directory(t_token *directory, t_env_list *env)
 {
 	char		*dir;
 
-	if (directory == NULL)
+	if (directory == NULL || directory->token == PIPE)
 	{
 		dir = get_value_in_variable("HOME", env);
 		if (!dir)
-		{
-			ft_fprintf(2, "minishell: cd: HOME not set\n");
-			exit_status_repository(1);
-			return ;
-		}
+			return (print_error_home_not_set());
 		chdir(dir);
 		exit_status_repository(0);
 	}
-	else if (directory->next == NULL)
+	else if (directory->next == NULL
+		|| (directory->next != NULL && directory->next->token == PIPE))
 	{
 		if (!move_to_directory(directory, env))
 			return ;
@@ -112,7 +109,7 @@ void	change_directory(t_token *directory, t_env_list *env)
 	}
 	else
 	{
-		ft_fprintf(2, "too many arguments\n");
+		ft_fprintf(2, "-mini: cd: too many arguments\n");
 		exit_status_repository(1);
 	}
 }
